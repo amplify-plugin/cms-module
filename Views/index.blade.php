@@ -1,0 +1,5 @@
+<!-- Body -->
+    @yield('body')
+    <!-- /. Body -->
+
+

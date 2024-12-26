@@ -2,7 +2,7 @@
 
 namespace Amplify\System\Cms\Models;
 
-use Amplify\EasyAsk\Impl\BreadCrumbTrail;
+use Amplify\System\Sayt\Classes\BreadCrumbTrail;
 use Amplify\System\Cms\Models\Template;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Contracts\Foundation\Application;

@@ -335,6 +335,7 @@ class Page extends Model implements Auditable
         }
 
         if (is_array($pageType) && isset($pageType['url']['type']) && $pageType['url']['type'] == 'route') {
+            logger($pageType['url']['name']);
             $url = \Illuminate\Support\Facades\Route::getRoutes()->getByName($pageType['url']['name'])->uri();
             $params = get_uri_parameter($url);
             $params = array_combine($params, $params);

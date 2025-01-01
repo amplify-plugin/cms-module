@@ -6,7 +6,7 @@
                 </div>
                 <div class="modal-footer justify-content-around pt-0 border-top-0">
                     <button type="button" data-dismiss="modal" class="btn btn-dark">{{ __('No') }}</button>
-                    <button type="button" data-dismiss="modal" onclick="createOrder()" class="btn btn-success">{{ __('Yes') }}</button>
+                    <button type="button" data-dismiss="modal" onclick="createOrder('{{ config('amplify.order.send_email_to_create_order_from_quote') }}')" class="btn btn-success">{{ __('Yes') }}</button>
                 </div>
         </div>
     </div>

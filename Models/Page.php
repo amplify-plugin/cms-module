@@ -218,7 +218,7 @@ class Page extends Model implements Auditable
         $product = store()->eaProductDetail;
 
         $product = $product['products'] ?? new \stdClass;
-        if (isset($product->items)) {
+        if (!empty($product->items)) {
 
             if ($result = $product->items[0]) {
 

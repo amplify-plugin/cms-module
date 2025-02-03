@@ -173,7 +173,7 @@ if (! function_exists('template_asset')) {
 
 if (! function_exists('template_option')) {
 
-    function template_option($key, ?string $template = null): string
+    function template_option($key, ?string $template = null, $default = null): string
     {
         $template = template($template);
 
@@ -181,11 +181,11 @@ if (! function_exists('template_option')) {
 
         $option = $options->firstWhere('name', '=', $key);
 
-        if ($option == null) {
+        if ($option == null && $default == null) {
             throw new InvalidArgumentException("Invalid key{$key} or doesn't exists for template {$template->name}");
         }
 
-        return $option['value'];
+        return $option['value'] ?? $default;
     }
 }
 

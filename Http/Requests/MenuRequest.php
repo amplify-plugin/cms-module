@@ -34,6 +34,11 @@ class MenuRequest extends FormRequest
         ];
     }
 
+    protected function prepareForValidation()
+    {
+        $this->merge(['name' => json_encode($this->input('name'))]);
+    }
+
     /**
      * Get the validation attributes that apply to the request.
      *

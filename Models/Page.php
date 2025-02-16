@@ -360,7 +360,7 @@ class Page extends Model implements Auditable
             })->first();
 
         if (is_array($pageType) && isset($pageType['url']['type']) && $pageType['url']['type'] == 'route') {
-            return url(\Illuminate\Support\Facades\Route::getRoutes()->getByName($pageType['url']['name'])->uri());
+            return url(\Illuminate\Support\Facades\Route::getRoutes()->getByName($pageType['url']['name'])?->uri() ?? '#');
         }
 
         if (is_array($pageType) && isset($pageType['code']) && $pageType['code'] == 'static_page') {

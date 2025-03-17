@@ -177,12 +177,33 @@ if (! function_exists('template_option')) {
     {
         $template = template($template);
 
-        $options = collect($template->options);
+        $templateOptions = collect($template->options);
 
-        $option = $options->firstWhere('name', '=', $key);
+        $config = @json_decode(
+            @file_get_contents(
+                @base_path("templates/{$template->slug}/config.json")
+            ),
+            true
+        );
+
+        if ($config == null) {
+            $config = [];
+        }
+
+        $configOptions = $config['options'] ?? [];
+
+        foreach ($configOptions as $configOptionKey => $configOption) {
+            if (!empty($templateOptions->firstWhere('name', '=', $configOption['name']))) {
+                unset($configOptions[$configOptionKey]);
+            }
+        }
+
+        $option = $templateOptions
+            ->merge($configOptions)
+            ->firstWhere('name', '=', $key);
 
         if ($option == null && $default == null) {
-            throw new InvalidArgumentException("Invalid key{$key} or doesn't exists for template {$template->name}");
+            throw new InvalidArgumentException("Invalid key [{$key}] or doesn't exists for template {$template->name}");
         }
 
         return $option['value'] ?? $default;

@@ -11,6 +11,7 @@
 return [
     'default' => env('DEFAULT_TEMPLATE', 'template-1'),
     'logo_path' => 'https://mountainwest.s3.amazonaws.com/images/banners/car-audio-banner-full.jpeg',
+    'favicon_path' => 'https://mountainwest.s3.amazonaws.com/images/banners/car-audio-banner-full.jpeg',
     'email' => null,
     'phone' => null,
     'slogan' => '"Working together to make America safe"',

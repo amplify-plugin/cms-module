@@ -200,11 +200,7 @@ class Page extends Model implements Auditable
     {
         $easyAskResult = store()->eaProductsData;
 
-        $breadcrumbTrails = new BreadCrumbTrail(null);
-
-        if (isset($easyAskResult['EAresults'])) {
-            $breadcrumbTrails = $easyAskResult['EAresults']?->getBreadCrumbTrail() ?? new BreadCrumbTrail(null);
-        }
+        $breadcrumbTrails = $easyAskResult?->getBreadCrumbTrail() ?? new BreadCrumbTrail(null);
 
         if ($navigateNode = collect($breadcrumbTrails->getSearchPath())->last()) {
             return $navigateNode->getEnglishName();

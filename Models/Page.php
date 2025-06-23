@@ -3,7 +3,6 @@
 namespace Amplify\System\Cms\Models;
 
 use Amplify\System\Sayt\Classes\BreadCrumbTrail;
-use Amplify\System\Cms\Models\Template;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\UrlGenerator;
@@ -54,9 +53,9 @@ class Page extends Model implements Auditable
         'shop' => 'Shop',
         'single_product' => 'Single Product',
         'cart_page' => 'Cart Page',
-        'contact' => 'Contact', //depreciated
+        'contact' => 'Contact', // depreciated
         'shop_category' => 'Shop Category',
-        'faq' => 'FAQ', //depreciated
+        'faq' => 'FAQ', // depreciated
         'quick_order' => 'Quick Order',
         'order' => 'Order',
         'order_detail' => 'Order Details',
@@ -67,7 +66,7 @@ class Page extends Model implements Auditable
         'favourite' => 'Customer List',
         'favourite_detail' => 'Customer List Details',
         'static_page' => 'Static',
-        'content' => 'Content', //depreciated
+        'content' => 'Content', // depreciated
         'dashboard' => 'Customer Dashboard',
         'message' => 'Message',
         'payment' => 'Payment',
@@ -81,7 +80,7 @@ class Page extends Model implements Auditable
         'ticket_open' => 'Open Ticket',
         'ticket_detail' => 'Ticket Details',
         'force_password_reset' => 'Force Password Update',
-        'shop_by_catalog' => 'Shop By Catalog', //depreciated
+        'shop_by_catalog' => 'Shop By Catalog', // depreciated
         'order_rule' => 'Order Rule List',
         'order_waiting_approval' => 'Order Waiting Approval',
         'event_detail' => 'Event Details',
@@ -153,11 +152,11 @@ class Page extends Model implements Auditable
     {
         $slug = null;
 
-        //Dynamic Route
+        // Dynamic Route
         if (request()->route() !== null && in_array(request()->route()->getName(),
             ['dynamic-page', 'frontend.dynamic-route'])) {
             $slug = request()->route('slug');
-        } //parse the url for page slug
+        } // parse the url for page slug
         else {
 
             $directories = explode('/', request()->path());
@@ -211,13 +210,10 @@ class Page extends Model implements Auditable
 
     private static function getProductNameFromEasyAskResponse($page)
     {
-        $product = store()->eaProductDetail;
+        $products = store()->eaProductDetail?->getProducts() ?? [];
 
-        $product = $product['products'] ?? new \stdClass;
-        if (!empty($product->items)) {
-
-            if ($result = $product->items[0]) {
-
+        if (! empty($products)) {
+            if ($result = $products[0]) {
                 return $result->Product_Name ?? $result?->Model_Name ?? '';
             }
         }

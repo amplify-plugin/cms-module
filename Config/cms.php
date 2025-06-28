@@ -14,6 +14,7 @@ return [
     'favicon_path' => 'https://mountainwest.s3.amazonaws.com/images/banners/car-audio-banner-full.jpeg',
     'email' => null,
     'phone' => null,
+    'header_content' => null,
     'slogan' => '"Working together to make America safe"',
     'favicon' => '',
     'fallback' => 'demo',

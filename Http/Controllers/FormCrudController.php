@@ -81,7 +81,7 @@ class FormCrudController extends BackpackCustomCrudController
     {
         CRUD::setValidation(FormRequest::class);
 
-        Widget::add()->type('script')->content(asset('js/form-builder.js'));
+        Widget::add()->type('script')->content('assets/js/admin/forms/form-builder.js');
 
         CRUD::addFields([
             [

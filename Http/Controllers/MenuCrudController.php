@@ -156,7 +156,7 @@ class MenuCrudController extends BackpackCustomCrudController
     protected function setupCreateOperation()
     {
         CRUD::setValidation(MenuRequest::class);
-        Widget::add()->type('script')->content(asset('js/menu-item.js'));
+        Widget::add()->type('script')->content('assets/js/admin/forms/menu-item.js');
         CRUD::addFields([
             [
                 'name' => 'name',

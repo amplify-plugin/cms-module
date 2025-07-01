@@ -72,7 +72,7 @@ class MenuGroupCrudController extends BackpackCustomCrudController
 
         Widget::add([
             'type' => 'script',
-            'content' => 'js/menu-group.js',
+            'content' => 'assets/js/admin/forms/menu-group.js',
         ]);
 
         CRUD::addFields([

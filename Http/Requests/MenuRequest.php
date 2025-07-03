@@ -31,6 +31,7 @@ class MenuRequest extends FormRequest
             'page_id' => ['nullable', 'exists:pages,id'],
             'type' => ['string', 'in:default,mega-menu'],
             'url_type' => ['required', 'in:external,page'],
+            'icon' => ['nullable', 'string', 'max:255'],
         ];
     }
 

@@ -246,6 +246,13 @@ class MenuCrudController extends BackpackCustomCrudController
                 'tab' => 'Additional',
             ],
             [
+                'name' => 'icon',
+                'type' => 'icon_picker',
+                'label' => 'Icon',
+                'iconset' => 'fontawesome',
+                'tab' => 'Additional',
+            ],
+            [
                 'name' => 'style',
                 'type' => 'textarea',
                 'label' => 'CSS Style',
@@ -279,6 +286,9 @@ class MenuCrudController extends BackpackCustomCrudController
 
     public function setupShowOperation()
     {
+        Widget::add()->type('style')
+            ->content(asset('packages/bootstrap-iconpicker/icon-fonts/font-awesome-5.12.0-1/css/all.min.css'));
+
         CRUD::addColumns([
             [
                 'name' => 'name',
@@ -331,9 +341,17 @@ class MenuCrudController extends BackpackCustomCrudController
             [
                 'name' => 'enabled',
                 'type' => 'boolean',
-                'value' => true,
                 'tab' => 'Basic',
                 'hint' => 'If disabled then menu will not load any condition',
+            ],
+            [
+                'name' => 'icon',
+                'type' => 'custom_html',
+                'value' => function ($menu) {
+                    return $menu->icon
+                        ? "<p class='mb-0'><span class='d-block'>Preview: <i class='{$menu->icon}'></i></span><span class='d-block'>Class: {$menu->icon}</span></p>"
+                        : '-';
+                },
             ],
             [
                 'name' => 'open_new_tab',

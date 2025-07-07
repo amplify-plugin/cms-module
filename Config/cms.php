@@ -880,6 +880,19 @@ return [
                 'params' => '',
             ],
         ],
+
+        [
+            'code' => 'shipping_address',
+            'label' => 'Shipping Address',
+            'description' => 'Force select shipping address after login',
+            'middleware' => ['customers'],
+            'reserved' => true,
+            'url' => [
+                'type' => 'route',
+                'name' => 'customer.select-shipping-address',
+                'params' => '',
+            ],
+        ],
     ],
     'templates' => [
         'demo' => [

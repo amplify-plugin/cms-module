@@ -888,8 +888,8 @@ return [
             'middleware' => ['customers'],
             'reserved' => true,
             'url' => [
-                'type' => 'route',
-                'name' => 'customer.select-shipping-address',
+                'type' => 'slug',
+                'name' => '',
                 'params' => '',
             ],
         ],

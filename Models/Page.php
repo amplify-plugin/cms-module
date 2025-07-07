@@ -85,6 +85,7 @@ class Page extends Model implements Auditable
         'order_waiting_approval' => 'Order Waiting Approval',
         'event_detail' => 'Event Details',
         'custom_product' => 'Custom Product',
+        'shipping_address' => 'Shipping Address',
     ];
 
     protected $appends = ['label'];

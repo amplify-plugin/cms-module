@@ -26,12 +26,18 @@ class PageRequest extends FormRequest
     {
         return [
             'name' => 'required|min:3|max:255',
-            'slug' => 'required|unique:pages,slug,'.request()->id.',id,deleted_at,NULL',
-            'content' => 'required',
-            'title' => '',
-            'meta_key' => '',
-            'meta_description' => '',
-            'meta_image_path' => '',
+            'slug' => 'required|unique:pages,slug,'.request()->route('id').',id,deleted_at,NULL',
+            'content' => 'required|string',
+            'title' => 'nullable|string',
+            'template' => 'nullable',
+            'page_type' => 'nullable|string',
+            'meta_description' => 'nullable',
+            'meta_image_path' => 'nullable',
+            'meta_key' => 'nullable',
+            'has_breadcrumb' => 'nullable|boolean',
+            'has_footer' => 'nullable|boolean',
+            'breadcrumb_title' => 'nullable|string',
+            'styles' => 'nullable|string',
         ];
     }
 

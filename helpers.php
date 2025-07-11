@@ -2,12 +2,13 @@
 
 use Amplify\System\Cms\Models\MenuGroup;
 use Amplify\Frontend\Store\StoreDataBus;
+use Amplify\Utility\Helpers\CurrencyHelper;
 
 if (! function_exists('currency')) {
 
     function currency(?string $code = null): object
     {
-        return \Amplify\Utility\Helpers\CurrencyHelper::config($code);
+        return CurrencyHelper::config($code);
     }
 }
 
@@ -17,7 +18,7 @@ if (! function_exists('currency_format')) {
      */
     function currency_format($value = null, ?string $code = null, bool $withSymbol = false): string
     {
-        return \Amplify\Utility\Helpers\CurrencyHelper::format($value, $code, $withSymbol);
+        return CurrencyHelper::format($value, $code, $withSymbol);
     }
 }
 
@@ -81,7 +82,7 @@ if (! function_exists('store')) {
                     return $default;
                 }
 
-                throw new ErrorException("{$key} does not exists in `\Amplify\System\Cms\Store\StoreDataBus class`");
+                throw new ErrorException("{$key} does not exists in \\`" . StoreDataBus::class." class`");
             }
 
             return $store->{$key};

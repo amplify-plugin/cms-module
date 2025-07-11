@@ -2,7 +2,7 @@
 
 use Amplify\System\Cms\Models\MenuGroup;
 use Amplify\Frontend\Store\StoreDataBus;
-use Amplify\Utility\Helpers\CurrencyHelper;
+use Amplify\System\Utility\Helpers\CurrencyHelper;
 
 if (! function_exists('currency')) {
 

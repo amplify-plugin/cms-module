@@ -26,10 +26,6 @@ class CmsServiceProvider extends ServiceProvider
             __DIR__ . '/Config/cms.php',
             'amplify.cms'
         );
-
-        error_log("Cms ServiceProvider is running",0, 'I:\LARAGON\www\EasyAsk\Project\amplify\storage\logs\amplify.log');
-
-        $this->loadTemplateConfiguration();
     }
 
     /**
@@ -45,12 +41,15 @@ class CmsServiceProvider extends ServiceProvider
 
         $this->loadViewsFrom(__DIR__ . '/Views', 'cms');
 
+        $this->loadViewsFrom(base_path('templates'), 'template');
+
         $this->loadRoutesFrom(__DIR__ . '/Routes/web.php');
+
+        $this->loadTemplateConfiguration();
     }
 
     private function loadTemplateConfiguration(): void
     {
-        $this->loadViewsFrom(base_path('templates'), 'template');
 
         if (Schema::hasTable('templates')) {
             //Load All Configs to Config system from DB

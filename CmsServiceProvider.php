@@ -23,12 +23,13 @@ class CmsServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__.'/Config/cms.php',
+            __DIR__ . '/Config/cms.php',
             'amplify.cms'
         );
 
-        $this->loadRoutesFrom(__DIR__.'/Routes/web.php');
+        error_log("Cms ServiceProvider is running",0, 'I:\LARAGON\www\EasyAsk\Project\amplify\storage\logs\amplify.log');
 
+        $this->loadTemplateConfiguration();
     }
 
     /**
@@ -42,10 +43,9 @@ class CmsServiceProvider extends ServiceProvider
         Menu::observe(MenuObserver::class);
         MegaMenu::observe(MegaMenuObserver::class);
 
-        $this->loadViewsFrom(__DIR__.'/Views', 'cms');
+        $this->loadViewsFrom(__DIR__ . '/Views', 'cms');
 
-        $this->loadTemplateConfiguration();
-
+        $this->loadRoutesFrom(__DIR__ . '/Routes/web.php');
     }
 
     private function loadTemplateConfiguration(): void

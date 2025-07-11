@@ -24,6 +24,9 @@
     },
     "extra": {
         "laravel": {
+            "providers": [
+                "Amplify\\System\\Cms\\CmsServiceProvider"
+            ]
         }
     }
 }

@@ -4,7 +4,7 @@ namespace Amplify\System\Cms\Http\Controllers;
 
 use Amplify\System\Cms\Models\MenuGroup;
 use Amplify\System\Cms\Models\Navigation;
-use App\Abstracts\BackpackCustomCrudController;
+use Amplify\System\Abstracts\BackpackCustomCrudController;
 use App\Http\Requests\NavigationRequest;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 

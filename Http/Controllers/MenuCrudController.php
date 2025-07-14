@@ -5,7 +5,7 @@ namespace Amplify\System\Cms\Http\Controllers;
 use Amplify\System\Cms\Http\Requests\MenuRequest;
 use Amplify\System\Cms\Models\Menu;
 use Amplify\System\Cms\Models\MenuGroup;
-use App\Abstracts\BackpackCustomCrudController;
+use Amplify\System\Abstracts\BackpackCustomCrudController;
 use App\Traits\CrudCustomButtonTrait;
 use App\Traits\ReorderTrait;
 use Backpack\CRUD\app\Http\Controllers\Operations\ReorderOperation;

@@ -6,7 +6,7 @@ use Amplify\System\Cms\Http\Requests\TemplateRequest;
 use Amplify\System\Cms\Models\Footer;
 use Amplify\System\Cms\Models\Template;
 use Amplify\System\Support\ChunkUpload;
-use App\Abstracts\BackpackCustomCrudController;
+use Amplify\System\Abstracts\BackpackCustomCrudController;
 use App\Models\SystemConfiguration;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;

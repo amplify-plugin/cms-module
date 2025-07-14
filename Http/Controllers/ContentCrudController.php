@@ -4,7 +4,7 @@ namespace Amplify\System\Cms\Http\Controllers;
 
 use Amplify\System\Cms\Http\Requests\ContentRequest;
 use Amplify\System\Cms\Models\Content;
-use App\Abstracts\BackpackCustomCrudController;
+use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\Pro\Http\Controllers\Operations\InlineCreateOperation;
 use Illuminate\Support\Facades\Route;

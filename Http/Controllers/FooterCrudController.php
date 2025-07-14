@@ -10,7 +10,7 @@ use Amplify\System\Cms\Models\Footer;
 use Amplify\System\Cms\Models\MenuGroup;
 use Amplify\Marketing\Models\MerchandisingZone;
 use Amplify\Widget\Models\Widget;
-use App\Abstracts\BackpackCustomCrudController;
+use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**

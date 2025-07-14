@@ -7,7 +7,7 @@ use Amplify\System\Cms\Models\MegaMenu;
 use Amplify\System\Cms\Models\Menu;
 use Amplify\Marketing\Models\MerchandisingZone;
 use Amplify\System\Sayt\Sayt;
-use App\Abstracts\BackpackCustomCrudController;
+use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Http\Request;
 

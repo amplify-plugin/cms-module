@@ -10,7 +10,7 @@ use Amplify\System\Cms\Models\Form;
 use Amplify\System\Cms\Models\MenuGroup;
 use Amplify\System\Cms\Models\Page;
 use Amplify\Marketing\Models\MerchandisingZone;
-use App\Abstracts\BackpackCustomCrudController;
+use Amplify\System\Abstracts\BackpackCustomCrudController;
 use App\Models\Category;
 use App\Models\Contact;
 use App\Models\Permission;

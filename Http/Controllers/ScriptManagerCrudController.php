@@ -4,7 +4,7 @@ namespace Amplify\System\Cms\Http\Controllers;
 
 use Amplify\System\Cms\Http\Requests\ScriptManagerRequest;
 use Amplify\System\Cms\Models\ScriptManager;
-use App\Abstracts\BackpackCustomCrudController;
+use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**

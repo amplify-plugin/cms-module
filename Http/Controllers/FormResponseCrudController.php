@@ -2,7 +2,7 @@
 
 namespace Amplify\System\Cms\Http\Controllers;
 
-use App\Abstracts\BackpackCustomCrudController;
+use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**

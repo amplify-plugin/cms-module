@@ -5,7 +5,7 @@ namespace Amplify\System\Cms\Http\Controllers;
 use Amplify\System\Cms\Http\Requests\MenuGroupRequest;
 use Amplify\System\Cms\Models\MenuGroup;
 use Amplify\System\Cms\Models\Page;
-use App\Abstracts\BackpackCustomCrudController;
+use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\CRUD\app\Library\Widget;
 

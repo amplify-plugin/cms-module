@@ -2,9 +2,8 @@
 
 namespace Amplify\System\Cms\Models;
 
-use Amplify\Marketing\Models\MerchandisingZone;
-use Amplify\System\Cms\Models\MegaMenuProduct;
-use Amplify\System\Sayt\Sayt;
+use Amplify\System\Marketing\Models\MerchandisingZone;
+use Amplify\System\Sayt\Facade\Sayt;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

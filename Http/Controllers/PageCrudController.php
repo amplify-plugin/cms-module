@@ -2,6 +2,7 @@
 
 namespace Amplify\System\Cms\Http\Controllers;
 
+use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Amplify\System\Cms\Http\Requests\PageRequest;
 use Amplify\System\Cms\Models\Banner;
 use Amplify\System\Cms\Models\BannerZone;
@@ -9,8 +10,7 @@ use Amplify\System\Cms\Models\Content;
 use Amplify\System\Cms\Models\Form;
 use Amplify\System\Cms\Models\MenuGroup;
 use Amplify\System\Cms\Models\Page;
-use Amplify\Marketing\Models\MerchandisingZone;
-use Amplify\System\Abstracts\BackpackCustomCrudController;
+use Amplify\System\Marketing\Models\MerchandisingZone;
 use App\Models\Category;
 use App\Models\Contact;
 use App\Models\Permission;

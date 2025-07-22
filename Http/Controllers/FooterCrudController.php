@@ -2,15 +2,15 @@
 
 namespace Amplify\System\Cms\Http\Controllers;
 
+use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Amplify\System\Cms\Http\Requests\FooterRequest;
 use Amplify\System\Cms\Models\Banner;
 use Amplify\System\Cms\Models\BannerZone;
 use Amplify\System\Cms\Models\Content;
 use Amplify\System\Cms\Models\Footer;
 use Amplify\System\Cms\Models\MenuGroup;
-use Amplify\Marketing\Models\MerchandisingZone;
+use Amplify\System\Marketing\Models\MerchandisingZone;
 use Amplify\Widget\Models\Widget;
-use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**

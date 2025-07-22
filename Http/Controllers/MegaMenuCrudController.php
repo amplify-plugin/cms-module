@@ -2,12 +2,12 @@
 
 namespace Amplify\System\Cms\Http\Controllers;
 
+use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Amplify\System\Cms\Http\Requests\MegaMenuRequest;
 use Amplify\System\Cms\Models\MegaMenu;
 use Amplify\System\Cms\Models\Menu;
-use Amplify\Marketing\Models\MerchandisingZone;
+use Amplify\System\Marketing\Models\MerchandisingZone;
 use Amplify\System\Sayt\Sayt;
-use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Http\Request;
 

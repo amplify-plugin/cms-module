@@ -1,6 +1,6 @@
 <ul {!! $htmlAttributes !!}>
     @foreach($categories as $category)
-        <li>
+        <li @class(['has-children' => $category->hasSubCategories()])>
             <a href="{{ frontendShopURL($category->getSEOPath()) }}">
                 {{ $category->getName() }}
                 <span class="text-muted">

@@ -1,0 +1,79 @@
+<?php
+
+namespace Amplify\System\Cms\Widgets\Menu\AccountSidebar;
+
+use Amplify\Widget\Abstracts\BaseComponent;
+use App\Models\Contact;
+use Closure;
+use Illuminate\Contracts\View\View;
+
+/**
+ * @class Profile
+ */
+class Profile extends BaseComponent
+{
+    /**
+     * @var array
+     */
+    public $options;
+
+    public Contact $account;
+
+    /**
+     * Create a new component instance.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->account = customer(true);
+    }
+
+    /**
+     * Whether the component should be rendered
+     */
+    public function shouldRender(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Get the view / contents that represent the component.
+     */
+    public function render(): View|Closure|string
+    {
+        return view('widget::menu.account-sidebar.profile');
+    }
+
+    public function accountProfileImage()
+    {
+        return ! empty($this->account->profile_image) ? $this->account->profile_image : generateUserAvatar($this->account->name);
+    }
+
+    public function accountName(): ?string
+    {
+        return $this->account->name ?? null;
+    }
+
+    public function companyName(): ?string
+    {
+        return $this->account->customer->customer_name ?? null;
+    }
+
+    public function companyCode(): ?string
+    {
+        return $this->account->customer->customer_code ?? null;
+    }
+
+    public function accountRoles()
+    {
+        return implode(', ', ($this->account?->roles?->pluck('name')?->toArray() ?? []));
+    }
+
+    public function htmlAttributes(): string
+    {
+        $this->attributes = $this->attributes->class(['user-info-wrapper']);
+
+        return parent::htmlAttributes();
+    }
+}

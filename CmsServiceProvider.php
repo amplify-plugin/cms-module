@@ -26,6 +26,8 @@ class CmsServiceProvider extends ServiceProvider
             __DIR__ . '/Config/cms.php',
             'amplify.cms'
         );
+
+        $this->app->register(WidgetProvider::class);
     }
 
     /**

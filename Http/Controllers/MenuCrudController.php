@@ -118,7 +118,9 @@ class MenuCrudController extends BackpackCustomCrudController
                     'name' => 'url_type',
                     'type' => 'custom_html',
                     'value' => function (Menu $entity) {
-                        if ($entity->type == 'mega-menu') {
+                        if ($entity->type == 'categories') {
+                            return 'Categories';
+                        } else if ($entity->type == 'mega-menu') {
                             return Menu::MENU_TYPES['mega-menu'];
                         } else {
                             return Menu::URL_TYPES[$entity->url_type] ?? 'N/A';

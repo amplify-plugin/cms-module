@@ -48,7 +48,7 @@ class PrimaryMenu extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        $this->menus = Cache::remember(Session::token().'-primary-menu', 0, function () {
+        $this->menus = Cache::remember(Session::token() . '-primary-menu', 0, function () {
 
             $this->userPermissions = customer_permissions();
 
@@ -71,7 +71,7 @@ class PrimaryMenu extends BaseComponent
                     },
                 ])
                 ->get()->each(function (Menu $menu) use ($menus) {
-                    if ($menu->type == 'default') {
+                    if (in_array($menu->type, ['default', 'categories'])) {
                         $this->push($menu, $menus);
                     } else {
                         $this->pushMegaMenu($menu, $menus);
@@ -104,7 +104,7 @@ class PrimaryMenu extends BaseComponent
         $item->has_children = $menu->megaMenus->isNotEmpty();
         $item->children = collect();
 
-        $menuPermissions = ! config('amplify.basic.is_permission_system_enabled') ? [] : $menu->permissions?->pluck('name')->toArray();
+        $menuPermissions = !config('amplify.basic.is_permission_system_enabled') ? [] : $menu->permissions?->pluck('name')->toArray();
 
         if ($item->has_children) {
             $item->children = $menu->megaMenus;
@@ -128,14 +128,14 @@ class PrimaryMenu extends BaseComponent
         }
 
         if ($menu->onlyPublic()) {
-            if (! customer_check()) {
+            if (!customer_check()) {
                 $parent->push($item);
 
                 return;
             }
         }
 
-        if (! $menu->onlyAuth() && ! $menu->onlyPublic()) {
+        if (!$menu->onlyAuth() && !$menu->onlyPublic()) {
 
             if (customer_check()) {
                 if (count($menuPermissions) == 0) {

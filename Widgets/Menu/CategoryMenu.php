@@ -3,6 +3,9 @@
 namespace Amplify\System\Cms\Widgets\Menu;
 
 use Amplify\System\Cms\Models\Menu;
+use Amplify\System\Sayt\Classes\CategoriesInfo;
+use Amplify\System\Sayt\Classes\NavigateCategory;
+use Amplify\System\Sayt\Facade\Sayt;
 use Amplify\Widget\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
@@ -14,7 +17,9 @@ use Illuminate\Contracts\View\View;
  */
 class CategoryMenu extends BaseComponent
 {
-    public function __construct(public Menu $menu)
+    public mixed $categories;
+
+    public function __construct(public ?\stdClass $menu = null, public ?NavigateCategory $category = null)
     {
         parent::__construct();
     }
@@ -32,7 +37,19 @@ class CategoryMenu extends BaseComponent
      */
     public function render(): View|Closure|string
     {
+        if ($this->menu !== null) {
+            $this->categories = Sayt::storeCategories($this->menu->url, ['with_sub_category' => true]);
+        } else {
+            $this->categories = $this->category->getSubCategories();
+        }
 
         return view('cms::menu.category-menu');
+    }
+
+    public function htmlAttributes(): string
+    {
+        $this->attributes = $this->attributes->class(['sub-menu']);
+
+        return parent::htmlAttributes();
     }
 }

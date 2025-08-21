@@ -1,6 +1,7 @@
 <nav {!! $htmlAttributes !!}>
     @pushonce('plugin-style')
-        <link href="{{ asset('packages/bootstrap-iconpicker/icon-fonts/font-awesome-5.12.0-1/css/all.min.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ asset('packages/bootstrap-iconpicker/icon-fonts/font-awesome-5.12.0-1/css/all.min.css') }}"
+              rel="stylesheet" type="text/css">
     @endpushonce
     <ul>
         @foreach ($menus as $menu)
@@ -16,15 +17,15 @@
                         {{ $menu->title }}
                     </span>
                 </a>
-                @if ($menu->has_children)
+                @if($menu->type == 'categories')
+                    <x-menu.category-menu :menu="$menu" />
+                @elseif ($menu->has_children)
                     <ul class="@if($menu->type == 'mega-menu') mega-menu @else sub-menu @endif">
                         @foreach ($menu->children as $child)
                             @if ($menu->type == 'mega-menu')
-                                    <x-dynamic-component :component="$child->menu_type" :menu="$child"/>
-                            @elseif($menu->type == 'categories')
-                                <x-menu.category-menu :menu="$menu"/>
+                                <x-dynamic-component :component="$child->menu_type" :menu="$child" />
                             @else
-                                <x-menu.nested-menu :menu="$child"/>
+                                <x-menu.nested-menu :menu="$child" />
                             @endif
                         @endforeach
                     </ul>

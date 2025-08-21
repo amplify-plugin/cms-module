@@ -14,7 +14,7 @@ use Illuminate\Contracts\View\View;
  */
 class NestedMenu extends BaseComponent
 {
-    public function __construct(public Menu $child)
+    public function __construct(public ?Menu $child = null,  public bool $showIcon = false)
     {
         parent::__construct();
     }

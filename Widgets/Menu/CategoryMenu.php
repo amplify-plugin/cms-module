@@ -2,8 +2,6 @@
 
 namespace Amplify\System\Cms\Widgets\Menu;
 
-use Amplify\System\Cms\Models\Menu;
-use Amplify\System\Sayt\Classes\CategoriesInfo;
 use Amplify\System\Sayt\Classes\NavigateCategory;
 use Amplify\System\Sayt\Facade\Sayt;
 use Amplify\Widget\Abstracts\BaseComponent;
@@ -19,7 +17,7 @@ class CategoryMenu extends BaseComponent
 {
     public mixed $categories;
 
-    public function __construct(public ?\stdClass $menu = null, public ?NavigateCategory $category = null)
+    public function __construct(public ?\stdClass $menu = null, public ?NavigateCategory $category = null, public bool $showIcon = false)
     {
         parent::__construct();
     }

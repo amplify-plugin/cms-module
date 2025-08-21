@@ -413,7 +413,7 @@ class PageCrudController extends BackpackCustomCrudController
         /* Generate starting 'start tag' */
         $finalCode .= $addTabSpaceIfNested.'<'.$tag->name;
         /* Generate attributes */
-        if (count($tag->{'@attributes'}) > 0) {
+        if (is_array($tag->{'@attributes'}) && count($tag->{'@attributes'}) > 0) {
             foreach ($tag->{'@attributes'} as $attribute) {
                 if (in_array($attribute->type, ['dropdown', 'content-dropdown', 'merchandises-dropdown'])) {
                     $attribute->value = $attribute->value->id ?? '';

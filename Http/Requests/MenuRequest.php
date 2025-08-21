@@ -2,7 +2,9 @@
 
 namespace Amplify\System\Cms\Http\Requests;
 
+use Amplify\System\Cms\Models\Menu;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class MenuRequest extends FormRequest
 {
@@ -28,9 +30,10 @@ class MenuRequest extends FormRequest
             'group_id' => ['required'],
             'name' => 'required|min:3|max:255',
             'url' => 'nullable|url|max:255',
+            'seo_path' => 'nullable|string|max:255',
             'page_id' => ['nullable', 'exists:pages,id'],
-            'type' => ['string', 'in:default,mega-menu'],
-            'url_type' => ['required', 'in:external,page'],
+            'type' => ['string', Rule::in(array_keys(Menu::MENU_TYPES))],
+            'url_type' => ['required', Rule::in(array_keys(Menu::URL_TYPES))],
             'icon' => ['nullable', 'string', 'max:255'],
         ];
     }

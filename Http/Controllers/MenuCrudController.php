@@ -195,6 +195,14 @@ class MenuCrudController extends BackpackCustomCrudController
                 'tab' => 'Basic',
             ],
             [
+                'name' => 'seo_path',
+                'type' => 'text',
+                'label' => 'SEO Path',
+                'tab' => 'Basic',
+                'store_in' => 'url'
+            ],
+
+            [
                 'name' => 'page_id',
                 'type' => 'select2',
                 'label' => 'Page',

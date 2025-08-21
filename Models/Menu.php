@@ -33,6 +33,7 @@ class Menu extends Model implements Auditable
     const MENU_TYPES = [
         'default' => 'Default',
         'mega-menu' => 'Mega Menu',
+        'categories' => 'Categories Tree',
     ];
 
     protected $table = 'menus';

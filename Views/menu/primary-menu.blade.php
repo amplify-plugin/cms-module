@@ -25,7 +25,7 @@
                             @if ($menu->type == 'mega-menu')
                                 <x-dynamic-component :component="$child->menu_type" :menu="$child" />
                             @else
-                                <x-menu.nested-menu :menu="$child" />
+                                <x-menu.nested-menu :child="$child" />
                             @endif
                         @endforeach
                     </ul>

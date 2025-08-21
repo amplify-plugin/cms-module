@@ -7,6 +7,7 @@ use Amplify\System\Sayt\Facade\Sayt;
 use Amplify\Widget\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * @class CategoryMenu
@@ -36,7 +37,10 @@ class CategoryMenu extends BaseComponent
     public function render(): View|Closure|string
     {
         if ($this->menu !== null) {
-            $this->categories = Sayt::storeCategories($this->menu->url, ['with_sub_category' => true]);
+            $this->categories = Cache::remember('menu-category-menu', DAY, function () {
+                return Sayt::storeCategories($this->menu->url, ['with_sub_category' => true]);
+            });
+
         } else {
             $this->categories = $this->category->getSubCategories();
         }

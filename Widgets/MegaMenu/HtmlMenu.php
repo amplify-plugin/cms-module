@@ -23,6 +23,6 @@ class HtmlMenu extends BaseComponent
             return new HtmlString($this->menu->html_content ?? '');
         });
 
-        return view('widget::mega-menu.html-menu', compact('html'));
+        return view('cms::mega-menu.html-menu', compact('html'));
     }
 }

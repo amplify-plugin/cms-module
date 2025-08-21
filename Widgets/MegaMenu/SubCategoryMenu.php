@@ -34,7 +34,7 @@ class SubCategoryMenu extends BaseComponent
             return $subCategories;
         });
 
-        return view('widget::mega-menu.sub-category-menu', compact('subCategories'));
+        return view('cms::mega-menu.sub-category-menu', compact('subCategories'));
     }
 
     public function push(mixed $item, &$subCategories) {}

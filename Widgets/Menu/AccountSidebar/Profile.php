@@ -42,7 +42,7 @@ class Profile extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        return view('widget::menu.account-sidebar.profile');
+        return view('cms::menu.account-sidebar.profile');
     }
 
     public function accountProfileImage()

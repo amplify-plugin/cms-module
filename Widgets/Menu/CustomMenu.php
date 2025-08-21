@@ -93,7 +93,7 @@ class CustomMenu extends BaseComponent
 
         $this->setActiveMenu($this->menus);
 
-        return view('widget::menu.custom-menu');
+        return view('cms::menu.custom-menu');
     }
 
     public function menuGroupTitle()

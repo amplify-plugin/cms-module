@@ -18,6 +18,6 @@ class VideoMenu extends BaseComponent
     {
         $this->setDefaultClasses(['mega-li', "col-md-{$this->menu->menu_column_size }"]);
 
-        return view('widget::mega-menu.video-menu');
+        return view('cms::mega-menu.video-menu');
     }
 }

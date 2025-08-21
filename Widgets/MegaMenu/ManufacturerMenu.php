@@ -29,6 +29,6 @@ class ManufacturerMenu extends BaseComponent
                 })->get();
         });
 
-        return view('widget::mega-menu.manufacturer-menu', compact('manufacturers'));
+        return view('cms::mega-menu.manufacturer-menu', compact('manufacturers'));
     }
 }

@@ -104,7 +104,7 @@ class BannerSlider extends BaseComponent
             return $items;
         });
 
-        return view('widget::banner-slider');
+        return view('cms::banner-slider');
     }
 
     private function push($item, Collection &$items)

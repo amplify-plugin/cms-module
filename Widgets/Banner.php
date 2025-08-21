@@ -52,6 +52,6 @@ class Banner extends BaseComponent
     public function render(): View|Closure|string
     {
 
-        return view('widget::banner');
+        return view('cms::banner');
     }
 }

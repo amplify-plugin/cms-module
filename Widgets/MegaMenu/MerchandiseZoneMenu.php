@@ -39,7 +39,7 @@ class MerchandiseZoneMenu extends BaseComponent
             return $products;
         });
 
-        return view('widget::mega-menu.merchandise-zone-menu', compact('products'));
+        return view('cms::mega-menu.merchandise-zone-menu', compact('products'));
     }
 
     private function push(&$collection, $product)

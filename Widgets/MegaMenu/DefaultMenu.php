@@ -22,6 +22,6 @@ class DefaultMenu extends BaseComponent
             return $this->menu->defaultLinks();
         });
 
-        return view('widget::mega-menu.default-menu', compact('links'));
+        return view('cms::mega-menu.default-menu', compact('links'));
     }
 }

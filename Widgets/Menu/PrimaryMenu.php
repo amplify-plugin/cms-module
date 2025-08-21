@@ -83,7 +83,7 @@ class PrimaryMenu extends BaseComponent
 
         $this->setActiveMenu($this->menus);
 
-        return view('widget::menu.primary-menu', [
+        return view('cms::menu.primary-menu', [
             'contact' => customer(true),
         ]);
     }

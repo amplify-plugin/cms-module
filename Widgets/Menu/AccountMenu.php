@@ -75,7 +75,7 @@ class AccountMenu extends BaseComponent
         $this->setActiveMenu($this->menus);
         $this->avatar = ($this->showContactAvatar && ! empty($contact)) ? generateUserAvatar($contact->name) : '';
 
-        return view('widget::menu.account-menu', [
+        return view('cms::menu.account-menu', [
             'contact' => $contact,
         ]);
     }

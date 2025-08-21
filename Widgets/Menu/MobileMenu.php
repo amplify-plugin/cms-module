@@ -79,7 +79,7 @@ class MobileMenu extends BaseComponent
 
         $this->setActiveMenu($this->menus);
 
-        return view('widget::menu.mobile-menu');
+        return view('cms::menu.mobile-menu');
     }
 
     private function pushMegaMenu(Menu $menu, &$parent): void

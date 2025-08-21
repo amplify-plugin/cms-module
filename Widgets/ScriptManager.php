@@ -55,6 +55,6 @@ class ScriptManager extends BaseComponent
         $scripts = ModelsScriptManager::wherePosition($this->position)
             ->orderBy('priority', $this->order)->get();
 
-        return view('widget::script-manager', compact('scripts'));
+        return view('cms::script-manager', compact('scripts'));
     }
 }

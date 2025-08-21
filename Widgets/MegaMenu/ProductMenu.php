@@ -30,7 +30,7 @@ class ProductMenu extends BaseComponent
             return $products;
         });
 
-        return view('widget::mega-menu.product-menu', compact('products'));
+        return view('cms::mega-menu.product-menu', compact('products'));
     }
 
     private function push(mixed $product, \Illuminate\Support\Collection &$products)

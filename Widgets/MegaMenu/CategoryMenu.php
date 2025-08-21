@@ -30,6 +30,6 @@ class CategoryMenu extends BaseComponent
             return $categories;
         });
 
-        return view('widget::mega-menu.category-menu', compact('categories'));
+        return view('cms::mega-menu.category-menu', compact('categories'));
     }
 }

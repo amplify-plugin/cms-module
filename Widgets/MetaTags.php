@@ -71,7 +71,7 @@ class MetaTags extends BaseComponent
             $this->tags[] = $item;
         });
 
-        return view('widget::meta-tags');
+        return view('cms::meta-tags');
     }
 
     private function fillSystemTags(): void

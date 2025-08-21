@@ -76,7 +76,7 @@ class AccountSidebar extends BaseComponent
 
         $this->setActiveMenu($this->menus);
 
-        return view('widget::menu.account-sidebar', [
+        return view('cms::menu.account-sidebar', [
             'account' => customer(true),
         ]);
     }

@@ -18,6 +18,6 @@ class ImageMenu extends BaseComponent
     {
         $this->setDefaultClasses(['mega-li', "col-md-{$this->menu->menu_column_size }"]);
 
-        return view('widget::mega-menu.image-menu');
+        return view('cms::mega-menu.image-menu');
     }
 }

@@ -42,7 +42,7 @@ class UserTopMenu extends BaseComponent
 
         $menuGroup = menu('user-top-menu', false);
 
-        return view('widget::user-top-menu', [
+        return view('cms::user-top-menu', [
             'contact' => $contact,
             'menuGroup' => $menuGroup,
         ]);

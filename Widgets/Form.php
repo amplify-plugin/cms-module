@@ -44,7 +44,7 @@ class Form extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        return view('widget::form');
+        return view('cms::form');
     }
 
     public function clearButtonTitle()

@@ -39,6 +39,6 @@ class Logout extends BaseComponent
     public function render(): View|Closure|string
     {
 
-        return view('widget::menu.account-menu.logout');
+        return view('cms::menu.account-menu.logout');
     }
 }

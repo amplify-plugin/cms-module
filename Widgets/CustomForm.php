@@ -63,6 +63,6 @@ class CustomForm extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        return view('widget::form-builder');
+        return view('cms::form-builder');
     }
 }

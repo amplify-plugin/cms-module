@@ -39,6 +39,6 @@ class FooterMenu extends BaseComponent
     public function render(): View|Closure|string
     {
 
-        return view('widget::menu.footer-menu');
+        return view('cms::menu.footer-menu');
     }
 }

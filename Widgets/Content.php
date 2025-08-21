@@ -51,7 +51,7 @@ class Content extends BaseComponent
     {
         $this->item = ContentModel::findOrFail($this->contentId);
 
-        return view('widget::content');
+        return view('cms::content');
     }
 
     public function title(): string

@@ -39,6 +39,6 @@ class SecondaryMenu extends BaseComponent
     public function render(): View|Closure|string
     {
 
-        return view('widget::menu.secondary-menu');
+        return view('cms::menu.secondary-menu');
     }
 }

@@ -33,6 +33,6 @@ class CartMenu extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        return view('widget::menu.cart-menu');
+        return view('cms::menu.cart-menu');
     }
 }

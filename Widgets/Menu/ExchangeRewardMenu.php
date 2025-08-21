@@ -47,7 +47,7 @@ class ExchangeRewardMenu extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        return view('widget::menu.exchange-reward-menu');
+        return view('cms::menu.exchange-reward-menu');
     }
 
     public function htmlAttributes(): string

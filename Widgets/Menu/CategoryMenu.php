@@ -38,7 +38,7 @@ class CategoryMenu extends BaseComponent
     {
         if ($this->menu !== null) {
             $this->categories = Cache::remember('menu-category-menu', DAY, function () {
-                return Sayt::storeCategories($this->menu->seo_path, ['with_sub_category' => true]);
+                return Sayt::storeCategories($this->menu->seo_path ?? null, ['with_sub_category' => true]);
             });
 
         } else {

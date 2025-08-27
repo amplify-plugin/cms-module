@@ -36,9 +36,16 @@ class CategoryMenu extends BaseComponent
      */
     public function render(): View|Closure|string
     {
+        dd($this->menu);
+        $options = [
+            'with_sub_category' => true,
+            'sub_category_depth' => $this->menu->sub_category_depth ?? null,
+            'product_count' => $this->menu->display_product_count ?? false,
+        ];
+
         if ($this->menu !== null) {
-            $this->categories = Cache::remember('menu-category-menu', DAY, function () {
-                return Sayt::storeCategories($this->menu->seo_path ?? null, ['with_sub_category' => true]);
+            $this->categories = Cache::remember('menu-category-menu', DAY, function () use ($options) {
+                return Sayt::storeCategories($this->menu->seo_path ?? null, $options);
             });
 
         } else {

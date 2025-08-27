@@ -200,10 +200,25 @@ class MenuCrudController extends BackpackCustomCrudController
                 'name' => 'seo_path',
                 'type' => 'text',
                 'label' => 'SEO Path',
+                'hint' => 'Enter SEO Path',
                 'tab' => 'Basic',
-                'store_in' => 'url'
             ],
-
+            [
+                'name' => 'sub_category_depth',
+                'type' => 'number',
+                'label' => 'Sub Category Depth',
+                'default' => 0,
+                'hint' => 'Applicable if Menu Type is Categories Tree',
+                'tab' => 'Basic',
+            ],
+            [
+                'name' => 'display_product_count',
+                'type' => 'boolean',
+                'label' => 'Display Product Count',
+                'default' => false,
+                'hint' => 'Applicable if Menu Type is Categories Tree',
+                'tab' => 'Basic',
+            ],
             [
                 'name' => 'page_id',
                 'type' => 'select2',

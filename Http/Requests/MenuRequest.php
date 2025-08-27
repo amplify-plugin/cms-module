@@ -31,6 +31,8 @@ class MenuRequest extends FormRequest
             'name' => 'required|min:3|max:255',
             'url' => 'nullable|url|max:255',
             'seo_path' => 'nullable|string|max:255',
+            'sub_category_depth' => ['nullable', 'integer'],
+            'display_product_count' => ['nullable', 'boolean'],
             'page_id' => ['nullable', 'exists:pages,id'],
             'type' => ['string', Rule::in(array_keys(Menu::MENU_TYPES))],
             'url_type' => ['required', Rule::in(array_keys(Menu::URL_TYPES))],
@@ -40,7 +42,12 @@ class MenuRequest extends FormRequest
 
     protected function prepareForValidation()
     {
-        $this->merge(['name' => json_encode($this->input('name'))]);
+        $this->merge(
+            [
+                'name' => json_encode($this->input('name')),
+                'display_product_count' => $this->input('display_product_count') ? 1 : 0
+            ]
+        );
     }
 
     /**

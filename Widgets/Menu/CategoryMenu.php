@@ -36,7 +36,6 @@ class CategoryMenu extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        dd($this->menu);
         $options = [
             'with_sub_category' => true,
             'sub_category_depth' => $this->menu->sub_category_depth ?? null,
@@ -44,7 +43,7 @@ class CategoryMenu extends BaseComponent
         ];
 
         if ($this->menu !== null) {
-            $this->categories = Cache::remember('menu-category-menu', DAY, function () use ($options) {
+            $this->categories = Cache::remember("menu-category-menu", DAY, function () use ($options) {
                 return Sayt::storeCategories($this->menu->seo_path ?? null, $options);
             });
 

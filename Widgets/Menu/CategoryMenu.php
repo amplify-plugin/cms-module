@@ -18,9 +18,10 @@ class CategoryMenu extends BaseComponent
 {
     public mixed $categories;
 
-    public function __construct(public ?\stdClass $menu = null, public ?NavigateCategory $category = null, public bool $showIcon = false)
+    public function __construct(public ?\stdClass $menu = null, public ?NavigateCategory $category = null, public bool $showIcon = false, public bool $showProductCount = false)
     {
         parent::__construct();
+
     }
 
     /**
@@ -36,14 +37,14 @@ class CategoryMenu extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        $options = [
-            'with_sub_category' => true,
-            'sub_category_depth' => $this->menu->sub_category_depth ?? null,
-            'product_count' => $this->menu->display_product_count ?? false,
-        ];
-
         if ($this->menu !== null) {
-            $this->categories = Cache::remember("menu-category-menu", DAY, function () use ($options) {
+            $this->categories = Cache::remember("menu-category-menu", DAY, function () {
+                $options = [
+                    'with_sub_category' => !in_array($this->menu->sub_category_depth, [0, null]),
+                    'sub_category_depth' => $this->menu->sub_category_depth ?? null,
+                    'product_count' => $this->showProductCount,
+                ];
+
                 return Sayt::storeCategories($this->menu->seo_path ?? null, $options);
             });
 

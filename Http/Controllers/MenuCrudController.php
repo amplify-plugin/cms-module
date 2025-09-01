@@ -2,12 +2,12 @@
 
 namespace Amplify\System\Cms\Http\Controllers;
 
+use Amplify\System\Abstracts\BackpackCustomCrudController;
+use Amplify\System\Backend\Traits\CrudCustomButtonTrait;
+use Amplify\System\Backend\Traits\ReorderTrait;
 use Amplify\System\Cms\Http\Requests\MenuRequest;
 use Amplify\System\Cms\Models\Menu;
 use Amplify\System\Cms\Models\MenuGroup;
-use Amplify\System\Abstracts\BackpackCustomCrudController;
-use App\Traits\CrudCustomButtonTrait;
-use App\Traits\ReorderTrait;
 use Backpack\CRUD\app\Http\Controllers\Operations\ReorderOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\CRUD\app\Library\Widget;

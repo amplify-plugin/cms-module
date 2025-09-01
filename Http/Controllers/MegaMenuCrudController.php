@@ -18,7 +18,7 @@ use Illuminate\Http\Request;
  */
 class MegaMenuCrudController extends BackpackCustomCrudController
 {
-    use \App\Traits\ReorderTrait;
+    use \Amplify\System\Backend\Traits\ReorderTrait;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;

@@ -2,7 +2,7 @@
 
 namespace Amplify\System\Cms\Jobs;
 
-use App\Traits\NotificationEventTrait;
+use Amplify\System\Backend\Traits\NotificationEventTrait;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;

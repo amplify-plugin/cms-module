@@ -2,10 +2,10 @@
 
 namespace Amplify\System\Cms\Http\Controllers;
 
+use Amplify\System\Abstracts\BackpackCustomCrudController;
+use Amplify\System\Backend\Http\Requests\NavigationRequest;
 use Amplify\System\Cms\Models\MenuGroup;
 use Amplify\System\Cms\Models\Navigation;
-use Amplify\System\Abstracts\BackpackCustomCrudController;
-use App\Http\Requests\NavigationRequest;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**

@@ -1,7 +1,7 @@
 <?php
 
-use Amplify\System\Cms\Models\MenuGroup;
 use Amplify\Frontend\Store\StoreDataBus;
+use Amplify\System\Cms\Models\MenuGroup;
 use Amplify\System\Utility\Helpers\CurrencyHelper;
 
 if (! function_exists('currency')) {

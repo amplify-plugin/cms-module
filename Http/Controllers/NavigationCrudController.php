@@ -57,7 +57,7 @@ class NavigationCrudController extends BackpackCustomCrudController
             function () {
                 $templateOptions = [];
 
-                foreach (config('amplify.cms.templates') as $template) {
+                foreach (config('amplify.cms.themes') as $template) {
                     $templateOptions[$template['id']] = $template['label'];
                 }
 

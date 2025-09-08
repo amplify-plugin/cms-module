@@ -17,7 +17,7 @@ class Template extends Model implements Auditable
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'templates';
+    protected $table = 'themes';
 
     // protected $primaryKey = 'id';
     // public $timestamps = false;

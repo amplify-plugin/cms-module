@@ -95,7 +95,7 @@ if (! function_exists('store')) {
 
 if (! function_exists('template')) {
     /** Return a template from configuration
-     * if a index of cms config file templates array provided
+     * if a index of cms config file themes array provided
      * it will return else it will return current active one (default)
      * passing words 'fallback' will return fallback template
      *
@@ -112,9 +112,9 @@ if (! function_exists('template')) {
         $fallback = config('amplify.cms.fallback');
 
         if (is_numeric($index)) {
-            foreach (config('amplify.cms.templates') as $key => $template) {
+            foreach (config('amplify.cms.themes') as $key => $template) {
                 if ($template['id'] == $index) {
-                    return (object) config("amplify.cms.templates.{$key}", config("amplify.cms.templates.{$fallback}"));
+                    return (object) config("amplify.cms.themes.{$key}", config("amplify.cms.themes.{$fallback}"));
                 }
             }
 
@@ -122,10 +122,10 @@ if (! function_exists('template')) {
         }
 
         if ($index == 'fallback') {
-            return (object) config("amplify.cms.templates.{$fallback}");
+            return (object) config("amplify.cms.themes.{$fallback}");
         }
 
-        return (object) config("amplify.cms.templates.{$index}", config("amplify.cms.templates.{$fallback}"));
+        return (object) config("amplify.cms.themes.{$index}", config("amplify.cms.themes.{$fallback}"));
     }
 }
 
@@ -133,13 +133,13 @@ if (! function_exists('component_view')) {
 
     function component_view($view): string
     {
-        return template_view($view, 'components');
+        return theme_view($view, 'components');
     }
 }
 
 if (! function_exists('template_view')) {
 
-    function template_view($view, ?string $directory = null): string
+    function theme_view($view, ?string $directory = null): string
     {
         $directory = ($directory != null) ? ".{$directory}" : '';
 
@@ -174,7 +174,7 @@ if (! function_exists('template_asset')) {
 
 if (! function_exists('template_option')) {
 
-    function template_option($key, ?string $template = null, $default = null): string
+    function theme_option($key, ?string $template = null, $default = null): string
     {
         $template = template($template);
 
@@ -182,7 +182,7 @@ if (! function_exists('template_option')) {
 
         $config = @json_decode(
             @file_get_contents(
-                @base_path("templates/{$template->slug}/config.json")
+                @base_path("themes/{$template->slug}/config.json")
             ),
             true
         );

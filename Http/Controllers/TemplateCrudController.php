@@ -48,7 +48,7 @@ class TemplateCrudController extends BackpackCustomCrudController
     {
         CRUD::setModel(Template::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/template');
-        CRUD::setEntityNameStrings('template', 'templates');
+        CRUD::setEntityNameStrings('template', 'themes');
     }
 
     protected function setupCustomRoutes($segment, $routeName, $controller)
@@ -108,7 +108,7 @@ class TemplateCrudController extends BackpackCustomCrudController
             'label' => 'Thumbnail',
             'type' => 'custom_html',
             'value' => function (Template $template) {
-                $imageSrc = base_path("templates/{$template->slug}/public/screenshot.jpg");
+                $imageSrc = base_path("themes/{$template->slug}/public/screenshot.jpg");
                 $imageSrc = (file_exists($imageSrc))
                     ? $imageSrc
                     : public_path(config('amplify.frontend.fallback_image_path', 'image/No-Image-Placeholder-min.png'));
@@ -160,7 +160,7 @@ HTML;
      */
     protected function setupCreateOperation()
     {
-        $target_directory = base_path('templates/tmp');
+        $target_directory = base_path('themes/tmp');
 
         if (! is_dir($target_directory)) {
             mkdir($target_directory, 0777, true);
@@ -186,7 +186,7 @@ HTML;
                 'label' => 'Thumbnail',
                 'type' => 'custom_html',
                 'value' => function (Template $template) {
-                    $imageSrc = base_path("templates/{$template->slug}/public/screenshot.jpg");
+                    $imageSrc = base_path("themes/{$template->slug}/public/screenshot.jpg");
                     $imageSrc = (file_exists($imageSrc))
                         ? $imageSrc
                         : public_path(config('amplify.frontend.fallback_image_path', 'image/No-Image-Placeholder-min.png'));
@@ -297,7 +297,7 @@ HTML;
         return $receiver->receive('file', function ($file) {
             $zip = new ZipArchive;
             if ($zip->open($file) === true) {
-                $zip->extractTo(base_path('templates/tmp'));
+                $zip->extractTo(base_path('themes/tmp'));
                 $zip->close();
 
                 return [
@@ -315,13 +315,13 @@ HTML;
     {
         try {
 
-            if (! file_exists(base_path('templates/tmp/config.json'))) {
+            if (! file_exists(base_path('themes/tmp/config.json'))) {
                 throw new \InvalidArgumentException('`config.json` file is missing');
             }
 
-            $config = json_decode(file_get_contents(base_path('templates/tmp/config.json')), true);
+            $config = json_decode(file_get_contents(base_path('themes/tmp/config.json')), true);
 
-            if (! file_exists(base_path('templates/tmp/public/'.$config['screenshot']))) {
+            if (! file_exists(base_path('themes/tmp/public/'.$config['screenshot']))) {
                 throw new \InvalidArgumentException('`Thumbnail Screenshot` file is missing');
             }
 
@@ -331,7 +331,7 @@ HTML;
                 mkdir($target_dest, 0777, true);
             }
 
-            copy(base_path('templates/tmp/public/'.$config['screenshot']), $target_dest.$config['screenshot']);
+            copy(base_path('themes/tmp/public/'.$config['screenshot']), $target_dest.$config['screenshot']);
 
             $res = [
                 'name' => $config['label'],
@@ -351,8 +351,8 @@ HTML;
     {
         $destination = null;
         try {
-            $config = json_decode(file_get_contents(base_path('templates/tmp/config.json')), true);
-            $destination = base_path('templates/'.$config['slug']);
+            $config = json_decode(file_get_contents(base_path('themes/tmp/config.json')), true);
+            $destination = base_path('themes/'.$config['slug']);
 
             if (is_dir($destination)) {
                 $this->deleteTmpTemplate();
@@ -362,7 +362,7 @@ HTML;
                 ], 500);
             }
 
-            rename(base_path('templates/tmp'), $destination);
+            rename(base_path('themes/tmp'), $destination);
 
             Template::create([
                 'name' => $config['label'],

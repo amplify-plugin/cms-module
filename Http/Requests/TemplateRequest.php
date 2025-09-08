@@ -26,7 +26,7 @@ class TemplateRequest extends FormRequest
     {
         return [
             'name' => 'required|min:5|max:255',
-            'slug' => 'required|unique:templates,slug,'.request()->id.',id,deleted_at,NULL',
+            'slug' => 'required|unique:themes,slug,'.request()->id.',id,deleted_at,NULL',
             'component_folder' => 'required|min:5|max:255',
             'asset_folder' => 'required|min:5|max:255',
         ];

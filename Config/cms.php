@@ -894,7 +894,7 @@ return [
             ],
         ],
     ],
-    'templates' => [
+    'themes' => [
         'demo' => [
             'id' => 1,
             'label' => 'Amplify Demo',

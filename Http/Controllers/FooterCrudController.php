@@ -76,7 +76,7 @@ class FooterCrudController extends BackpackCustomCrudController
             'label' => 'Template',
             'type' => 'custom_html',
             'value' => function ($footer) {
-                foreach (config('amplify.cms.templates') as $template) {
+                foreach (config('amplify.cms.themes') as $template) {
                     if ($footer->template_id == $template['id']) {
                         return $template['label'];
                     }

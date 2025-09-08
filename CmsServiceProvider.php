@@ -43,7 +43,7 @@ class CmsServiceProvider extends ServiceProvider
 
         $this->loadViewsFrom(__DIR__ . '/Views', 'cms');
 
-        $this->loadViewsFrom(base_path('templates'), 'template');
+        $this->loadViewsFrom(base_path('themes'), 'template');
 
         $this->loadRoutesFrom(__DIR__ . '/Routes/web.php');
 
@@ -53,13 +53,13 @@ class CmsServiceProvider extends ServiceProvider
     private function loadTemplateConfiguration(): void
     {
 
-        if (Schema::hasTable('templates')) {
+        if (Schema::hasTable('themes')) {
             //Load All Configs to Config system from DB
             Template::all()->each(function (Template $template) {
                 if ($template->is_active == true) {
                     Config::set('amplify.cms.default', $template->slug);
                 }
-                Config::set("amplify.cms.templates.{$template->slug}", $template->toArray());
+                Config::set("amplify.cms.themes.{$template->slug}", $template->toArray());
             });
         }
     }

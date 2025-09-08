@@ -2,9 +2,8 @@
 
 namespace Amplify\System\Cms\Models;
 
-use Amplify\System\Cms\Models\Form;
-use App\Models\Event;
-use App\Models\EventVariable;
+use Amplify\System\Backend\Models\Event;
+use Amplify\System\Backend\Models\EventVariable;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

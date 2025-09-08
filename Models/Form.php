@@ -2,8 +2,8 @@
 
 namespace Amplify\System\Cms\Models;
 
-use App\Models\Event;
-use App\Models\EventRecipent;
+use Amplify\System\Backend\Models\Event;
+use Amplify\System\Backend\Models\EventRecipent;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

@@ -2,10 +2,10 @@
 
 namespace Amplify\System\Cms\Http\Requests;
 
+use Amplify\System\Backend\Models\Product;
 use Amplify\System\Cms\Models\Menu;
 use Amplify\System\Cms\Models\Page;
 use Amplify\System\Cms\Models\Sitemap;
-use App\Models\Product;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 

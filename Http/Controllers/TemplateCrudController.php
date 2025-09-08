@@ -2,12 +2,12 @@
 
 namespace Amplify\System\Cms\Http\Controllers;
 
+use Amplify\System\Abstracts\BackpackCustomCrudController;
+use Amplify\System\Backend\Models\SystemConfiguration;
 use Amplify\System\Cms\Http\Requests\TemplateRequest;
 use Amplify\System\Cms\Models\Footer;
 use Amplify\System\Cms\Models\Template;
 use Amplify\System\Support\ChunkUpload;
-use Amplify\System\Abstracts\BackpackCustomCrudController;
-use App\Models\SystemConfiguration;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;

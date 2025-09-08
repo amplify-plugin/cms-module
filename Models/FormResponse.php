@@ -2,7 +2,6 @@
 
 namespace Amplify\System\Cms\Models;
 
-use App\Models\Contact;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -41,7 +40,7 @@ class FormResponse extends Model
 
     public function contact(): BelongsTo
     {
-        return $this->belongsTo(Contact::class);
+        return $this->belongsTo(\Amplify\System\Backend\Models\Contact::class);
     }
 
     /*

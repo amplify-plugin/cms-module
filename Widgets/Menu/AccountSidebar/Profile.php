@@ -2,8 +2,8 @@
 
 namespace Amplify\System\Cms\Widgets\Menu\AccountSidebar;
 
+use Amplify\System\Backend\Models\Contact;
 use Amplify\Widget\Abstracts\BaseComponent;
-use App\Models\Contact;
 use Closure;
 use Illuminate\Contracts\View\View;
 

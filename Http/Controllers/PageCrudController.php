@@ -3,6 +3,9 @@
 namespace Amplify\System\Cms\Http\Controllers;
 
 use Amplify\System\Abstracts\BackpackCustomCrudController;
+use Amplify\System\Backend\Models\Category;
+use Amplify\System\Backend\Models\Contact;
+use Amplify\System\Backend\Models\Permission;
 use Amplify\System\Cms\Http\Requests\PageRequest;
 use Amplify\System\Cms\Models\Banner;
 use Amplify\System\Cms\Models\BannerZone;
@@ -11,9 +14,6 @@ use Amplify\System\Cms\Models\Form;
 use Amplify\System\Cms\Models\MenuGroup;
 use Amplify\System\Cms\Models\Page;
 use Amplify\System\Marketing\Models\MerchandisingZone;
-use App\Models\Category;
-use App\Models\Contact;
-use App\Models\Permission;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;

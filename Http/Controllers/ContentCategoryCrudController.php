@@ -2,9 +2,9 @@
 
 namespace Amplify\System\Cms\Http\Controllers;
 
+use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Amplify\System\Cms\Http\Requests\ContentCategoryRequest;
 use Amplify\System\Cms\Models\ContentCategory;
-use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\Pro\Http\Controllers\Operations\InlineCreateOperation;
 
@@ -15,7 +15,7 @@ use Backpack\Pro\Http\Controllers\Operations\InlineCreateOperation;
  */
 class ContentCategoryCrudController extends BackpackCustomCrudController
 {
-    use \App\Http\Controllers\Backpack\Operations\SlugOperation;
+    use \Amplify\System\Backend\Http\Controllers\Backpack\Operations\SlugOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;

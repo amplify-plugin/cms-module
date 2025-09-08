@@ -2,9 +2,9 @@
 
 namespace Amplify\System\Cms\Widgets\MegaMenu;
 
+use Amplify\System\Backend\Models\Manufacturer;
 use Amplify\Widget\Abstracts\BaseComponent;
 use Amplify\Widget\Traits\MegaMenuTrait;
-use App\Models\Manufacturer;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;

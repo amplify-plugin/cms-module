@@ -2,12 +2,12 @@
 
 namespace Amplify\System\Cms\Http\Controllers;
 
+use Amplify\System\Abstracts\BackpackCustomCrudController;
+use Amplify\System\Backend\Models\Product;
 use Amplify\System\Cms\Http\Requests\SitemapRequest;
 use Amplify\System\Cms\Models\Menu;
 use Amplify\System\Cms\Models\Page;
 use Amplify\System\Cms\Models\Sitemap;
-use Amplify\System\Abstracts\BackpackCustomCrudController;
-use App\Models\Product;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\CRUD\app\Library\Widget;
 use Illuminate\Support\Facades\Route;

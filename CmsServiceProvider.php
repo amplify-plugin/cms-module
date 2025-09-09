@@ -43,7 +43,7 @@ class CmsServiceProvider extends ServiceProvider
 
         $this->loadViewsFrom(__DIR__ . '/Views', 'cms');
 
-        $this->loadViewsFrom(base_path('themes'), 'template');
+        $this->loadViewsFrom(base_path('themes'), 'theme');
 
         $this->loadRoutesFrom(__DIR__ . '/Routes/web.php');
 
@@ -53,7 +53,7 @@ class CmsServiceProvider extends ServiceProvider
     private function loadTemplateConfiguration(): void
     {
 
-        if (Schema::hasTable('themes')) {
+        if (Schema::hasTable('templates')) {
             //Load All Configs to Config system from DB
             Template::all()->each(function (Template $template) {
                 if ($template->is_active == true) {

@@ -143,8 +143,8 @@ if (! function_exists('theme_view')) {
     {
         $directory = ($directory != null) ? ".{$directory}" : '';
 
-        $target_view = trim('template::'.theme()->component_folder."{$directory}.{$view}", '.');
-        $fallback_view = trim('template::'.theme('fallback')->component_folder."{$directory}.{$view}", '.');
+        $target_view = trim('theme::'.theme()->component_folder."{$directory}.{$view}", '.');
+        $fallback_view = trim('theme::'.theme('fallback')->component_folder."{$directory}.{$view}", '.');
 
         if (view()->exists($target_view)) {
             return $target_view;
@@ -166,9 +166,9 @@ if (! function_exists('theme_asset')) {
      */
     function theme_asset($path, $template_id = null): string
     {
-        $template_root_path = theme($template_id)->asset_folder;
+        $template_root_path = theme($template_id)->slug;
 
-        return "frontend/{$template_root_path}/{$path}";
+        return "themes/{$template_root_path}/assets/{$path}";
     }
 }
 

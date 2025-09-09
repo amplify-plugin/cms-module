@@ -1,5 +1,6 @@
 <?php
 
+use Amplify\System\Cms\Http\Controllers\PageBuilderController;
 use Illuminate\Support\Facades\Route;
 
 Route::group([
@@ -27,4 +28,5 @@ Route::group([
     Route::crud('template', 'TemplateCrudController');
     Route::crud('form', 'FormCrudController');
     Route::crud('form-response', 'FormResponseCrudController');
+    Route::get('page-builder', [PageBuilderController::class, 'index']);
 });

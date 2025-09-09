@@ -137,7 +137,7 @@ if (! function_exists('component_view')) {
     }
 }
 
-if (! function_exists('template_view')) {
+if (! function_exists('theme_view')) {
 
     function theme_view($view, ?string $directory = null): string
     {
@@ -156,7 +156,7 @@ if (! function_exists('template_view')) {
     }
 }
 
-if (! function_exists('template_asset')) {
+if (! function_exists('theme_asset')) {
 
     /**
      * this function return asset full url
@@ -164,7 +164,7 @@ if (! function_exists('template_asset')) {
      *
      * @param  null  $template_id
      */
-    function template_asset($path, $template_id = null): string
+    function theme_asset($path, $template_id = null): string
     {
         $template_root_path = template($template_id)->asset_folder;
 

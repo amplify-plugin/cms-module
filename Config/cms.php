@@ -5,7 +5,7 @@
  * N.B: Page Type Declare Rule
  * -------------------------------------------------------------
  * For Page Type Also add page type in frontend.php in
- * /modules/Frontend/Config/frontend.php file
+ * /plugins/Frontend/Config/frontend.php file
  */
 
 return [

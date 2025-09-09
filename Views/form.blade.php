@@ -52,7 +52,7 @@
                     $preview = [
                         'preview' => true,
                         'height' => 100,
-                        'default' => config('amplify.frontend.fallback_image_path', 'img/No-Image-Placeholder-min.png')
+                        'default' => config('amplify.frontend.fallback_image_path', 'assets/img/No-Image-Placeholder-min.png')
                     ];
 
                     echo "<style> img#{$name}_preview { height: 100px !important; width: auto;}</style>";

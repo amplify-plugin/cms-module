@@ -145,7 +145,7 @@ class MenuCrudController extends BackpackCustomCrudController
             ]
         );
 
-        $this->crud->setListView('crud::pages.menus.list');
+        $this->crud->setListView('backend::pages.menus.list');
     }
 
     /**
@@ -420,7 +420,7 @@ class MenuCrudController extends BackpackCustomCrudController
 
         $this->getReorderData();
 
-        return view('crud::pages.menus.menu-items.reorder', $this->data);
+        return view('backend::pages.menus.menu-items.reorder', $this->data);
     }
 
     public function backTo(Request $request)

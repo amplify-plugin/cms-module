@@ -119,7 +119,7 @@ class FooterCrudController extends BackpackCustomCrudController
         $this->data['content_lists'] = Content::where(['status' => 1, 'is_approved' => 1])->get();
         $this->data['menu_group_lists'] = MenuGroup::where('is_reserved', false)->get(['id', 'name', 'short_code'])->toArray();
 
-        $this->crud->setCreateView('crud::pages.footer.create');
+        $this->crud->setCreateView('backend::pages.footer.create');
 
         CRUD::addField([
             'name' => 'name',
@@ -166,7 +166,7 @@ class FooterCrudController extends BackpackCustomCrudController
     protected function setupUpdateOperation()
     {
         $this->data['footer'] = $this->crud->model->find(request()->id);
-        $this->crud->setUpdateView('crud::pages.footer.create');
+        $this->crud->setUpdateView('backend::pages.footer.create');
         $this->setupCreateOperation();
     }
 
@@ -188,6 +188,6 @@ class FooterCrudController extends BackpackCustomCrudController
         ];
         $this->data['saveAction'] = $saveAction;
 
-        $this->crud->setShowView('crud::pages.footer.create');
+        $this->crud->setShowView('backend::pages.footer.create');
     }
 }

@@ -134,7 +134,7 @@ class NavigationCrudController extends BackpackCustomCrudController
         $this->data['navigation'] = $this->crud->model->find(request()->id);
         $this->data['nav_layouts'] = getNavigationLayoutList();
 
-        $this->crud->setCreateView('crud::pages.navigation.create');
+        $this->crud->setCreateView('backend::pages.navigation.create');
         CRUD::addField([
             'name' => 'name',
             'label' => 'Name',
@@ -190,7 +190,7 @@ class NavigationCrudController extends BackpackCustomCrudController
         $this->data['menu_group'] = $this->data['navigation']->menu_group;
         $this->data['account_menu'] = $this->data['navigation']->account_menu;
         $this->data['mobile_menu'] = $this->data['navigation']->mobile_menu;
-        $this->crud->setUpdateView('crud::pages.navigation.create');
+        $this->crud->setUpdateView('backend::pages.navigation.create');
         $this->setupCreateOperation();
     }
 

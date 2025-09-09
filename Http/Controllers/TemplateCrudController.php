@@ -169,7 +169,7 @@ HTML;
         }
 
         CRUD::setValidation(TemplateRequest::class);
-        $this->crud->setCreateView('crud::pages.template.create');
+        $this->crud->setCreateView('backend::pages.template.create');
     }
 
     protected function setupShowOperation()

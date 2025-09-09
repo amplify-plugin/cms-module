@@ -93,7 +93,7 @@ class BannerCrudController extends BackpackCustomCrudController
         $this->data['banner_zones'] = BannerZone::orderBy('name')->get()
             ->pluck('name', 'id')->toArray();
 
-        $this->crud->setCreateView('crud::pages.banner_slider.create');
+        $this->crud->setCreateView('backend::pages.banner_slider.create');
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
@@ -116,7 +116,7 @@ class BannerCrudController extends BackpackCustomCrudController
             Cache::flush();
         });
 
-        $this->crud->setUpdateView('crud::pages.banner_slider.create');
+        $this->crud->setUpdateView('backend::pages.banner_slider.create');
 
         $this->setupCreateOperation();
     }

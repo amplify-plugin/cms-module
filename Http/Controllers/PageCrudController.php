@@ -191,7 +191,7 @@ class PageCrudController extends BackpackCustomCrudController
         $this->crud->setCreateContentClass('col-lg-12');
         $this->data['page'] = $this->crud->model->find(request()->id);
         $this->data['active_template'] = $activeTemplate;
-        $this->crud->setCreateView('crud::pages.page.create');
+        $this->crud->setCreateView('backend::pages.page.create');
 
         CRUD::addField([
             'name' => 'template_id',
@@ -267,7 +267,7 @@ class PageCrudController extends BackpackCustomCrudController
         });
 
         $this->crud->setUpdateContentClass('col-lg-12');
-        $this->crud->setUpdateView('crud::pages.page.create');
+        $this->crud->setUpdateView('backend::pages.page.create');
         $this->setupCreateOperation();
     }
 

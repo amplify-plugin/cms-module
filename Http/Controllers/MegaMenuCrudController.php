@@ -84,7 +84,7 @@ class MegaMenuCrudController extends BackpackCustomCrudController
         $this->crud->removeButton('create'); // remove previous create button
         $this->crud->addButtonFromModelFunction('top', 'create', 'createMegaMenuButton');
 
-        $this->crud->setListView('crud::pages.mega-menus.list');
+        $this->crud->setListView('backend::pages.mega-menus.list');
     }
 
     /**
@@ -116,7 +116,7 @@ class MegaMenuCrudController extends BackpackCustomCrudController
 
         $this->crud->setEditContentClass('col-md-12 bold-labels');
 
-        $this->crud->setCreateView('crud::pages.mega-menus.create');
+        $this->crud->setCreateView('backend::pages.mega-menus.create');
     }
 
     public function store(MegaMenuRequest $request)
@@ -191,7 +191,7 @@ class MegaMenuCrudController extends BackpackCustomCrudController
     protected function setupUpdateOperation()
     {
         $this->crud->setUpdateContentClass('col-md-12');
-        $this->crud->setUpdateView('crud::pages.mega-menus.create');
+        $this->crud->setUpdateView('backend::pages.mega-menus.create');
         $this->setupCreateOperation();
     }
 
@@ -221,7 +221,7 @@ class MegaMenuCrudController extends BackpackCustomCrudController
         $this->crud->addClause('where', 'menu_id', $request->menuId);
         $this->getReorderData();
 
-        return view('crud::pages.mega-menus.mega-menu-items.reorder', $this->data);
+        return view('backend::pages.mega-menus.mega-menu-items.reorder', $this->data);
     }
 
     public function getEACategories()

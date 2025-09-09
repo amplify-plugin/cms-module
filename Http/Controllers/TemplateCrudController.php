@@ -108,10 +108,10 @@ class TemplateCrudController extends BackpackCustomCrudController
             'label' => 'Thumbnail',
             'type' => 'custom_html',
             'value' => function (Template $template) {
-                $imageSrc = base_path("themes/{$template->slug}/public/screenshot.jpg");
+                $imageSrc = base_path("themes/{$template->slug}/assets/screenshot.jpg");
                 $imageSrc = (file_exists($imageSrc))
                     ? $imageSrc
-                    : public_path(config('amplify.frontend.fallback_image_path', 'image/No-Image-Placeholder-min.png'));
+                    : public_path(config('amplify.frontend.fallback_image_path', 'assets/img/No-Image-Placeholder-min.png'));
 
                 $image = getimagesize($imageSrc);
                 $data = base64_encode(file_get_contents($imageSrc));

@@ -79,7 +79,7 @@ class MenuGroupCrudController extends BackpackCustomCrudController
             [
                 'name' => 'template_id',
                 'type' => 'hidden',
-                'default' => template()->id,
+                'default' => theme()->id,
             ],
             [
                 'name' => 'name',

@@ -104,7 +104,7 @@ class FooterCrudController extends BackpackCustomCrudController
     {
         CRUD::setValidation(FooterRequest::class);
 
-        $activeTemplate = template();
+        $activeTemplate = theme();
         $this->data['active_template'] = $activeTemplate;
         $this->data['footer'] = $this->crud->model->find(request()->id);
         $this->data['footer_layouts'] = getFooterLayoutList();

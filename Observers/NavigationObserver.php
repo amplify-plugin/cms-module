@@ -13,7 +13,7 @@ class NavigationObserver
      */
     public function creating(Navigation $navigation)
     {
-        $navigation->template_id = template()->id;
+        $navigation->template_id = theme()->id;
     }
 
     /**

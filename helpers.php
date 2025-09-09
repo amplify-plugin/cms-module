@@ -93,7 +93,7 @@ if (! function_exists('store')) {
     }
 }
 
-if (! function_exists('template')) {
+if (! function_exists('theme')) {
     /** Return a template from configuration
      * if a index of cms config file themes array provided
      * it will return else it will return current active one (default)
@@ -105,7 +105,7 @@ if (! function_exists('template')) {
      *
      * @see config/amplify/cms.php
      */
-    function template($index = null): object
+    function theme($index = null): object
     {
         $index = ($index == null) ? config('amplify.cms.default') : $index;
 
@@ -143,8 +143,8 @@ if (! function_exists('theme_view')) {
     {
         $directory = ($directory != null) ? ".{$directory}" : '';
 
-        $target_view = trim('template::'.template()->component_folder."{$directory}.{$view}", '.');
-        $fallback_view = trim('template::'.template('fallback')->component_folder."{$directory}.{$view}", '.');
+        $target_view = trim('template::'.theme()->component_folder."{$directory}.{$view}", '.');
+        $fallback_view = trim('template::'.theme('fallback')->component_folder."{$directory}.{$view}", '.');
 
         if (view()->exists($target_view)) {
             return $target_view;
@@ -166,17 +166,17 @@ if (! function_exists('theme_asset')) {
      */
     function theme_asset($path, $template_id = null): string
     {
-        $template_root_path = template($template_id)->asset_folder;
+        $template_root_path = theme($template_id)->asset_folder;
 
         return "frontend/{$template_root_path}/{$path}";
     }
 }
 
-if (! function_exists('template_option')) {
+if (! function_exists('theme_option')) {
 
     function theme_option($key, ?string $template = null, $default = null): string
     {
-        $template = template($template);
+        $template = theme($template);
 
         $templateOptions = collect($template->options);
 

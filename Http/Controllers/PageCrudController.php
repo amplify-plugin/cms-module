@@ -187,7 +187,7 @@ class PageCrudController extends BackpackCustomCrudController
     protected function setupCreateOperation()
     {
         CRUD::setValidation(PageRequest::class);
-        $activeTemplate = template();
+        $activeTemplate = theme();
         $this->crud->setCreateContentClass('col-lg-12');
         $this->data['page'] = $this->crud->model->find(request()->id);
         $this->data['active_template'] = $activeTemplate;

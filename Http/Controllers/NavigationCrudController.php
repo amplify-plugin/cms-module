@@ -43,7 +43,7 @@ class NavigationCrudController extends BackpackCustomCrudController
     protected function setupListOperation()
     {
         if (empty(request()->get('template_id'))) {
-            $this->crud->addClause('where', 'template_id', '=', template()->id);
+            $this->crud->addClause('where', 'template_id', '=', theme()->id);
         }
 
         CRUD::column('id')->type('number')->thousands_sep('');
@@ -128,8 +128,8 @@ class NavigationCrudController extends BackpackCustomCrudController
     {
         CRUD::setValidation(NavigationRequest::class);
 
-        $this->data['menu_list'] = MenuGroup::where('template_id', template()->id)->get();
-        $this->data['active_template'] = template();
+        $this->data['menu_list'] = MenuGroup::where('template_id', theme()->id)->get();
+        $this->data['active_template'] = theme();
 
         $this->data['navigation'] = $this->crud->model->find(request()->id);
         $this->data['nav_layouts'] = getNavigationLayoutList();

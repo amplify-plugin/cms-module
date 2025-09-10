@@ -1,5 +1,5 @@
 <div class="cs-full-page-loader d-none">
-    <img style="width: 100px; height: 100px; margin: auto auto" src="{{ url("img/loading.gif") }}" alt="">
+    <img style="width: 100px; height: 100px; margin: auto auto" src="{{ url("assets/img/loading.gif") }}" alt="">
 </div>
 <script>
     function getFullPageLoader() {

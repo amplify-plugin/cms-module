@@ -12,7 +12,7 @@
             <page-builder></page-builder>
         </div>
 
-        <script src="{{  asset("assets/js/app.js") }}"></script>
+        <script src="{{  asset("vendor/backend/js/backend.js") }}"></script>
         <script src="{{ asset('page-builder/js/new.js') }}"></script>
         <script src="{{ asset('page-builder/js/lib/grapes.min.js') }}"></script>
         <script src="{{ asset('page-builder/js/lib/grapesjs-preset-webpage.min.js') }}"></script>

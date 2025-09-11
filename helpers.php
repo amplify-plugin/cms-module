@@ -168,7 +168,7 @@ if (! function_exists('theme_asset')) {
     {
         $template_root_path = theme($template_id)->slug;
 
-        return "themes/{$template_root_path}/assets/{$path}";
+        return asset("themes/{$template_root_path}/assets/{$path}");
     }
 }
 

@@ -521,7 +521,7 @@ class PageCrudController extends BackpackCustomCrudController
         $clientUsableWidgetCollection = $widgetCollection
             ->filter(function ($widget) {
                 return ($widget['internal'] == false)
-                    && ($widget['@client'] == null || $widget['@client'] == config('amplify.basic.client_code'));
+                    && ($widget['@client'] == null || $widget['@client'] == config('amplify.client_code'));
             })->map(function ($item) {
                 $item['name'] = 'x-'.$item['name'];
 

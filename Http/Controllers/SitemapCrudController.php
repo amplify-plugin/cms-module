@@ -115,7 +115,7 @@ class SitemapCrudController extends BackpackCustomCrudController
     {
         CRUD::setValidation(SitemapRequest::class);
 
-        Widget::add()->type('script')->content(asset('assets/js/admin/forms/sitemap.js'));
+        Widget::add()->type('script')->content(asset('vendor/backend/js/forms/sitemap.js'));
 
         CRUD::field('mappable')
             ->type('relationship')

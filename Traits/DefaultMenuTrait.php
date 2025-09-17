@@ -1,6 +1,6 @@
 <?php
 
-namespace Amplify\Cms\Traits;
+namespace Amplify\System\Cms\Traits;
 
 use Amplify\System\Cms\Models\Menu;
 use Amplify\System\Cms\Models\MenuGroup;

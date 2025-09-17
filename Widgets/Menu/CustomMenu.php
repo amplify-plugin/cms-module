@@ -6,7 +6,7 @@ use Amplify\System\Cms\Models\Menu;
 use Amplify\System\Cms\Models\MenuGroup;
 use Amplify\System\Helpers\UtilityHelper;
 use Amplify\Widget\Abstracts\BaseComponent;
-use Amplify\Cms\Traits\DefaultMenuTrait;
+use Amplify\System\Cms\Traits\DefaultMenuTrait;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Query\JoinClause;

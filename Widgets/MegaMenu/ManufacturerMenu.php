@@ -4,7 +4,7 @@ namespace Amplify\System\Cms\Widgets\MegaMenu;
 
 use Amplify\System\Backend\Models\Manufacturer;
 use Amplify\Widget\Abstracts\BaseComponent;
-use Amplify\Cms\Traits\MegaMenuTrait;
+use Amplify\System\Cms\Traits\MegaMenuTrait;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;

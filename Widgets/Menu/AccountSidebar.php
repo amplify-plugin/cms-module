@@ -4,7 +4,7 @@ namespace Amplify\System\Cms\Widgets\Menu;
 
 use Amplify\System\Cms\Models\Menu;
 use Amplify\Widget\Abstracts\BaseComponent;
-use Amplify\Widget\Traits\DefaultMenuTrait;
+use Amplify\Cms\Traits\DefaultMenuTrait;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Query\JoinClause;

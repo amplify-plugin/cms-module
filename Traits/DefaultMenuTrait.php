@@ -100,13 +100,38 @@ trait DefaultMenuTrait
 
     private function setActiveMenu(Collection &$menus): void
     {
-        $menus->each(function ($menu) {
-            $menu->is_active = $menu->url_type !== 'external' && (request()->is($menu->url_path) || request()->is($menu->url_path.'/*'));
+        $currentPath = request()->path();
+        $currentUrl = url()->current();
 
-            if ($menu->has_children) {
-                $this->setActiveMenu($menu->children);
+        foreach ($menus as $menu) {
+            // Check if the current URL matches the menu URL
+            if ($menu->url && (rtrim($menu->url, '/') === rtrim($currentUrl, '/'))) {
+                $menu->is_active = true;
+                continue;
             }
-        });
+
+            // Check if the current path matches the menu URL path
+            if ($menu->url_path && $currentPath === $menu->url_path) {
+                $menu->is_active = true;
+                continue;
+            }
+
+            // Check if current path starts with menu path for sections/categories
+            if ($menu->url_path && str_starts_with($currentPath, $menu->url_path)) {
+                $menu->is_active = true;
+                continue;
+            }
+
+            // Check if the menu has children and recursively set active status
+            if ($menu->children->isNotEmpty()) {
+                $this->setActiveMenu($menu->children);
+
+                // If any child is active, mark parent as active too
+                if ($menu->children->contains('is_active', true)) {
+                    $menu->is_active = true;
+                }
+            }
+        }
     }
 
     public function shouldRender(): bool

@@ -21,7 +21,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Prologue\Alerts\Facades\Alert;
-use ZipArchive;
 
 /**
  * Class TemplateCrudController
@@ -47,30 +46,30 @@ class TemplateCrudController extends BackpackCustomCrudController
     public function setup()
     {
         CRUD::setModel(Template::class);
-        CRUD::setRoute(config('backpack.base.route_prefix').'/template');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/template');
         CRUD::setEntityNameStrings('template', 'themes');
     }
 
     protected function setupCustomRoutes($segment, $routeName, $controller)
     {
-        Route::get($segment.'/set-template-active/{template}', [
-            'as' => $routeName.'.set.activeTemplate',
-            'uses' => $controller.'@setActiveTemplate',
+        Route::get($segment . '/set-template-active/{template}', [
+            'as' => $routeName . '.set.activeTemplate',
+            'uses' => $controller . '@setActiveTemplate',
             'operation' => 'setActiveTemplate',
         ]);
-        Route::get($segment.'/installation-info', [
-            'as' => $routeName.'.installation-info',
-            'uses' => $controller.'@installationInfo',
+        Route::get($segment . '/installation-info', [
+            'as' => $routeName . '.installation-info',
+            'uses' => $controller . '@installationInfo',
             'operation' => 'installation-info',
         ]);
-        Route::post($segment.'/chunk-upload', [
-            'as' => $routeName.'.chunk-upload',
-            'uses' => $controller.'@chunkUpload',
+        Route::post($segment . '/chunk-upload', [
+            'as' => $routeName . '.chunk-upload',
+            'uses' => $controller . '@chunkUpload',
             'operation' => 'chunk-upload',
         ]);
-        Route::post($segment.'/install-template', [
-            'as' => $routeName.'.install-template',
-            'uses' => $controller.'@installTemplate',
+        Route::post($segment . '/install-template', [
+            'as' => $routeName . '.install-template',
+            'uses' => $controller . '@installTemplate',
             'operation' => 'install-template',
         ]);
     }
@@ -88,10 +87,10 @@ class TemplateCrudController extends BackpackCustomCrudController
             'name' => 'id',
             'type' => 'custom_html',
             'value' => function ($model) {
-                if ($model->is_new === 1 && ! $model->is_updated) {
-                    return $model->id.' <sup class="badge text-danger px-0">New</sup>';
+                if ($model->is_new === 1 && !$model->is_updated) {
+                    return $model->id . ' <sup class="badge text-danger px-0">New</sup>';
                 } elseif ($model->is_updated) {
-                    return $model->id.' <sup class="badge text-warning px-0">Updated</sup>';
+                    return $model->id . ' <sup class="badge text-warning px-0">Updated</sup>';
                 } else {
                     return $model->id;
                 }
@@ -106,21 +105,9 @@ class TemplateCrudController extends BackpackCustomCrudController
         CRUD::addColumn([
             'name' => 'screenshot',
             'label' => 'Thumbnail',
-            'type' => 'custom_html',
-            'value' => function (Template $template) {
-                $imageSrc = base_path("themes/{$template->slug}/assets/screenshot.jpg");
-                $imageSrc = (file_exists($imageSrc))
-                    ? $imageSrc
-                    : public_path(config('amplify.frontend.fallback_image_path', 'assets/img/No-Image-Placeholder-min.png'));
-
-                $image = getimagesize($imageSrc);
-                $data = base64_encode(file_get_contents($imageSrc));
-
-                return <<<HTML
-<img src="data:{$image['mime']};base64, {$data}" style="width: 192px; object-fit: contain" class="img-fluid img-thumbnail"/>
-HTML;
-
-            },
+            'type' => 'image',
+            'height' => '234px',
+            'width' => '192px',
             'wrapper' => [
                 'class' => 'text-center',
                 'element' => 'div',
@@ -162,10 +149,8 @@ HTML;
     {
         $target_directory = base_path('themes/tmp');
 
-        if (! is_dir($target_directory)) {
+        if (!is_dir($target_directory)) {
             mkdir($target_directory, 0777, true);
-        } else {
-
         }
 
         CRUD::setValidation(TemplateRequest::class);
@@ -184,21 +169,9 @@ HTML;
             [
                 'name' => 'screenshot',
                 'label' => 'Thumbnail',
-                'type' => 'custom_html',
-                'value' => function (Template $template) {
-                    $imageSrc = base_path("themes/{$template->slug}/public/screenshot.jpg");
-                    $imageSrc = (file_exists($imageSrc))
-                        ? $imageSrc
-                        : public_path(config('amplify.frontend.fallback_image_path', 'image/No-Image-Placeholder-min.png'));
-
-                    $image = getimagesize($imageSrc);
-                    $data = base64_encode(file_get_contents($imageSrc));
-
-                    return <<<HTML
-<img src="data:{$image['mime']};base64, {$data}" style="width: 192px; object-fit: contain" class="img-fluid img-thumbnail"/>
-HTML;
-
-                },
+                'type' => 'image',
+                'height' => '234px',
+                'width' => '192px',
                 'wrapper' => [
                     'class' => 'text-center',
                     'element' => 'div',
@@ -295,7 +268,7 @@ HTML;
         $receiver = new ChunkUpload($request);
 
         return $receiver->receive('file', function ($file) {
-            $zip = new ZipArchive;
+            $zip = new \ZipArchive;
             if ($zip->open($file) === true) {
                 $zip->extractTo(base_path('themes/tmp'));
                 $zip->close();
@@ -315,28 +288,28 @@ HTML;
     {
         try {
 
-            if (! file_exists(base_path('themes/tmp/config.json'))) {
+            if (!file_exists(base_path('themes/tmp/config.json'))) {
                 throw new \InvalidArgumentException('`config.json` file is missing');
             }
 
             $config = json_decode(file_get_contents(base_path('themes/tmp/config.json')), true);
 
-            if (! file_exists(base_path('themes/tmp/public/'.$config['screenshot']))) {
+            if (!file_exists(base_path('themes/tmp/assets/' . $config['screenshot']))) {
                 throw new \InvalidArgumentException('`Thumbnail Screenshot` file is missing');
             }
 
             $target_dest = public_path('.tmp/');
 
-            if (! dir($target_dest)) {
+            if (!dir($target_dest)) {
                 mkdir($target_dest, 0777, true);
             }
 
-            copy(base_path('themes/tmp/public/'.$config['screenshot']), $target_dest.$config['screenshot']);
+            copy(base_path('themes/tmp/assets/' . $config['screenshot']), $target_dest . $config['screenshot']);
 
             $res = [
                 'name' => $config['label'],
                 'author' => $config['author'],
-                'template_banner' => asset('.tmp/'.$config['screenshot']),
+                'template_banner' => asset('.tmp/' . $config['screenshot']),
             ];
 
             return response()->json($res, 200);
@@ -352,7 +325,8 @@ HTML;
         $destination = null;
         try {
             $config = json_decode(file_get_contents(base_path('themes/tmp/config.json')), true);
-            $destination = base_path('themes/'.$config['slug']);
+
+            $destination = base_path("themes/{$config['slug']}");
 
             if (is_dir($destination)) {
                 $this->deleteTmpTemplate();
@@ -371,7 +345,7 @@ HTML;
                 'component_folder' => $config['component_folder'],
                 'asset_folder' => $config['asset_folder'],
                 'description' => $config['description'],
-                'screenshot' => assets_image('frontend/'.$config['asset_folder'].'/'.$config['screenshot']),
+                'screenshot' => "themes/{$config['asset_folder']}/assets/{$config['screenshot']}",
                 'readme' => $config['readme'],
                 'is_new' => true,
                 'options' => $config['options'] ?? [],
@@ -379,7 +353,7 @@ HTML;
 
             return response()->json([
                 'message' => 'Successfully installed template.',
-            ], 200);
+            ]);
         } catch (\Throwable $th) {
             $this->deleteTmpTemplate($destination);
 
@@ -391,9 +365,9 @@ HTML;
 
     private function deleteTmpTemplate($destination = null): void
     {
-        exec('rm -rf '.base_path('public/tmp/*'));
+        exec('rm -rf ' . base_path('public/tmp/*'));
         if ($destination) {
-            exec('rm -rf '.$destination);
+            exec('rm -rf ' . $destination);
         }
     }
 }

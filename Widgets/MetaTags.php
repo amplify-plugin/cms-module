@@ -2,35 +2,26 @@
 
 namespace Amplify\System\Cms\Widgets;
 
-use Amplify\System\Cms\Models\Page;
 use Amplify\Widget\Abstracts\BaseComponent;
 use Closure;
-use ErrorException;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Str;
 
 /**
  * @class MetaTags
  */
 class MetaTags extends BaseComponent
 {
-    /**
-     * @var array
-     */
-    public $options;
-
-    public array $tags;
-
     private array $uniqueTags;
+
+    public array $tags = [];
 
     /**
      * Create a new component instance.
      */
     public function __construct(array $tags = [])
     {
-        $this->options = Config::get('amplify.widget.'.__CLASS__, []);
+        parent::__construct();
 
         $this->tags = [];
 
@@ -50,48 +41,43 @@ class MetaTags extends BaseComponent
 
     /**
      * Get the view / contents that represent the component.
-     *
-     * @throws ErrorException
      */
     public function render(): View|Closure|string
     {
-        $key = Str::lower(Str::slug(request()->path()));
-        if (! Cache::has($key)) {
+        $commonTags = Cache::remember('site-common-tags', 24 * HOUR, function () {
+            return $this->loadCommonMetaTags();
+        });
 
-            $this->loadCommonMetaTags()
-                ->loadPageMetaTags()
-                ->fillSystemTags();
-
-            Cache::put($key, $this->tags, 24 * HOUR);
+        //Page Specific Cache
+        $pageTags = [];
+        if ($page = store('dynamicPageModel', false)) {
+            $pageTags = Cache::remember("site-{$page->page_type}", 24 * HOUR, function () use ($page) {
+                return $this->loadPageMetaTags($page);
+            });
         }
 
-        $this->tags = Cache::get($key);
-
-        array_walk($this->uniqueTags, function ($item) {
-            $this->tags[] = $item;
-        });
+        $this->tags = array_merge($this->tags, $commonTags, $pageTags, $this->fillSystemTags(), $this->uniqueTags);
 
         return view('cms::meta-tags');
     }
 
-    private function fillSystemTags(): void
+    private function fillSystemTags(): array
     {
-        array_push(
-            $this->tags,
+        return [
             ['id' => 'quick-order-link', 'data-link' => route('frontend.order.quick-order-add-to-order')],
             ['id' => 'check-customer-list-name-link', 'data-link' => route('frontend.order.order-list.check-name-availability')],
             ['id' => 'add-product-to-customer-list-link', 'data-link' => route('frontend.order-list.add-product')],
-        );
+        ];
 
     }
 
-    private function loadCommonMetaTags(): static
+    private function loadCommonMetaTags(): array
     {
-        array_push($this->tags,
+        return [
             ['name' => 'copyright', 'content' => config('app.name')],
             ['name' => 'language', 'content' => strtoupper(config('app.locale'))],
             ['name' => 'Classification', 'content' => config('app.name')],
-            ['name' => 'author', 'content' => 'Hafijul Islam, '.config('amplify.cms.email', 'hafijul233@gmail.com')],
+            ['name' => 'author', 'content' => 'Hafijul Islam, ' . config('amplify.cms.email', 'hafijul233@gmail.com')],
             ['name' => 'reply-to', 'content' => config('mail.admin_email', 'hafijul233@gmail.com')],
             ['name' => 'owner', 'content' => config('app.name')],
             ['name' => 'url', 'content' => config('app.url')],
@@ -103,50 +89,19 @@ class MetaTags extends BaseComponent
             ['name' => 'HandheldFriendly', 'content' => 'True'],
             ['name' => 'date', 'content' => now()->format('M. D, Y')],
             ['name' => 'search_date', 'content' => now()->format('Y-m-d')],
-        );
-
-        return $this;
+        ];
     }
 
-    /**
-     * @throws ErrorException
-     */
-    private function loadPageMetaTags(): static
+    private function loadPageMetaTags($page): array
     {
-        $page = store('dynamicPageModel');
-
-        if ($page) {
-
-            array_push(
-                $this->tags,
-                ['name' => 'keywords', 'content' => ($page->meta_key ?? '')],
-                ['name' => 'description', 'content' => ($page->meta_description ?? '')],
-                ['name' => 'pagename', 'content' => ($page->name ?? '')],
-                ['name' => 'category', 'content' => $this->getPageTypeLabel($page->page_type)],
-                ['name' => 'pageKey', 'content' => ($page->slug ?? '#')],
-                ['name' => 'revised', 'content' => $page->updated_at->format('l, F dS, Y, h:i a')],
-            );
-
-            if (in_array($page->page_type, ['shop', 'single_product'])) {
-                $this->loadProductMetaTags($page);
-            }
-        }
-
-        return $this;
-    }
-
-    private function loadProductMetaTags(Page $page): void
-    {
-        array_push(
-            $this->tags,
+        return [
             ['name' => 'keywords', 'content' => ($page->meta_key ?? '')],
             ['name' => 'description', 'content' => ($page->meta_description ?? '')],
             ['name' => 'pagename', 'content' => ($page->name ?? '')],
             ['name' => 'category', 'content' => $this->getPageTypeLabel($page->page_type)],
             ['name' => 'pageKey', 'content' => ($page->slug ?? '#')],
-            ['name' => 'revised', 'content' => $page->updated_at->format('l, F dS, Y, h:i a')],
-        );
-
+            ['name' => 'revised', 'content' => $page->updated_at->format('l, F dS, Y, h:i a')]
+        ];
     }
 
     private function getPageTypeLabel(string $type)
@@ -158,12 +113,11 @@ class MetaTags extends BaseComponent
 
     public function arrayToHtmlAttributes(array $data): string
     {
-
         $html = '';
 
         foreach ($data as $attribute => $value) {
-            $html .= (' '.str_replace('.', '-', $attribute));
-            $html .= ('="'.str_replace('"', "'", ($value ?? '')).'"');
+            $html .= (' ' . str_replace('.', '-', $attribute));
+            $html .= ('="' . str_replace('"', "'", ($value ?? '')) . '"');
         }
 
         return $html;

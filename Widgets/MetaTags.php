@@ -96,7 +96,7 @@ class MetaTags extends BaseComponent
     {
         return [
             ['name' => 'keywords', 'content' => ($page->meta_key ?? '')],
-            ['name' => 'description', 'content' => ($page->meta_description ?? '')],
+            ['name' => 'description', 'content' => implode(", ", [$page->meta_description ?? '', $page->name, $page->breadcrumb_title, $page->title])],
             ['name' => 'pagename', 'content' => ($page->name ?? '')],
             ['name' => 'category', 'content' => $this->getPageTypeLabel($page->page_type)],
             ['name' => 'pageKey', 'content' => ($page->slug ?? '#')],

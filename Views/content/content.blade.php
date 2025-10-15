@@ -1,3 +1,3 @@
 <div {!! $htmlAttributes !!}>
-    {!! $content ?? '' !!}
+    {!! $entry->content ?? '' !!}
 </div>

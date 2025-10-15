@@ -697,6 +697,17 @@ class WidgetProvider extends ServiceProvider
                 '@nestedItems' => [],
                 'description' => 'Display the title of content',
             ],
+            \Amplify\System\Cms\Widgets\Content\Slider::class => [
+                'name' => 'content-slider',
+                'reserved' => true,
+                'internal' => false,
+                '@inside' => null,
+                '@client' => null,
+                'model' => [],
+                '@attributes' => [],
+                '@nestedItems' => [],
+                'description' => 'Display the title of content',
+            ],
 
         ];
 

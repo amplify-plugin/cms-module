@@ -13,7 +13,7 @@ use Illuminate\Contracts\View\View;
  */
 class Slider extends BaseComponent
 {
-    public function __construct()
+    public function __construct(public string $header )
     {
         parent::__construct();
     }
@@ -31,7 +31,25 @@ class Slider extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-
-        return view('cms::content.slider');
+        $contents = \Amplify\System\Cms\Models\Content::all();
+        return view('cms::content.slider', compact('contents'));
+    }
+    public function carouselOptions(): string
+    {
+        return json_encode([
+            'lazyLoad' => true,
+            'animateIn' => 'fadeIn',
+            'animateOut' => 'fadeOut',
+            'dots' => true,
+            'nav' => true,
+            'margin' => 30,
+            'responsive' => [
+                '0' => ['items' => 1],
+                '576' => ['items' => 2],
+                '768' => ['items' => 2],
+                '991' => ['items' => 3],
+                '1200' => ['items' => 3],
+            ],
+        ]);
     }
 }

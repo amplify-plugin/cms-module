@@ -36,7 +36,7 @@ Route::group([
 });
 
 Route::name('frontend.')->middleware(['web', ProtectAgainstSpam::class, ContactForceShippingAddressSelection::class])->group(function () {
-    Route::model('content', Content::class, function ($value, $route) {
+    Route::model('content', Content::class, function ($value) {
         return Content::published()->whereSlug($value)->firstOrFail();
     });
     Route::get('articles/{content}', ContentDetailController::class)->name('contents.show');

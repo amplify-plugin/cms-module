@@ -57,6 +57,13 @@ class Content extends Model implements Auditable
     |--------------------------------------------------------------------------
     */
 
+    public static function guessContentModel()
+    {
+        return self::when(
+            request()->route('content') != null, fn (Builder $builder) => $builder->published()->whereSlug(request()->route('content')))
+            ->firstOrFail();
+    }
+
     public function changeApprovalBtn(): string
     {
         return '<a class="btn btn-sm btn-link" href="' . route('content.changeApproval', $this->id)

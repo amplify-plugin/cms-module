@@ -140,7 +140,17 @@ class ContentCrudController extends BackpackCustomCrudController
             'type' => 'select2_multiple',
             'options' => (fn ($query) => $query->orderBy('name')->get()),
         ]);
+        CRUD::addField([
+            'label' => 'Cover Image',
+            'name' => 'cover_image',
+            'type' => 'browse',
+            'attributes' => [
+                'id' => 'image',
+            ],
+            'crop' => true,
+        ]);
         CRUD::field('content')->type('ckeditor');
+        CRUD::field('summary')->type('textarea');
         CRUD::addField([
             'name' => 'status',
             'type' => 'select_from_array',
@@ -182,7 +192,7 @@ class ContentCrudController extends BackpackCustomCrudController
 
     public function changeStatus(Content $content, $status)
     {
-        if (in_array($status, [0, 1, 2])) {
+        if (in_array($status, ['0', '1', '2'])) {
             $content->status = $status;
             $content->save();
         }

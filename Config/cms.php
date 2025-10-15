@@ -880,7 +880,6 @@ return [
                 'params' => '',
             ],
         ],
-
         [
             'code' => 'shipping_address',
             'label' => 'Shipping Address',
@@ -891,6 +890,18 @@ return [
                 'type' => 'slug',
                 'name' => '',
                 'params' => '',
+            ],
+        ],
+        [
+            'code' => 'content_detail',
+            'label' => 'Content Preview',
+            'description' => 'Content Full Preview Page',
+            'middleware' => [],
+            'reserved' => true,
+            'url' => [
+                'type' => 'route',
+                'name' => 'frontend.contents.show',
+                'params' => 'demo',
             ],
         ],
     ],

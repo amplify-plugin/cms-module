@@ -2,13 +2,16 @@
 
 namespace Amplify\System\Cms\Models;
 
-use Amplify\System\Cms\Models\ContentCategory;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use OwenIt\Auditing\Contracts\Auditable;
 
+/**
+ * @method static Builder published()
+ */
 class Content extends Model implements Auditable
 {
     use CrudTrait;
@@ -57,8 +60,8 @@ class Content extends Model implements Auditable
 
     public function changeApprovalBtn(): string
     {
-        return '<a class="btn btn-sm btn-link" href="'.route('content.changeApproval', $this->id)
-               .'" data-toggle="tooltip" title="Create Classifcation"><i class="lar la-user"></i> Set as '.($this->is_approved ? 'rejected' : 'approved').'</a>';
+        return '<a class="btn btn-sm btn-link" href="' . route('content.changeApproval', $this->id)
+            . '" data-toggle="tooltip" title="Create Classifcation"><i class="lar la-user"></i> Set as ' . ($this->is_approved ? 'rejected' : 'approved') . '</a>';
     }
 
     public function changeStatusBtn(): string
@@ -70,9 +73,9 @@ class Content extends Model implements Auditable
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right">
                     <li class="dropdown-header">Change to:</li>
-                    <a class="dropdown-item" href="'.route('content.changeStatus', [$this->id, 0]).'">Draft</a>
-                    <a class="dropdown-item" href="'.route('content.changeStatus', [$this->id, 1]).'">Publish</a>
-                    <a class="dropdown-item" href="'.route('content.changeStatus', [$this->id, 2]).'">Archive</a>
+                    <a class="dropdown-item" href="' . route('content.changeStatus', [$this->id, 0]) . '">Draft</a>
+                    <a class="dropdown-item" href="' . route('content.changeStatus', [$this->id, 1]) . '">Publish</a>
+                    <a class="dropdown-item" href="' . route('content.changeStatus', [$this->id, 2]) . '">Archive</a>
                 </ul>
             </div>
         ';
@@ -94,6 +97,10 @@ class Content extends Model implements Auditable
     | SCOPES
     |--------------------------------------------------------------------------
     */
+    public function scopePublished(Builder $builder)
+    {
+        return $builder->where('status', '=', 1);
+    }
 
     /*
     |--------------------------------------------------------------------------

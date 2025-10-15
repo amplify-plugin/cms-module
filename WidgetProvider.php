@@ -2,21 +2,9 @@
 
 namespace Amplify\System\Cms;
 
-use Amplify\System\Sayt\Commands\ReconfigureSaytSearchCommand;
-use Amplify\System\Sayt\Controllers\SearchProductController;
-use Amplify\System\Sayt\Widgets\ShopAttributeFilter;
-use Amplify\System\Sayt\Widgets\ShopCategories;
-use Amplify\System\Sayt\Widgets\ShopCurrentFilter;
-use Amplify\System\Sayt\Widgets\ShopEmptyResult;
-use Amplify\System\Sayt\Widgets\ShopInStockFilter;
-use Amplify\System\Sayt\Widgets\SiteSearch;
-use Amplify\System\Sayt\Widgets\ShopPagination;
-use Amplify\System\Sayt\Widgets\ShopSearchInResult;
-use Amplify\System\Sayt\Widgets\ShopSidebar;
-use Amplify\System\Sayt\Widgets\ShopToolbar;
+use Amplify\Widget\Abstracts\Widget;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Routing\Router;
 
 class WidgetProvider extends ServiceProvider
 {
@@ -29,28 +17,6 @@ class WidgetProvider extends ServiceProvider
     public function boot()
     {
         $widgets = [
-            \Amplify\System\Cms\Widgets\Content::class => [
-                'name' => 'content',
-                'reserved' => true,
-                'internal' => false,
-                '@inside' => null,
-                '@client' => null,
-                'model' => ['static_page'],
-                '@attributes' => [
-                    [
-                        'name' => 'content-id',
-                        'type' => 'content-dropdown',
-                        'value' => '',
-                    ],
-                    [
-                        'name' => 'show-title',
-                        'type' => 'boolean',
-                        'value' => true,
-                    ],
-                ],
-                '@nestedItems' => [],
-                'description' => '',
-            ],
             \Amplify\System\Cms\Widgets\TopBar::class => [
                 'name' => 'site.top-bar',
                 'reserved' => true,
@@ -615,10 +581,127 @@ class WidgetProvider extends ServiceProvider
                 '@nestedItems' => null,
                 'description' => '',
             ],
+            \Amplify\System\Cms\Widgets\Content::class => [
+                'name' => 'content',
+                'reserved' => true,
+                'internal' => false,
+                '@inside' => null,
+                '@client' => null,
+                'model' => [],
+                '@attributes' => [
+                    [
+                        'name' => 'content-id',
+                        'type' => 'content-dropdown',
+                        'value' => '',
+                    ],
+                    [
+                        'name' => 'show-title',
+                        'type' => 'boolean',
+                        'value' => true,
+                    ],
+                ],
+                '@nestedItems' => [],
+                'description' => '',
+            ],
+            \Amplify\System\Cms\Widgets\Content\Author::class => [
+                'name' => 'content.author',
+                'reserved' => true,
+                'internal' => false,
+                '@inside' => null,
+                '@client' => null,
+                'model' => ['content_detail'],
+                '@attributes' => [],
+                '@nestedItems' => [],
+                'description' => 'Display the author name of content',
+            ],
+            \Amplify\System\Cms\Widgets\Content\Category::class => [
+                'name' => 'content.category',
+                'reserved' => true,
+                'internal' => false,
+                '@inside' => null,
+                '@client' => null,
+                'model' => ['content_detail'],
+                '@attributes' => [],
+                '@nestedItems' => [],
+                'description' => 'Display the category name of content',
+            ],
+            \Amplify\System\Cms\Widgets\Content\Content::class => [
+                'name' => 'content.content',
+                'reserved' => true,
+                'internal' => false,
+                '@inside' => null,
+                '@client' => null,
+                'model' => ['content_detail'],
+                '@attributes' => [],
+                '@nestedItems' => [],
+                'description' => 'Display the content preview of content',
+            ],
+            \Amplify\System\Cms\Widgets\Content\Cover::class => [
+                'name' => 'content.cover',
+                'reserved' => true,
+                'internal' => false,
+                '@inside' => null,
+                '@client' => null,
+                'model' => ['content_detail'],
+                '@attributes' => [],
+                '@nestedItems' => [],
+                'description' => 'Display the cover image of content',
+            ],
+            \Amplify\System\Cms\Widgets\Content\Datetime::class => [
+                'name' => 'content.date',
+                'reserved' => true,
+                'internal' => false,
+                '@inside' => null,
+                '@client' => null,
+                'model' => ['content_detail'],
+                '@attributes' => [
+                    ['name' => 'column' , 'type'=> 'select', 'options' => [
+                            'created_at' => 'When Drafted',
+                            'updated_at' => 'Last Modified',
+                            'published_at' => 'When Published',
+                        ]]
+                ],
+                '@nestedItems' => [],
+                'description' => 'Display the date time of created, updated, published of content',
+            ],
+            \Amplify\System\Cms\Widgets\Content\Navigation::class => [
+                'name' => 'content.navigation',
+                'reserved' => true,
+                'internal' => false,
+                '@inside' => null,
+                '@client' => null,
+                'model' => ['content_detail'],
+                '@attributes' => [],
+                '@nestedItems' => [],
+                'description' => 'Display the navigation panel of content',
+            ],
+            \Amplify\System\Cms\Widgets\Content\Summary::class => [
+                'name' => 'content.summary',
+                'reserved' => true,
+                'internal' => false,
+                '@inside' => null,
+                '@client' => null,
+                'model' => ['content_detail'],
+                '@attributes' => [],
+                '@nestedItems' => [],
+                'description' => 'Display the brief summary of content',
+            ],
+            \Amplify\System\Cms\Widgets\Content\Title::class => [
+                'name' => 'content.title',
+                'reserved' => true,
+                'internal' => false,
+                '@inside' => null,
+                '@client' => null,
+                'model' => ['content_detail'],
+                '@attributes' => [],
+                '@nestedItems' => [],
+                'description' => 'Display the title of content',
+            ],
+
         ];
 
         foreach ($widgets as $namespace => $options) {
-            Config::set("amplify.widget.{$namespace}", $options);
+            Widget::register($namespace, $options['name'], $options);
         }
     }
 

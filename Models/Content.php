@@ -2,10 +2,12 @@
 
 namespace Amplify\System\Cms\Models;
 
+use Amplify\System\Backend\Models\User;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use OwenIt\Auditing\Contracts\Auditable;
 
@@ -33,21 +35,18 @@ class Content extends Model implements Auditable
     // protected $hidden = [];
 
     protected $casts = [
-        'published_at' => 'date',
+        'published_at' => 'datetime',
     ];
 
-    protected static function boot()
+    protected static function booted()
     {
-        parent::boot();
-
-        self::created(function ($model) {
-            if ($model->status == 1) {
-                $model->update(['published_at' => Carbon::now()->toDateTimeString()]);
-            }
+        static::creating(function ($model) {
+            $model->author_id = backpack_auth()->id();
         });
-        self::updated(function ($model) {
+
+        static::saving(function ($model) {
             if ($model->status == 1 && $model->published_at == null) {
-                $model->update(['published_at' => Carbon::now()->toDateTimeString()]);
+                $model->published_at = now();
             }
         });
     }
@@ -86,6 +85,11 @@ class Content extends Model implements Auditable
     | RELATIONS
     |--------------------------------------------------------------------------
     */
+
+    public function author(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'author_id');
+    }
 
     public function categories(): BelongsToMany
     {

@@ -19,7 +19,7 @@ class Category extends BaseComponent
     {
         parent::__construct();
 
-        $this->entry = store('ContentModel', null);
+        $this->entry = store('contentModel', null);
     }
 
     /**
@@ -35,7 +35,11 @@ class Category extends BaseComponent
      */
     public function render(): View|Closure|string
     {
+        $categories = $this->entry->categories()
+            ->pluck('name')
+            ->map(fn($name) => '#'.ucwords($name))
+            ->implode(', ');
 
-        return view('cms::content.category');
+        return view('cms::content.category', compact('categories'));
     }
 }

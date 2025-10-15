@@ -19,7 +19,7 @@ class Author extends BaseComponent
     {
         parent::__construct();
 
-        $this->entry = store('ContentModel', null);
+        $this->entry = store('contentModel', null);
     }
 
     /**
@@ -35,7 +35,8 @@ class Author extends BaseComponent
      */
     public function render(): View|Closure|string
     {
+        $author = $this->entry->author;
 
-        return view('cms::content.author');
+        return view('cms::content.author', compact('author'));
     }
 }

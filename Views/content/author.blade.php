@@ -1,3 +1,3 @@
-<div {!! $htmlAttributes !!}>
-
-</div>
+<p {!! $htmlAttributes !!}>
+    {{ $author->name ?? '' }}
+</p>

@@ -13,6 +13,8 @@ return new class extends Migration {
         Schema::table('contents', function (Blueprint $table) {
             $table->string('cover_image')->nullable()->after('name');
             $table->text('summary')->nullable()->after('slug');
+            $table->unsignedBigInteger('author_id')->nullable()->after('id');
+            $table->unsignedBigInteger('page_id')->nullable()->after('status');
         });
     }
 
@@ -24,6 +26,8 @@ return new class extends Migration {
         Schema::table('contents', function (Blueprint $table) {
             $table->dropColumn('cover_image');
             $table->dropColumn('summary');
+            $table->dropColumn('author_id');
+            $table->dropColumn('page_id');
         });
     }
 };

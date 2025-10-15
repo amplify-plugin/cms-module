@@ -19,7 +19,7 @@ class Title extends BaseComponent
     {
         parent::__construct();
 
-        $this->entry = store('ContentModel', null);
+        $this->entry = store('contentModel', null);
     }
 
     /**

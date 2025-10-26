@@ -29,49 +29,43 @@
     </div>
 </div>
 
-@php
-    push_html(function () use($accountProfileImage, $accountName){
-        $actionRoute = route('frontend.profile.photo-update');
-        $token = csrf_field();
 
-        return <<<HTML
-            <div class="modal fade" id="profileImageUpdate" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-               <div class="modal-dialog modal-dialog-centered" role="document">
-                  <div class="modal-content">
-                     <form action="{$actionRoute}" method="post" enctype='multipart/form-data'>
-                        {$token}
-                        <div class="modal-header">
-                           <h5 class="modal-title" id="exampleModalLongTitle">Profile Photo</h5>
-                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                           <span aria-hidden="true">&times;</span>
-                           </button>
-                        </div>
-                        <div class="modal-body">
-                           <div class="text-center p-2 mb-4">
-                              <img id="profile_image_preview" src="{$accountProfileImage}"
-                                 alt="{$accountName}"
+@pushonce('html-default')
+    <div class="modal fade" id="profileImageUpdate" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <form action="{{ route('frontend.profile.photo-update') }}" method="post" enctype='multipart/form-data'>
+                    @csrf
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Profile Photo</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="text-center p-2 mb-4">
+                            <img id="profile_image_preview" src="{{$accountProfileImage}}"
+                                 alt="{{ $accountName }}"
                                  style="height: 128px !important; width: 128px !important; border-radius:50%; object-fit: cover;">
-                           </div>
-                           <div class="form-group">
-                              <div class="custom-file">
-                                 <input type="file"
-                                    name="profile_image"
-                                    accept="image/*"
-                                    onchange="loadFile(event, 'profile_image_preview');"
-                                    id="profile_image"
-                                    class="custom-file-input form-control-plaintext">
-                                 <label class="custom-file-label" for="profile_image" id="profile_image_preview_label">Select profile image</label>
-                              </div>
-                           </div>
                         </div>
-                        <div class="modal-footer d-flex justify-content-between">
-                           <button type="button" class="btn btn-secondary ml-0" data-dismiss="modal"><i class='icon-cross mr-1'></i>Close</button>
-                           <button type="submit" class="btn btn-primary"><i class='icon-upload mr-1'></i>Save</button>
+                        <div class="form-group">
+                            <div class="custom-file">
+                                <input type="file"
+                                       name="profile_image"
+                                       accept="image/*"
+                                       onchange="loadFile(event, 'profile_image_preview');"
+                                       id="profile_image"
+                                       class="custom-file-input form-control-plaintext">
+                                <label class="custom-file-label" for="profile_image" id="profile_image_preview_label">Select profile image</label>
+                            </div>
                         </div>
-                     </form>
-                  </div>
-               </div>
+                    </div>
+                    <div class="modal-footer d-flex justify-content-between">
+                        <button type="button" class="btn btn-secondary ml-0" data-dismiss="modal"><i class='icon-cross mr-1'></i>Close</button>
+                        <button type="submit" class="btn btn-primary"><i class='icon-upload mr-1'></i>Save</button>
+                    </div>
+                </form>
             </div>
-            HTML;
-    });
-@endphp
+        </div>
+    </div>
+@endpushonce

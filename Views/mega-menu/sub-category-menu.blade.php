@@ -6,11 +6,11 @@
         style="display: grid; overflow-y: auto; max-height: {{ mega_menu_max_height() }} !important; grid-template-columns: repeat( {{ $megaMenuColumns() }}, minmax(0, 1fr));">
         @forelse ($subCategories as $category)
             <li class="text-left">
-                <a href="{{ frontendShopURL($category->seoPath) }}">
+                <a href="{{ frontendShopURL($category->getSEOPath()) }}">
                     <span>
-                        {{ $category->name }}
-                        @if(!empty($category->productCount) && $category->productCount != '-1'  &&  $category->productCount > -1)
-                            ({{ $category->productCount }})
+                        {{ $category->getName() }}
+                        @if(!empty($category->getProductCount()) && $category->getProductCount() != '-1'  &&  $category->getProductCount() > -1)
+                            ({{ $category->getProductCount() }})
                         @endif
                     </span>
                 </a>

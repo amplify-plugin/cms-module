@@ -2,7 +2,6 @@
 
 namespace Amplify\System\Cms\Models;
 
-use Amplify\System\Sayt\Sayt;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -22,18 +21,14 @@ class MegaMenuProduct extends Model implements Auditable
 
     public function getProductInfoAttribute()
     {
-        $this->easyAskPageService = $this->easyAskPageService ?: new Sayt;
-        $easyAskProduct = $this->easyAskPageService->getProductById($this->product_id);
+        //$this->easyAskPageService = $this->easyAskPageService ?: new \Sayt;
+        $easyAskProduct = \Sayt::storeProductDetail($this->product_id);
 
-        if (! empty($easyAskProduct)) {
-            $product = $easyAskProduct->items[0];
-            $product->isSkuProduct = isset($product->Sku_Id) ? true : false;
-            $product->seopath = $easyAskProduct->seoPath;
+        $product = $easyAskProduct->getFirstProduct() ?? new \stdClass();
+        $product->isSkuProduct = isset($product->Sku_Id) ? true : false;
+        $product->seopath = $easyAskProduct->getCurrentSeoPath();
 
-            return $product;
-        }
-
-        return null;
+        return $product;
     }
 
     public function getProductColumnAttribute()

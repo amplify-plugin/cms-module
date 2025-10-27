@@ -24,7 +24,7 @@ class SubCategoryMenu extends BaseComponent
 
             if ($this->menu->category_seopath != null) {
 
-                $subCategories = \Sayt::getSubCategoriesByCategory($this->menu->category_seopath)?->categoryList ?? [];
+                $subCategories = \Sayt::storeCategories($this->menu->category_seopath)->getCategories() ?? [];
 
                 foreach ($subCategories as $subCategory) {
                     $this->push($subCategory, $subCategories);

@@ -123,7 +123,7 @@ trait DefaultMenuTrait
             }
 
             // Check if the menu has children and recursively set active status
-            if ($menu->children->isNotEmpty()) {
+            if (!empty($menu->children) && $menu->children->isNotEmpty()) {
                 $this->setActiveMenu($menu->children);
 
                 // If any child is active, mark parent as active too

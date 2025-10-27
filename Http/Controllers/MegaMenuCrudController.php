@@ -7,7 +7,6 @@ use Amplify\System\Cms\Http\Requests\MegaMenuRequest;
 use Amplify\System\Cms\Models\MegaMenu;
 use Amplify\System\Cms\Models\Menu;
 use Amplify\System\Marketing\Models\MerchandisingZone;
-use Amplify\System\Sayt\Sayt;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Http\Request;
 
@@ -121,6 +120,7 @@ class MegaMenuCrudController extends BackpackCustomCrudController
 
     public function store(MegaMenuRequest $request)
     {
+
         $data = $this->formatMegaMenuRequest($request);
 
         $megaMenu = MegaMenu::create($data);
@@ -133,7 +133,7 @@ class MegaMenuCrudController extends BackpackCustomCrudController
 
     private function formatMegaMenuRequest(Request $request): array
     {
-        $data = $request->only(['name', 'menu_column_size', 'type', 'menu_id', 'show_name', 'enabled']);
+        $data = $request->only(['name', 'menu_column_size', 'type', 'menu_id', 'show_name', 'enabled', 'only_featured_manufacturer']);
         $links = [];
 
         /* if Mega menu type is default */
@@ -153,7 +153,7 @@ class MegaMenuCrudController extends BackpackCustomCrudController
 
         $data['only_featured_manufacturer'] = ($request->type == 'manufacturer')
             ? $request->input('only_featured_manufacturer')
-            : null;
+            : false;
 
         /* if type is sub-category */
         if ($request->type == 'sub-category') {
@@ -226,6 +226,6 @@ class MegaMenuCrudController extends BackpackCustomCrudController
 
     public function getEACategories()
     {
-        return optional(Sayt::getEaProductsData('shop')['categories'])->categoryList;
+        return \Sayt::storeCategories()->getCategories();
     }
 }

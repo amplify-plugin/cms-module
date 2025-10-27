@@ -3,7 +3,7 @@
 namespace Amplify\System\Cms\Http\Requests;
 
 use Amplify\System\Cms\Models\MegaMenu;
-use App\Rules\MenuColumnSizeRule;
+use Amplify\System\Rules\MenuColumnSizeRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 

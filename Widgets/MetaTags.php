@@ -29,6 +29,7 @@ class MetaTags extends BaseComponent
 
         $this->uniqueTags[] = ['name' => 'csrf-token', 'content' => csrf_token()];
         $this->uniqueTags[] = ['id' => 'check-authenticated', 'data-link' => customer_check() ? 'true' : 'false'];
+        $this->uniqueTags[] = ['name' => 'authenticated', 'content' => customer_check() ? 'true' : 'false'];
     }
 
     /**

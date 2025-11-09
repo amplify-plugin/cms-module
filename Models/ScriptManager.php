@@ -30,7 +30,17 @@ class ScriptManager extends Model implements Auditable
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
-
+    /**
+     * The "booted" method of the model.
+     */
+    protected static function booted(): void
+    {
+        static::saved(function (self $model) {
+            @cache()->forget('site-scripts-header');
+            @cache()->forget('site-scripts-footer');
+            @cache()->forget('site-scripts-google_event');
+        });
+    }
     /*
     |--------------------------------------------------------------------------
     | RELATIONS

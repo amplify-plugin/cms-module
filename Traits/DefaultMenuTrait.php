@@ -14,7 +14,9 @@ trait DefaultMenuTrait
 
     public function setMenuGroup($short_code = null): void
     {
-        $this->menuGroup = MenuGroup::where(['short_code' => $short_code, 'active' => true])->first();
+        $this->menuGroup = cache()->rememberForever("site-menus-{$short_code}", function () use ($short_code) {
+            return MenuGroup::where(['short_code' => $short_code, 'active' => true])->first();
+        });
     }
 
     /**
@@ -37,9 +39,9 @@ trait DefaultMenuTrait
         $item->has_children = $menu->children->isNotEmpty();
         $item->seo_path = $menu->seo_path;
         $item->sub_category_depth = $menu->sub_category_depth;
-        $item->display_product_count = (bool) ($menu->display_product_count ?? false);
+        $item->display_product_count = (bool)($menu->display_product_count ?? false);
 
-        $menuPermissions = ! config('amplify.basic.is_permission_system_enabled') ? [] : $menu->permissions?->pluck('name')->toArray();
+        $menuPermissions = config('amplify.basic.is_permission_system_enabled') ? $menu->permissions?->pluck('name')->toArray() : [];
 
         if ($item->has_children) {
             $menu->children->each(function (Menu $child) use (&$item) {
@@ -50,7 +52,7 @@ trait DefaultMenuTrait
         if ($menu->onlyAuth()) {
             if (customer_check()) {
 
-                $menuPermissions = ! config('amplify.basic.is_permission_system_enabled') ? [] : $menu->permissions?->pluck('name')->toArray();
+                $menuPermissions = !config('amplify.basic.is_permission_system_enabled') ? [] : $menu->permissions?->pluck('name')->toArray();
 
                 if (count($menuPermissions) == 0) {
                     $parent->push($item);
@@ -67,14 +69,14 @@ trait DefaultMenuTrait
         }
 
         if ($menu->onlyPublic()) {
-            if (! customer_check()) {
+            if (!customer_check()) {
                 $parent->push($item);
 
                 return;
             }
         }
 
-        if (! $menu->onlyAuth() && ! $menu->onlyPublic()) {
+        if (!$menu->onlyAuth() && !$menu->onlyPublic()) {
 
             if (customer_check()) {
                 if (count($menuPermissions) == 0) {
@@ -145,7 +147,7 @@ trait DefaultMenuTrait
 
         $this->attributes = $this->attributes->class($this->menuGroup->class);
 
-        if (! empty($this->menuGroup->style)) {
+        if (!empty($this->menuGroup->style)) {
             $this->attributes = $this->attributes->style([$this->menuGroup->style]);
         }
 

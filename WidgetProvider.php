@@ -708,6 +708,208 @@ class WidgetProvider extends ServiceProvider
                 '@nestedItems' => [],
                 'description' => 'Display the title of content',
             ],
+            \Amplify\System\Cms\Widgets\Footer::class => [
+                'name' => 'site.footer',
+                'reserved' => true,
+                'internal' => false,
+                '@inside' => null,
+                '@client' => null,
+                'model' => ['static_page'],
+                '@attributes' => [
+                    [
+                        'name' => 'bg-image-url',
+                        'type' => 'text',
+                        'value' => '/images/hero-bg.jpg',
+                    ],
+                ],
+                '@nestedItems' => [
+                    [
+                        'name' => 'footer_top',
+                        '@inside' => null,
+                        '@client' => null,
+                        'model' => ['static_page'],
+                        '@attributes' => [
+                            [
+                                'name' => 'left-icon',
+                                'type' => 'text',
+                                'value' => 'fa-phone-volume',
+                            ],
+                            [
+                                'name' => 'left-text',
+                                'type' => 'text',
+                                'value' => 'CUSTOMER SERVICE <br> NEW YORK: 1-800-3783650 <br> NEW ENGLAND: 1-800-3783650 <br>',
+                            ],
+                            [
+                                'name' => 'right-icon',
+                                'type' => 'text',
+                                'value' => 'fa-location-dot',
+                            ],
+                            [
+                                'name' => 'right-text',
+                                'type' => 'text',
+                                'value' => 'RIVERHEAD BUILDING SUPPLY <br> HAS 19 LOCATION THROUGHOUT <br> LONG ISLAND AND NEW ENGLAND',
+                            ],
+                        ],
+                        '@nestedItems' => [],
+                    ],
+                    [
+                        'name' => 'footer_list',
+                        '@inside' => null,
+                        '@client' => null,
+                        'model' => ['static_page'],
+                        '@attributes' => [
+                            [
+                                'name' => 'heading',
+                                'type' => 'text',
+                                'value' => 'Products',
+                            ],
+                        ],
+                        '@nestedItems' => [
+                            [
+                                'name' => 'link',
+                                '@inside' => null,
+                                '@client' => null,
+                                'model' => ['static_page'],
+                                '@attributes' => [
+                                    [
+                                        'name' => 'href',
+                                        'type' => 'text',
+                                        'value' => '#',
+                                    ],
+                                    [
+                                        'name' => 'text',
+                                        'type' => 'text',
+                                        'value' => 'Link One',
+                                    ],
+                                    [
+                                        'name' => 'icon',
+                                        'type' => 'text',
+                                        'value' => '#',
+                                    ],
+                                ],
+                                '@nestedItems' => [],
+                            ],
+                            [
+                                'name' => 'link',
+                                'reserved' => true,
+                                'internal' => false,
+                                '@inside' => null,
+                                '@client' => null,
+                                'model' => ['static_page'],
+                                '@attributes' => [
+                                    [
+                                        'name' => 'href',
+                                        'type' => 'text',
+                                        'value' => '#',
+                                    ],
+                                    [
+                                        'name' => 'text',
+                                        'type' => 'text',
+                                        'value' => 'Link Two',
+                                    ],
+                                    [
+                                        'name' => 'icon',
+                                        'type' => 'text',
+                                        'value' => '#',
+                                    ],
+                                ],
+                                '@nestedItems' => [],
+                            ],
+                        ],
+                    ],
+                    [
+                        'name' => 'footer_list',
+                        'reserved' => true,
+                        'internal' => false,
+                        '@inside' => null,
+                        '@client' => null,
+                        'model' => ['static_page'],
+                        '@attributes' => [
+                            [
+                                'name' => 'heading',
+                                'type' => 'text',
+                                'value' => 'Categories',
+                            ],
+                        ],
+                        '@nestedItems' => [
+                            [
+                                'name' => 'link',
+                                'reserved' => true,
+                                'internal' => false,
+                                '@inside' => null,
+                                '@client' => null,
+                                'model' => ['static_page'],
+                                '@attributes' => [
+                                    [
+                                        'name' => 'href',
+                                        'type' => 'text',
+                                        'value' => '#',
+                                    ],
+                                    [
+                                        'name' => 'text',
+                                        'type' => 'text',
+                                        'value' => 'Link One',
+                                    ],
+                                    [
+                                        'name' => 'icon',
+                                        'type' => 'text',
+                                        'value' => '#',
+                                    ],
+                                ],
+                                '@nestedItems' => [],
+                            ],
+                            [
+                                'name' => 'link',
+                                'reserved' => true,
+                                'internal' => false,
+                                '@inside' => null,
+                                '@client' => null,
+                                'model' => ['static_page'],
+                                '@attributes' => [
+                                    [
+                                        'name' => 'href',
+                                        'type' => 'text',
+                                        'value' => '#',
+                                    ],
+                                    [
+                                        'name' => 'text',
+                                        'type' => 'text',
+                                        'value' => 'Link Two',
+                                    ],
+                                    [
+                                        'name' => 'icon',
+                                        'type' => 'text',
+                                        'value' => '#',
+                                    ],
+                                ],
+                                '@nestedItems' => [],
+                            ],
+                        ],
+                    ],
+                    [
+                        'name' => 'footer_bottom ',
+                        'reserved' => true,
+                        'internal' => false,
+                        '@inside' => null,
+                        '@client' => null,
+                        'model' => ['static_page'],
+                        '@attributes' => [
+                            [
+                                'name' => 'left-text',
+                                'type' => 'text',
+                                'value' => '© Company Name, All Rights Reserved',
+                            ],
+                            [
+                                'name' => 'right-text',
+                                'type' => 'text',
+                                'value' => '',
+                            ],
+                        ],
+                        '@nestedItems' => [],
+                    ],
+                ],
+                'description' => '',
+            ],
 
         ];
 

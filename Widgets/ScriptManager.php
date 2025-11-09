@@ -6,6 +6,7 @@ use Amplify\System\Cms\Models\ScriptManager as ModelsScriptManager;
 use Amplify\Widget\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * @class CustomScriptManager
@@ -16,27 +17,25 @@ class ScriptManager extends BaseComponent
 
     public const POSITION_FOOTER = 'footer';
 
-    public const POSITION_GOOGLE_EVENT = 'footer';
+    public const POSITION_GOOGLE_EVENT = 'google_event';
 
-    /**
-     * @var array
-     */
-    public $options;
-
-    private string $position;
-
-    private string $order;
+    public Collection $scripts;
 
     /**
      * Create a new component instance.
      *
-     * @param  string  $order
+     * @param string $position
+     * @param string $order
      */
-    public function __construct(string $position = 'header', $order = 'ASC')
+    public function __construct(string $position = 'header', string $order = 'ASC')
     {
         parent::__construct();
-        $this->position = $position;
-        $this->order = $order;
+
+        $this->scripts = cache()->rememberForever("site-scripts-{$position}",
+            function () use ($position, $order) {
+                return ModelsScriptManager::where('position', '=', $position)
+                    ->orderBy('priority', $order)->get();
+            });
     }
 
     /**
@@ -44,7 +43,7 @@ class ScriptManager extends BaseComponent
      */
     public function shouldRender(): bool
     {
-        return true;
+        return $this->scripts->isNotEmpty();
     }
 
     /**
@@ -52,9 +51,6 @@ class ScriptManager extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        $scripts = ModelsScriptManager::wherePosition($this->position)
-            ->orderBy('priority', $this->order)->get();
-
-        return view('cms::script-manager', compact('scripts'));
+        return view('cms::script-manager');
     }
 }

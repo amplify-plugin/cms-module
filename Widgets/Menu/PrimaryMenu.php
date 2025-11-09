@@ -48,7 +48,7 @@ class PrimaryMenu extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        $this->menus = Cache::remember(Session::token() . '-primary-menu', 0, function () {
+        $this->menus = Cache::rememberForever(Session::token() . '-primary-menu', function () {
 
             $this->userPermissions = customer_permissions();
 

@@ -1,6 +1,7 @@
 <?php
 
 use Amplify\System\Backend\Http\Middlewares\ContactForceShippingAddressSelection;
+use Amplify\System\Cms\Http\Controllers\CustomStyleController;
 use Amplify\System\Cms\Http\Controllers\Frontend\ContentDetailController;
 use Amplify\System\Cms\Http\Controllers\PageBuilderController;
 use Amplify\System\Cms\Models\Content;
@@ -33,6 +34,7 @@ Route::group([
     Route::crud('form', 'FormCrudController');
     Route::crud('form-response', 'FormResponseCrudController');
     Route::get('page-builder', [PageBuilderController::class, 'index']);
+    Route::crud('custom-style', 'CustomStyleController');
 });
 
 Route::name('frontend.')->middleware(['web', ProtectAgainstSpam::class, ContactForceShippingAddressSelection::class])->group(function () {

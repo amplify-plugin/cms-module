@@ -2,11 +2,12 @@
 
 namespace Amplify\System\Cms\Http\Controllers;
 
-use Amplify\System\Cms\Http\Requests\FormRequest;
 use Amplify\System\Abstracts\BackpackCustomCrudController;
+use Amplify\System\Backend\Http\Requests\EnvVariableUpdateRequest;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use Backpack\CRUD\app\Library\Widget;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 
 /**
  * Class FormCrudController
@@ -18,6 +19,8 @@ class CustomStyleController extends BackpackCustomCrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 
+    private string $customStylePath;
+
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
      *
@@ -27,6 +30,7 @@ class CustomStyleController extends BackpackCustomCrudController
     {
         CRUD::setRoute(config('backpack.base.route_prefix') . '/custom-style');
         CRUD::setEntityNameStrings('custom-style', 'custom styles');
+        $this->customStylePath = public_path('assets/css/custom.css');
     }
 
     /**
@@ -38,15 +42,15 @@ class CustomStyleController extends BackpackCustomCrudController
      */
     protected function setupListOperation()
     {
-        $filePath = 'assets/css/custom.css';
-
-        if (!file_exists(public_path($filePath))) {
-            touch(public_path($filePath));
+        if (!file_exists($this->customStylePath)) {
+            touch($this->customStylePath);
         }
 
         $this->crud->removeButton('create');
         $this->crud->setListContentClass('col-lg-12');
         $this->crud->setListView('backend::pages.custom-style');
+        $this->data['content'] = file_get_contents($this->customStylePath);
+
     }
 
     /**
@@ -54,10 +58,20 @@ class CustomStyleController extends BackpackCustomCrudController
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
      *
-     * @return void
+     * @param EnvVariableUpdateRequest $request
+     * @return RedirectResponse
      */
-    public function store(Request $request)
+    protected function store(Request $request)
     {
+        $code = $request->input('content', '');
 
+        if (!file_put_contents($this->customStylePath, $code . PHP_EOL)) {
+            \Alert::error('Unable to modify customer style file.')->flash();
+        } else {
+            \Alert::success(__('backpack::crud.update_success'))->flash();
+            Artisan::call('optimize:clear');
+        }
+
+        return redirect()->to($this->crud->getRoute());
     }
 }

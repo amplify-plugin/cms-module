@@ -25,7 +25,6 @@ Route::group([
     Route::get('mega-menu/categories', 'MegaMenuCrudController@getEACategories')->name('mega-menu.category');
     Route::crud('menu', 'MenuCrudController');
     Route::crud('menu-group', 'MenuGroupCrudController');
-    Route::crud('navigation', 'NavigationCrudController');
     Route::crud('page', 'PageCrudController');
     Route::post('page/bulk-status', 'PageCrudController@bulkStatus')->name('bulk-status');
     Route::crud('script-manager', 'ScriptManagerCrudController');

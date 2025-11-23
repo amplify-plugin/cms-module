@@ -4,11 +4,9 @@ namespace Amplify\System\Cms;
 
 use Amplify\System\Cms\Models\MegaMenu;
 use Amplify\System\Cms\Models\Menu;
-use Amplify\System\Cms\Models\Navigation;
 use Amplify\System\Cms\Models\Template;
 use Amplify\System\Cms\Observers\MegaMenuObserver;
 use Amplify\System\Cms\Observers\MenuObserver;
-use Amplify\System\Cms\Observers\NavigationObserver;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
@@ -37,7 +35,6 @@ class CmsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Navigation::observe(NavigationObserver::class);
         Menu::observe(MenuObserver::class);
         MegaMenu::observe(MegaMenuObserver::class);
 

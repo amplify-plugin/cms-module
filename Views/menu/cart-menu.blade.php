@@ -10,7 +10,7 @@
         <div class="cart-dropdown">
         </div>
         <div class="toolbar-dropdown-group text-dark text-black">
-            <div class="column"><span class="text-lg">Total:</span></div>
+            <div class="column"><span class="text-lg">Subtotal:</span></div>
             <div class="column text-right">
                 <span class="text-lg text-medium total_cart_amount">$0.00</span>
             </div>
@@ -31,12 +31,8 @@
         </div>
     </div>
 </div>
-@php
-    push_js(function () {
-        return <<<HTML
-        $(document).ready(function () {
-            renderCartItems();
-        });
-    HTML;
-    }, 'footer-script');
-@endphp
+@pushonce('footer-script')
+    <script>
+            document.addEventListener('DOMContentLoaded', () => Amplify.loadCartDropdown());
+    </script>
+@endpushonce

@@ -12,20 +12,6 @@ use Illuminate\Contracts\View\View;
 class TopBar extends BaseComponent
 {
     /**
-     * @var array
-     */
-    public $options;
-
-    /**
-     * Create a new component instance.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-
-    }
-
-    /**
      * Whether the component should be rendered
      */
     public function shouldRender(): bool
@@ -38,15 +24,6 @@ class TopBar extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        $class = match (config('amplify.client_code')) {
-            'NUX' => \Amplify\Widget\Components\Client\Nudraulix\TopBar::class,
-            'DKL' => \Amplify\Widget\Components\Client\DKLOK\TopBar::class,
-            default => \Amplify\Widget\Components\Client\Demo\TopBar::class,
-        };
-        $this->component = new $class;
-
-        $this->component->attributes = $this->attributes;
-
-        return $this->component->render();
+        return \view('cms::top-bar');
     }
 }

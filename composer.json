@@ -16,10 +16,10 @@
     },
     "autoload": {
         "psr-4": {
-            "Amplify\\System\\Cms\\": "./"
+            "Amplify\\System\\Cms\\": "./src"
         },
         "files": [
-            "./helpers.php"
+            "./src/helpers.php"
         ]
     },
     "extra": {

@@ -21,7 +21,7 @@ class CmsServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__ . '/Config/cms.php',
+            __DIR__ . '/../config/cms.php',
             'amplify.cms'
         );
 
@@ -38,13 +38,13 @@ class CmsServiceProvider extends ServiceProvider
         Menu::observe(MenuObserver::class);
         MegaMenu::observe(MegaMenuObserver::class);
 
-        $this->loadViewsFrom(__DIR__ . '/Views', 'cms');
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'cms');
 
         $this->loadViewsFrom(base_path('themes'), 'theme');
 
-        $this->loadRoutesFrom(__DIR__ . '/Routes/web.php');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
 
-        $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 
         $this->loadTemplateConfiguration();
     }

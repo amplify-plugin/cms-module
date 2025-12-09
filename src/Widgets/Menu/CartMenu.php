@@ -5,6 +5,7 @@ namespace Amplify\System\Cms\Widgets\Menu;
 use Amplify\Widget\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
+use function Adminer\trigger;
 
 /**
  * @class CartMenu
@@ -25,7 +26,12 @@ class CartMenu extends BaseComponent
      */
     public function shouldRender(): bool
     {
-        return ! customer_check() || customer(true)->can('shop.add-to-cart');
+        if (customer_check()) {
+            return customer(true)->can('shop.add-to-cart');
+        }
+
+        return config('amplify.frontend.guest_add_to_cart', true);
+
     }
 
     /**

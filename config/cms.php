@@ -796,6 +796,18 @@ return [
             ],
         ],
         [
+            'code' => 'past_items_history',
+            'label' => 'Past Items History',
+            'description' => 'Past Items History Page',
+            'middleware' => ['customers'],
+            'reserved' => true,
+            'url' => [
+                'type' => 'route',
+                'name' => 'frontend.past.items.history',
+                'params' => '',
+            ],
+        ],
+        [
             'code' => 'contact_login',
             'label' => 'Login Manager List',
             'description' => 'Login Manager List Page',

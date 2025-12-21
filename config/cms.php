@@ -796,6 +796,18 @@ return [
             ],
         ],
         [
+            'code' => 'past_items_history',
+            'label' => 'Past Items History',
+            'description' => 'Past Items History Page',
+            'middleware' => ['customers'],
+            'reserved' => true,
+            'url' => [
+                'type' => 'route',
+                'name' => 'frontend.past.items.history',
+                'params' => '',
+            ],
+        ],
+        [
             'code' => 'contact_login',
             'label' => 'Login Manager List',
             'description' => 'Login Manager List Page',
@@ -903,6 +915,18 @@ return [
                 'type' => 'route',
                 'name' => 'frontend.contents.show',
                 'params' => 'demo',
+            ],
+        ],
+        [
+            'code' => 'notice',
+            'label' => 'Notice',
+            'description' => 'The page type will load all the notices',
+            'middleware' => [],
+            'reserved' => true,
+            'url' => [
+                'type' => 'route',
+                'name' => 'frontend.notice.index',
+                'params' => '',
             ],
         ],
     ],

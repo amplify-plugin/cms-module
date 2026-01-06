@@ -17,16 +17,13 @@ class Profile extends BaseComponent
      */
     public $options;
 
-    public Contact $account;
-
     /**
      * Create a new component instance.
      */
-    public function __construct()
+    public function __construct(public ?Contact $account)
     {
         parent::__construct();
 
-        $this->account = customer(true);
     }
 
     /**
@@ -47,22 +44,22 @@ class Profile extends BaseComponent
 
     public function accountProfileImage()
     {
-        return ! empty($this->account->profile_image) ? $this->account->profile_image : generateUserAvatar($this->account->name);
+        return ! empty($this->account->profile_image) ? $this->account?->profile_image : generateUserAvatar($this->account?->name);
     }
 
     public function accountName(): ?string
     {
-        return $this->account->name ?? null;
+        return $this->account?->name ?? null;
     }
 
     public function companyName(): ?string
     {
-        return $this->account->customer->customer_name ?? null;
+        return $this->account?->customer->customer_name ?? null;
     }
 
     public function companyCode(): ?string
     {
-        return $this->account->customer->customer_code ?? null;
+        return $this->account?->customer->customer_code ?? null;
     }
 
     public function accountRoles()

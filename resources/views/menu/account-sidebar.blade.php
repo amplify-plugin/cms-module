@@ -14,7 +14,7 @@
             <line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
     </span>
-        <x-menu.account-sidebar.profile/>
+        <x-menu.account-sidebar.profile :account="$account"/>
         <nav class="list-group cs-account-sidebar">
             @foreach ($menus as $menu)
                 <div

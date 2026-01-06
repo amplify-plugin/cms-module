@@ -1,6 +1,6 @@
 <div {!! $htmlAttributes !!}>
     <div class="user-cover">
-        @if($account->customer)
+        @if($account?->customer)
             <div class="info-label" data-toggle="tooltip" data-html="true" title="Customer: <b>{{ $companyName }}</b>">
                 <svg xmlns="http://www.w3.org/2000/svg" height="12" width="9" class="mr-1" viewBox="0 0 384 512">
                     <path fill="#9da9b9"

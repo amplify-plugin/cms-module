@@ -13,9 +13,19 @@ use Illuminate\Contracts\View\View;
  */
 class Slider extends BaseComponent
 {
-    public function __construct(public string $header )
+    public $categoryId;
+    public $items;
+    public $order;
+    public $header;
+
+    public function __construct(string $categoryId = '1',  string $items = '10',  string $order = 'asc',  string $header = '')
     {
         parent::__construct();
+
+        $this->categoryId = (int) $categoryId;
+        $this->items = (int) $items;
+        $this->order = strtolower($order) === 'desc' ? 'desc' : 'asc';
+        $this->header = $header;
     }
 
     /**
@@ -31,7 +41,15 @@ class Slider extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        $contents = \Amplify\System\Cms\Models\Content::all();
+        $contents = \Amplify\System\Cms\Models\Content::query()
+            ->published()
+            ->whereHas('categories', function ($query) {
+                $query->where('content_category_id', $this->categoryId);
+            })
+            ->orderBy('published_at', $this->order)
+            ->limit($this->items)
+            ->get();
+
         return view('cms::content.slider', compact('contents'));
     }
     public function carouselOptions(): string

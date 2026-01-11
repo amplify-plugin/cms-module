@@ -704,7 +704,79 @@ class WidgetProvider extends ServiceProvider
                 '@inside' => null,
                 '@client' => null,
                 'model' => [],
-                '@attributes' => [],
+                '@attributes' => [
+                    [
+                        'name' => ':category-id',
+//                        'type' => 'content-category-dropdown',
+                        'type' => 'number',
+                        'value' => 1,
+                    ],
+                    [
+                        'name' => ':items',
+                        'type' => 'number',
+                        'value' => 10,
+                    ],
+                    [
+                        'name' => 'order',
+                        'type' => 'select',
+                        'options' => [
+                            'asc' => 'Ascending',
+                            'desc' => 'Descending'
+                        ],
+                        'value' => 'asc',
+                        'hint' => 'Will be applied on updated date',
+                    ],
+                    [
+                        'name' => 'header',
+                        'type' => 'text',
+                        'value' => "Contents",
+                    ],
+//                    [
+//                        'name' => 'nav',
+//                        'type' => 'boolean',
+//                        'value' => true,
+//                    ],
+//                    [
+//                        'name' => 'dots',
+//                        'type' => 'boolean',
+//                        'value' => true,
+//                    ],
+//                    [
+//                        'name' => 'loop',
+//                        'type' => 'boolean',
+//                        'value' => false,
+//                    ],
+//                    [
+//                        'name' => 'autoplay',
+//                        'type' => 'boolean',
+//                        'value' => false,
+//                    ],
+//                    [
+//                        'name' => 'pause-on-hover',
+//                        'type' => 'boolean',
+//                        'value' => false,
+//                    ],
+//                    [
+//                        'name' => 'show-on-mobile',
+//                        'type' => 'boolean',
+//                        'value' => true,
+//                    ],
+//                    [
+//                        'name' => 'full-width',
+//                        'type' => 'boolean',
+//                        'value' => true,
+//                    ],
+//                    [
+//                        'name' => 'height',
+//                        'type' => 'text',
+//                        'value' => '200px',
+//                    ],
+//                    [
+//                        'name' => 'autoplay-timeout',
+//                        'type' => 'number',
+//                        'value' => '5000',
+//                    ],
+                ],
                 '@nestedItems' => [],
                 'description' => 'Display the title of content',
             ],

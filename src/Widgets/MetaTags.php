@@ -2,6 +2,7 @@
 
 namespace Amplify\System\Cms\Widgets;
 
+use Amplify\System\Backend\Models\Product;
 use Amplify\Widget\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
@@ -52,9 +53,10 @@ class MetaTags extends BaseComponent
         //Page Specific Cache
         $pageTags = [];
         if ($page = store('dynamicPageModel', false)) {
-            $pageTags = Cache::remember("site-{$page->page_type}", 24 * HOUR, function () use ($page) {
-                return $this->loadPageMetaTags($page);
-            });
+            $pageTags = $this->loadPageMetaTags($page);
+            // Cache::remember("site-{$page->page_type}", 24 * HOUR, function () use ($page) {
+            //     return $this->loadPageMetaTags($page);
+            // });
         }
 
         $this->tags = array_merge($this->tags, $commonTags, $pageTags, $this->fillSystemTags(), $this->uniqueTags);
@@ -95,9 +97,18 @@ class MetaTags extends BaseComponent
 
     private function loadPageMetaTags($page): array
     {
+        $meta_keywords = ($page->meta_key ?? '');
+        $meta_description = implode(", ", [$page->meta_description ?? '', $page->name, $page->breadcrumb_title, $page->title]);
+
+        if (session()->has('product_details_id') && $page->page_type === 'single_product') {
+            $product = Product::findOrFail(session()->get('product_details_id'));
+            $meta_keywords = $product->meta_keywords;
+            $meta_description = $product->meta_description;
+        }
+
         return [
-            ['name' => 'keywords', 'content' => ($page->meta_key ?? '')],
-            ['name' => 'description', 'content' => implode(", ", [$page->meta_description ?? '', $page->name, $page->breadcrumb_title, $page->title])],
+            ['name' => 'keywords', 'content' => $meta_keywords],
+            ['name' => 'description', 'content' => $meta_description],
             ['name' => 'pagename', 'content' => ($page->name ?? '')],
             ['name' => 'category', 'content' => $this->getPageTypeLabel($page->page_type)],
             ['name' => 'pageKey', 'content' => ($page->slug ?? '#')],

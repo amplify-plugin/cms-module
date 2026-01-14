@@ -100,13 +100,22 @@ class MetaTags extends BaseComponent
         $meta_keywords = ($page->meta_key ?? '');
         $meta_description = implode(", ", [$page->meta_description ?? '', $page->name, $page->breadcrumb_title, $page->title]);
 
-        if (session()->has('product_details_id') && $page->page_type === 'single_product') {
-            $product = Product::findOrFail(session()->get('product_details_id'));
+        $og_list = [];
+        if ($page->page_type === 'single_product') {
+            $product = Product::find(store()->productModel->id);
+            $meta_description = $product->meta_description ?? $product->description;
             $meta_keywords = $product->meta_keywords;
-            $meta_description = $product->meta_description;
+
+            $og_list[] = [
+                ['property' => 'og:title', 'content' => $product->product_name],
+                ['property' => 'og:description', 'content' => $product->og_description ?? $meta_description],
+                ['property' => 'og:type', 'content' => 'product'],
+                ['property' => 'og:url', 'content' => frontendSingleProductURL($product)],
+                ['property' => 'og:image', 'content' => asset($product->thumbnail)],
+            ];
         }
 
-        return [
+        $meta_list = [
             ['name' => 'keywords', 'content' => $meta_keywords],
             ['name' => 'description', 'content' => $meta_description],
             ['name' => 'pagename', 'content' => ($page->name ?? '')],
@@ -114,6 +123,7 @@ class MetaTags extends BaseComponent
             ['name' => 'pageKey', 'content' => ($page->slug ?? '#')],
             ['name' => 'revised', 'content' => $page->updated_at->format('l, F dS, Y, h:i a')]
         ];
+        return array_merge($meta_list, ...$og_list);
     }
 
     private function getPageTypeLabel(string $type)

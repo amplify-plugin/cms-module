@@ -307,7 +307,7 @@ class TemplateCrudController extends BackpackCustomCrudController
             copy(base_path('themes/tmp/assets/' . $config['screenshot']), $target_dest . $config['screenshot']);
 
             $res = [
-                'name' => $config['label'],
+                'name' => $config['name'] ?? $config['label'],
                 'author' => $config['author'],
                 'template_banner' => asset('.tmp/' . $config['screenshot']),
             ];
@@ -339,13 +339,13 @@ class TemplateCrudController extends BackpackCustomCrudController
             rename(base_path('themes/tmp'), $destination);
 
             Template::create([
-                'name' => $config['label'],
+                'name' => $config['name'] ?? $config['label'],
                 'author' => $config['author'],
                 'slug' => $config['slug'],
-                'component_folder' => $config['component_folder'],
-                'asset_folder' => $config['asset_folder'],
+                'component_folder' => $config['slug'],
+                'asset_folder' => $config['slug'],
                 'description' => $config['description'],
-                'screenshot' => "themes/{$config['asset_folder']}/assets/{$config['screenshot']}",
+                'screenshot' => "themes/{$config['slug']}/assets/{$config['screenshot']}",
                 'readme' => $config['readme'],
                 'is_new' => true,
                 'options' => $config['options'] ?? [],

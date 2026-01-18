@@ -20,7 +20,7 @@
         <div class="user-data text-truncate">
             <h6 data-toggle="tooltip" data-html="true" title="Account: <b>{{ $accountName }}</b>">{{ $accountName }}</h6>
             @if(strlen($companyCode) > 0)
-                <span class="text-muted text-sm text-truncate" data-toggle="tooltip"
+                <span class="text-black text-bold" data-toggle="tooltip"
                       data-html="true" title="Customer Code: <b>{{ $companyCode }}</b>">
                {{ $companyCode }}
             </span>

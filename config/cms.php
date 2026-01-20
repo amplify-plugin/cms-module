@@ -16,7 +16,7 @@ return [
     'email' => null,
     'phone' => null,
     'header_content' => null,
-    'slogan' => '"Working together to make America safe"',
+    'slogan' => 'Amplify Your Online Business',
     'favicon' => '',
     'fallback' => 'demo',
     'page_types' => [

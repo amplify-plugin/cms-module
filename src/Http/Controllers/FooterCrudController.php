@@ -10,7 +10,6 @@ use Amplify\System\Cms\Models\Content;
 use Amplify\System\Cms\Models\Footer;
 use Amplify\System\Cms\Models\MenuGroup;
 use Amplify\System\Marketing\Models\MerchandisingZone;
-use Amplify\Widget\Models\Widget;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
@@ -108,11 +107,8 @@ class FooterCrudController extends BackpackCustomCrudController
         $this->data['active_template'] = $activeTemplate;
         $this->data['footer'] = $this->crud->model->find(request()->id);
         $this->data['footer_layouts'] = getFooterLayoutList();
-        $this->data['active_widgets'] = Widget::where('template_id', $activeTemplate->id)->orWhere('template_id', 1)->get();
-        $this->data['footer_items'] = ! empty($activeTemplate->id)
-            ? Widget::where([['template_id', $activeTemplate->id]])
-                ->whereIn('placement', ['footer', 'global'])
-                ->get() : [];
+        $this->data['active_widgets'] = '[]';
+        $this->data['footer_items'] = [];
         $this->data['merchandising_zones'] = MerchandisingZone::get(['id', 'name'])->toArray();
         $this->data['banner_item_codes'] = Banner::get(['id', 'name', 'code'])->toArray();
         $this->data['banner_zones'] = BannerZone::get(['id', 'code', 'name', 'fetch_data_from_easyask'])->toArray();

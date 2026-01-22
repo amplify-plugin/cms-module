@@ -1,5 +1,5 @@
 <div id="show-cart" class="cart position-relative flex-shrink-0" {!! $htmlAttributes !!}>
-    <i class="icon-bag"></i>
+    <i class="pe-7s-cart font-weight-bolder"></i>
     @if($showBadge)
         <span class="cart-badge badge badge-danger total_cart_items d-none">0</span>
     @endif

@@ -69,7 +69,6 @@ class MetaTags extends BaseComponent
         return [
             ['id' => 'quick-order-link', 'data-link' => route('frontend.carts.store')],
             ['id' => 'check-customer-list-name-link', 'data-link' => route('frontend.order.order-list.check-name-availability')],
-            ['id' => 'add-product-to-customer-list-link', 'data-link' => route('frontend.order-list.add-product')],
         ];
 
     }

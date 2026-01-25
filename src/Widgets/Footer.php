@@ -46,7 +46,7 @@ class Footer extends BaseComponent
     public function render(): View|Closure|string
     {
         $contents = Cache::rememberForever('site-footer', function () {
-            return FooterModel::where(['is_enabled' => true])
+            return FooterModel::where(['is_enabled' => true, 'templated_id' => theme()->id])
                 ->get()
                 ->pluck('content')
                 ->implode("\n");

@@ -236,18 +236,6 @@ return [
             ],
         ],
         [
-            'code' => 'order_list_edit',
-            'label' => 'Order List Edit',
-            'description' => 'Order List Edit Page',
-            'middleware' => ['customers'],
-            'reserved' => true,
-            'url' => [
-                'type' => 'route',
-                'name' => 'frontend.order-lists.edit',
-                'params' => '',
-            ],
-        ],
-        [
             'code' => 'static_page',
             'label' => 'Static',
             'description' => 'Static Page',

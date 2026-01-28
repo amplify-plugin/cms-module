@@ -31,8 +31,10 @@
         </div>
     </div>
 </div>
-@pushonce('footer-script')
-    <script>
+@if(config('amplify.frontend.guest_add_to_cart') || customer_check())
+    @pushonce('footer-script')
+        <script>
             document.addEventListener('DOMContentLoaded', () => Amplify.loadCartDropdown());
-    </script>
-@endpushonce
+        </script>
+    @endpushonce
+@endif

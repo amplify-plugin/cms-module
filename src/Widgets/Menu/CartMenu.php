@@ -5,7 +5,6 @@ namespace Amplify\System\Cms\Widgets\Menu;
 use Amplify\Widget\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
-use function Adminer\trigger;
 
 /**
  * @class CartMenu

@@ -78,6 +78,7 @@ class MetaTags extends BaseComponent
         return [
             ['name' => 'copyright', 'content' => config('app.name')],
             ['name' => 'language', 'content' => strtoupper(config('app.locale'))],
+            ['http-equiv' => 'content-language', 'content' => strtoupper(config('app.locale'))],
             ['name' => 'Classification', 'content' => config('app.name')],
             ['name' => 'author', 'content' => 'Hafijul Islam, ' . config('amplify.cms.email', 'hafijul233@gmail.com')],
             ['name' => 'reply-to', 'content' => config('mail.admin_email', 'hafijul233@gmail.com')],
@@ -91,6 +92,8 @@ class MetaTags extends BaseComponent
             ['name' => 'HandheldFriendly', 'content' => 'True'],
             ['name' => 'date', 'content' => now()->format('M. D, Y')],
             ['name' => 'search_date', 'content' => now()->format('Y-m-d')],
+            ['name' => 'robots', 'content' => 'index, follow'],
+            ['property' => 'og:site_name', 'content' => config('app.name')],
         ];
     }
 
@@ -100,18 +103,24 @@ class MetaTags extends BaseComponent
         $meta_description = implode(", ", [$page->meta_description ?? '', $page->name, $page->breadcrumb_title, $page->title]);
 
         $og_list = [];
+        $twitter_list = [];
         if ($page->page_type === 'single_product') {
             $product = Product::find(store()->productModel->id);
             $meta_description = $product->meta_description ?? $product->description;
             $meta_keywords = $product->meta_keywords;
 
-            $og_list[] = [
-                ['property' => 'og:title', 'content' => $product->product_name],
-                ['property' => 'og:description', 'content' => $product->og_description ?? $meta_description],
-                ['property' => 'og:type', 'content' => 'product'],
-                ['property' => 'og:url', 'content' => frontendSingleProductURL($product)],
-                ['property' => 'og:image', 'content' => asset($product->thumbnail)],
-            ];
+            $og_list[] = ['property' => 'og:title', 'content' => "{$product->product_name} | " . config('app.name')];
+            $og_list[] = ['property' => 'og:description', 'content' => $product->og_description ?? $meta_description];
+            $og_list[] = ['property' => 'og:type', 'content' => 'product'];
+            $og_list[] = ['property' => 'og:url', 'content' => frontendSingleProductURL($product)];
+            $og_list[] = ['property' => 'og:image', 'content' => asset($product->thumbnail)];
+
+            $twitter_list[] = ['name' => 'twitter:card', 'content' => 'summary_large_image'];
+            $twitter_list[] = ['name' => 'twitter:title', 'content' => $product->product_name];
+            $twitter_list[] = ['name' => 'twitter:description', 'content' => $product->og_description ?? $meta_description];
+            $twitter_list[] = ['name' => 'twitter:image', 'content' => asset($product->thumbnail)];
+            $twitter_list[] = ['name' => 'twitter:card', 'content' => 'summary_large_image'];
+
         }
 
         $meta_list = [
@@ -122,7 +131,7 @@ class MetaTags extends BaseComponent
             ['name' => 'pageKey', 'content' => ($page->slug ?? '#')],
             ['name' => 'revised', 'content' => $page->updated_at->format('l, F dS, Y, h:i a')]
         ];
-        return array_merge($meta_list, ...$og_list);
+        return array_merge($meta_list, $og_list, $twitter_list);
     }
 
     private function getPageTypeLabel(string $type)

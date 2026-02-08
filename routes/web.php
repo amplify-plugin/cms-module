@@ -4,7 +4,6 @@ use Amplify\System\Cms\Http\Controllers\Frontend\ContentDetailController;
 use Amplify\System\Cms\Http\Controllers\PageBuilderController;
 use Amplify\System\Cms\Models\Content;
 use Illuminate\Support\Facades\Route;
-use Spatie\Honeypot\ProtectAgainstSpam;
 
 Route::group([
     'prefix' => config('backpack.base.route_prefix', 'backpack'),
@@ -34,7 +33,7 @@ Route::group([
     Route::crud('custom-style', 'CustomStyleController');
 });
 
-Route::name('frontend.')->middleware(['web', ProtectAgainstSpam::class])->group(function () {
+Route::name('frontend.')->middleware(['web', 'frontend'])->group(function () {
     Route::model('content', Content::class, function ($value) {
         return Content::published()->whereSlug($value)->firstOrFail();
     });

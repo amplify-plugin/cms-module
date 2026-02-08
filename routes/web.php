@@ -1,7 +1,5 @@
 <?php
 
-use Amplify\System\Backend\Http\Middlewares\ContactForceShippingAddressSelection;
-use Amplify\System\Cms\Http\Controllers\CustomStyleController;
 use Amplify\System\Cms\Http\Controllers\Frontend\ContentDetailController;
 use Amplify\System\Cms\Http\Controllers\PageBuilderController;
 use Amplify\System\Cms\Models\Content;
@@ -36,7 +34,7 @@ Route::group([
     Route::crud('custom-style', 'CustomStyleController');
 });
 
-Route::name('frontend.')->middleware(['web', ProtectAgainstSpam::class, ContactForceShippingAddressSelection::class])->group(function () {
+Route::name('frontend.')->middleware(['web', ProtectAgainstSpam::class])->group(function () {
     Route::model('content', Content::class, function ($value) {
         return Content::published()->whereSlug($value)->firstOrFail();
     });

@@ -46,8 +46,8 @@ class ProductMenu extends BaseComponent
         $item->display_name = (bool) $product->attribute_access['name'];
         $item->name = $product->product_info?->isSkuProduct ? $product->product_info?->Sku_Name : $product->product_info?->Product_Name;
 
-        $item->display_price = (bool) $product->attribute_access['price'];
-        $item->price = $product->product_info?->Msrp ?? 'Upcoming';
+        $item->display_price = (bool) (customer_check() ? $product->attribute_access['price'] : config('amplify.basic.enable_guest_pricing',false));
+        $item->price = $product->product_info?->Msrp ?? product_out_stock_message();
 
         $item->display_description = (bool) $product->attribute_access['short_desc'];
         $item->description = strip_tags($product->product_info?->Sku_Name ?? '');

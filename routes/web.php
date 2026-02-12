@@ -31,6 +31,7 @@ Route::group([
     Route::crud('form-response', 'FormResponseCrudController');
     Route::get('page-builder', [PageBuilderController::class, 'index']);
     Route::crud('custom-style', 'CustomStyleController');
+    Route::crud('robots-text', 'RobotTextController');
 });
 
 Route::name('frontend.')->middleware(['web', 'frontend'])->group(function () {

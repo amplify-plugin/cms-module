@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 
 /**
- * Class FormCrudController
+ * Class CustomStyleController
  *
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
@@ -29,7 +29,7 @@ class CustomStyleController extends BackpackCustomCrudController
     public function setup()
     {
         CRUD::setRoute(config('backpack.base.route_prefix') . '/custom-style');
-        CRUD::setEntityNameStrings('custom-style', 'custom styles');
+        CRUD::setEntityNameStrings('custom style', 'custom styles');
         $this->customStylePath = public_path('assets/css/custom.css');
     }
 
@@ -48,8 +48,14 @@ class CustomStyleController extends BackpackCustomCrudController
 
         $this->crud->removeButton('create');
         $this->crud->setListContentClass('col-lg-12');
-        $this->crud->setListView('backend::pages.custom-style');
         $this->data['content'] = file_get_contents($this->customStylePath);
+        $this->crud->setListView('backend::pages.editor');
+        $this->data['header'] = <<<HTML
+                            <label class="fw-bold">
+                                Caution: Custom Styles affect all pages.
+                                <code class="text-danger">Style file location: (assets/css/custom.css)</code>.
+                            </label>
+HTML;
 
     }
 

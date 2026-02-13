@@ -136,6 +136,16 @@ class PageCrudController extends BackpackCustomCrudController
             }
         );
 
+        $this->crud
+            ->addClause('pageList')
+            ->orderBy('id', 'desc');
+
+        $this->crud->addButton('line', 'goto-page', 'view', 'cms::buttons.page.goto', 'ending');
+
+        $this->crud->addButton('line', 'publish', 'view', 'cms::buttons.page.publish', 'beginning');
+
+        $this->crud->removeButton('show');
+
         CRUD::addColumn([
             'name' => 'id',
             'type' => 'custom_html',
@@ -168,13 +178,6 @@ class PageCrudController extends BackpackCustomCrudController
             'type' => 'boolean',
             'label' => 'Published',
         ]);
-
-        $this->crud
-            ->addClause('pageList')
-            ->orderBy('id', 'desc');
-
-        $this->crud->addButtonFromView('line', 'preview-page', 'preview-page', 'ending');
-        $this->crud->addButtonFromView('line', 'publish', 'publish-page', 'beginning');
     }
 
     /**

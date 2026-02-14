@@ -24,8 +24,6 @@
                     </a>
                 @endif
             @endif
-        </div>
-        <div class="topbar-column">
             <x-site.language-change/>
         </div>
     </div>

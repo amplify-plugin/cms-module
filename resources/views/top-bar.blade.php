@@ -2,7 +2,7 @@
     <div class="topbar">
         <div class="topbar-column">
             @if(config('amplify.cms.slogan') != null || strlen(config('amplify.cms.slogan')) > 0)
-                <div class="social-button topbar-motto">
+                <div class="topbar-motto">
                     {{ config('amplify.cms.slogan') }}
                 </div>
             @endif

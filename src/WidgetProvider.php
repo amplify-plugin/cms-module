@@ -780,6 +780,39 @@ class WidgetProvider extends ServiceProvider
                 '@nestedItems' => [],
                 'description' => 'Display the title of content',
             ],
+            \Amplify\System\Cms\Widgets\Content\ContentList::class => [
+                'name' => 'content-list',
+                'reserved' => true,
+                'internal' => false,
+                '@inside' => null,
+                '@client' => null,
+                'model' => [],
+                '@attributes' => [
+                    [
+                        'name' => 'category',
+//                        'type' => 'content-category-dropdown',
+                        'type' => 'text',
+                        'value' => 1,
+                    ],
+                    [
+                        'name' => ':per-page',
+                        'type' => 'number',
+                        'value' => 10,
+                    ],
+                    [
+                        'name' => 'order',
+                        'type' => 'select',
+                        'options' => [
+                            'asc' => 'Ascending',
+                            'desc' => 'Descending'
+                        ],
+                        'value' => 'asc',
+                        'hint' => 'Will be applied on updated date',
+                    ],
+                ],
+                '@nestedItems' => [],
+                'description' => 'Display a list of contents with pagination',
+            ],
             \Amplify\System\Cms\Widgets\Footer::class => [
                 'name' => 'site.footer',
                 'reserved' => true,

@@ -12,4 +12,9 @@ class ContentCategory extends Model implements Auditable
     use \OwenIt\Auditing\Auditable;
 
     protected $guarded = ['id'];
+
+    public function contents()
+    {
+        return $this->belongsToMany(Content::class, 'content_category_content');
+    }
 }

@@ -24,6 +24,8 @@ class ContentDetailController extends Controller
 
         store()->contentModel = $content;
 
+        store()->pageTitle = $content->name;
+
         return $this->render();
     }
 }

@@ -9,7 +9,6 @@ use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Routing\Route;
 use OwenIt\Auditing\Contracts\Auditable;
 
 class Page extends Model implements Auditable
@@ -362,5 +361,10 @@ class Page extends Model implements Auditable
         }
 
         return route('frontend.dynamic-route', $this->slug);
+    }
+
+    public function replicate(array $except = null) {
+        $this->attributes['slug'] = $this->attributes['slug']. '-'.mt_rand(1000, 9999);
+        return parent::replicate($except);
     }
 }

@@ -693,7 +693,9 @@ class WidgetProvider extends ServiceProvider
                 '@inside' => null,
                 '@client' => null,
                 'model' => ['content_detail'],
-                '@attributes' => [],
+                '@attributes' => [
+                    ['name' => 'element' , 'type'=> 'text', 'value' => 'h1'],
+                ],
                 '@nestedItems' => [],
                 'description' => 'Display the title of content',
             ],
@@ -731,51 +733,6 @@ class WidgetProvider extends ServiceProvider
                         'type' => 'text',
                         'value' => "Contents",
                     ],
-//                    [
-//                        'name' => 'nav',
-//                        'type' => 'boolean',
-//                        'value' => true,
-//                    ],
-//                    [
-//                        'name' => 'dots',
-//                        'type' => 'boolean',
-//                        'value' => true,
-//                    ],
-//                    [
-//                        'name' => 'loop',
-//                        'type' => 'boolean',
-//                        'value' => false,
-//                    ],
-//                    [
-//                        'name' => 'autoplay',
-//                        'type' => 'boolean',
-//                        'value' => false,
-//                    ],
-//                    [
-//                        'name' => 'pause-on-hover',
-//                        'type' => 'boolean',
-//                        'value' => false,
-//                    ],
-//                    [
-//                        'name' => 'show-on-mobile',
-//                        'type' => 'boolean',
-//                        'value' => true,
-//                    ],
-//                    [
-//                        'name' => 'full-width',
-//                        'type' => 'boolean',
-//                        'value' => true,
-//                    ],
-//                    [
-//                        'name' => 'height',
-//                        'type' => 'text',
-//                        'value' => '200px',
-//                    ],
-//                    [
-//                        'name' => 'autoplay-timeout',
-//                        'type' => 'number',
-//                        'value' => '5000',
-//                    ],
                 ],
                 '@nestedItems' => [],
                 'description' => 'Display the title of content',

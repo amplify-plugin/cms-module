@@ -1,3 +1,3 @@
-<div {!! $htmlAttributes !!}>
+<{{ $element}} {!! $htmlAttributes !!}>
 {{ $entry->name ?? null }}
-</div>
+</{{ $element}}>

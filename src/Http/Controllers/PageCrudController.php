@@ -14,6 +14,8 @@ use Amplify\System\Cms\Models\Form;
 use Amplify\System\Cms\Models\MenuGroup;
 use Amplify\System\Cms\Models\Page;
 use Amplify\System\Marketing\Models\MerchandisingZone;
+use Backpack\CRUD\app\Http\Controllers\Operations\BulkDeleteOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\CloneOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
@@ -43,6 +45,8 @@ class PageCrudController extends BackpackCustomCrudController
     use ReorderOperation;
     use ShowOperation;
     use UpdateOperation;
+    use BulkDeleteOperation;
+    use CloneOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -605,5 +609,10 @@ class PageCrudController extends BackpackCustomCrudController
         }
 
         return response()->json($jsonResponse, ($jsonResponse['type'] == 'error') ? 500 : 200);
+    }
+
+    public function replicate(array $except = null) {
+
+        return parent::replicate(['slug']);
     }
 }

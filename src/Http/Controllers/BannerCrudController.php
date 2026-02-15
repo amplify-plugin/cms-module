@@ -21,6 +21,7 @@ class BannerCrudController extends BackpackCustomCrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -43,6 +44,21 @@ class BannerCrudController extends BackpackCustomCrudController
      */
     protected function setupListOperation()
     {
+
+        CRUD::addFilter(
+            [
+                'name' => 'banner_zone_id',
+                'type' => 'select2_ajax',
+                'label' => 'Banner Zone',
+                'placeholder' => 'Type Name, Code',
+                'method' => 'POST',
+                'select_attribute' => 'name',
+            ],
+            backpack_url('banner/fetch/banner-zone'),
+            function ($value) { // if the filter is active
+                $this->crud->query->where('banner_zone_id', '=', $value);
+            }
+        );
 
         CRUD::column('id')->label('#');
         CRUD::column('name');
@@ -128,5 +144,10 @@ class BannerCrudController extends BackpackCustomCrudController
     {
         $this->crud->set('reorder.label', 'name');
         $this->crud->set('reorder.max_level', 0);
+    }
+
+    protected function fetchBannerZone()
+    {
+        return $this->fetch(BannerZone::class);
     }
 }

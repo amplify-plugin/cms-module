@@ -3,7 +3,6 @@
 namespace Amplify\System\Cms\Widgets\Banner;
 
 use Amplify\System\Cms\Models\BannerZone;
-use Amplify\System\Helpers\UtilityHelper;
 use Amplify\Widget\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
@@ -15,68 +14,34 @@ use Illuminate\Support\Facades\Cache;
  */
 class BannerSlider extends BaseComponent
 {
-    /**
-     * @var array
-     */
-    public $options;
 
     public Collection $items;
-
-    private bool $nav;
-
-    private bool $dots;
-
-    private bool $pauseOnHover;
-
-    private bool $showOnMobile;
-
-    public bool $fullWidth;
-
     private string $backgroundImage;
-
-    public string $height;
-
-    public string $backgroundImgClass;
-
     private ?BannerZone $bannerZone;
-
-    private bool $loop = false;
-
-    private bool $autoplay = false;
-
-    private int $autoplayTimeout = 500000;
 
     /**
      * Create a new component instance.
      */
     public function __construct(
-        string $bannerZone = 'banner-slider',
-        string $nav = 'false',
-        string $dots = 'true',
-        string $loop = 'false',
-        string $autoplay = 'false',
-        string $pauseOnHover = 'false',
-        string $showOnMobile = 'false',
-        string $fullWidth = 'true',
-        string $height = '200px',
-        string $backgroundImage = '',
-        string $backgroundImgClass = '',
-        string $autoplayTimeout = '500000'
-    ) {
+        string        $bannerZone = 'banner-slider',
+        public bool   $nav = false,
+        public bool   $dots = true,
+        public bool   $loop = false,
+        public bool   $autoplay = false,
+        public bool   $pauseOnHover = false,
+        public bool   $showOnMobile = false,
+        public bool   $fullWidth = true,
+        public string $height = '200px',
+        string        $backgroundImage = '',
+        public string $backgroundImgClass = '',
+        public int    $autoplayTimeout = 500000
+    )
+    {
         parent::__construct();
         $this->items = collect();
-        $this->nav = UtilityHelper::typeCast($nav, 'bool');
-        $this->dots = UtilityHelper::typeCast($dots, 'bool');
-        $this->pauseOnHover = UtilityHelper::typeCast($pauseOnHover, 'bool');
-        $this->showOnMobile = UtilityHelper::typeCast($showOnMobile, 'bool');
-        $this->fullWidth = UtilityHelper::typeCast($fullWidth, 'bool');
         $this->backgroundImage = ($backgroundImage != '') ? $backgroundImage : assets_image('img/banner-slider-bg.jpg');
-        $this->height = $height;
-        $this->backgroundImgClass = $backgroundImgClass;
         $this->bannerZone = BannerZone::whereCode($bannerZone)->first();
-        $this->loop = UtilityHelper::typeCast($loop, 'bool');
-        $this->autoplay = UtilityHelper::typeCast($autoplay, 'bool');
-        $this->autoplayTimeout = UtilityHelper::typeCast($autoplayTimeout, 'integer');
+
     }
 
     /**
@@ -84,7 +49,7 @@ class BannerSlider extends BaseComponent
      */
     public function shouldRender(): bool
     {
-        return (bool) $this->bannerZone;
+        return (bool)$this->bannerZone;
     }
 
     /**
@@ -131,7 +96,7 @@ class BannerSlider extends BaseComponent
         $slide->background_type = $item->background_type;
         $slide->has_forground = ($slide->display_image || $slide->display_title || $slide->display_content);
 
-        if (! $slide->display_image || ! $slide->image) {
+        if (!$slide->display_image || !$slide->image) {
             $slide->first_column = 12;
             $slide->last_column = 0;
         }

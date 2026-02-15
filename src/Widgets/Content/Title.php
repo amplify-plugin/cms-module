@@ -15,7 +15,7 @@ class Title extends BaseComponent
 {
     public ?\Amplify\System\Cms\Models\Content $entry;
 
-    public function __construct()
+    public function __construct(public string $element = 'h1')
     {
         parent::__construct();
 

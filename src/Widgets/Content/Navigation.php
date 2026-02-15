@@ -2,6 +2,7 @@
 
 namespace Amplify\System\Cms\Widgets\Content;
 
+use Amplify\System\Cms\Models\ContentCategory;
 use Amplify\Widget\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
@@ -15,11 +16,15 @@ class Navigation extends BaseComponent
 {
     public ?\Amplify\System\Cms\Models\Content $entry;
 
+    public ?ContentCategory $category;
+
     public function __construct()
     {
         parent::__construct();
 
         $this->entry = store('contentModel', null);
+
+        $this->category = $this->entry->categories->first();
     }
 
     /**
@@ -27,7 +32,7 @@ class Navigation extends BaseComponent
      */
     public function shouldRender(): bool
     {
-        return true;
+        return !empty($this->category);
     }
 
     /**
@@ -35,7 +40,18 @@ class Navigation extends BaseComponent
      */
     public function render(): View|Closure|string
     {
+        $previous = $this->category->contents()
+            ->published()
+            ->where('contents.id', '<', $this->entry->id)
+            ->orderBy('contents.id', 'desc')
+            ->first();
 
-        return view('cms::content.navigation');
+        $next = $this->category->contents()
+            ->published()
+            ->where('contents.id', '>', $this->entry->id)
+            ->orderBy('contents.id', 'asc')
+            ->first();
+
+        return view('cms::content.navigation', compact('previous', 'next'));
     }
 }

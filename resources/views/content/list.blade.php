@@ -5,7 +5,7 @@
     }
 
     figure > img {
-        transform: scale(0.75);
+        transform: scale(0.9);
     }
 
     figure:hover > figcaption {

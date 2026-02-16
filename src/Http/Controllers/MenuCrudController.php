@@ -103,7 +103,9 @@ class MenuCrudController extends BackpackCustomCrudController
             'icon' => 'la la-eye',
             'classes' => 'btn btn-sm btn-link',
         ]);
-        $this->crud->addButtonFromView('line', 'preview-page', 'preview-page', 'ending');
+        //$this->crud->addButtonFromView('line', 'preview-page', 'preview-page', 'ending');
+        $this->crud->addButton('line', 'goto-page', 'view', 'cms::buttons.page.goto', 'ending');
+
         $this->crud->addColumns(
             [
                 [

@@ -26,10 +26,8 @@ class SitemapTag extends Model implements Auditable
 
     // protected $fillable = [];
     // protected $hidden = [];
-    protected $casts = ['options' => 'json'];
-
-    protected $attributes = [
-        'options' => [],
+    protected $casts = [
+        'fields' => 'array'
     ];
 
     /*
@@ -67,47 +65,47 @@ class SitemapTag extends Model implements Auditable
 
     public function getLocationAttribute()
     {
-        return $this->attributes['options']['location'] ?? null;
+        return $this->attributes['fields']['url '] ?? null;
     }
 
     public function getTitleAttribute()
     {
-        return $this->attributes['options']['title'] ?? null;
+        return $this->attributes['fields']['title'] ?? null;
     }
 
     public function getDescriptionAttribute()
     {
-        return $this->attributes['options']['description'] ?? null;
+        return $this->attributes['fields']['description'] ?? null;
     }
 
     public function getThumbnailLocAttribute()
     {
-        return $this->attributes['options']['thumbnail_loc'] ?? null;
+        return $this->attributes['fields']['thumbnail_loc'] ?? null;
     }
 
     public function getContentLocAttribute()
     {
-        return $this->attributes['options']['content_loc'] ?? null;
+        return $this->attributes['fields']['content_loc'] ?? null;
     }
 
     public function getPlayerLocAttribute()
     {
-        return $this->attributes['options']['player_loc'] ?? null;
+        return $this->attributes['fields']['player_loc'] ?? null;
     }
 
     public function getPublicationDateAttribute()
     {
-        return $this->attributes['options']['publication_date'] ?? null;
+        return $this->attributes['fields']['publication_date'] ?? null;
     }
 
     public function getFamilyFriendlyAttribute()
     {
-        return $this->attributes['options']['family_friendly'] ?? null;
+        return $this->attributes['fields']['family_friendly'] ?? null;
     }
 
     public function getLiveAttribute()
     {
-        return $this->attributes['options']['live'] ?? null;
+        return $this->attributes['fields']['live'] ?? null;
     }
 
     /*
@@ -115,49 +113,4 @@ class SitemapTag extends Model implements Auditable
     | MUTATORS
     |--------------------------------------------------------------------------
     */
-
-    public function setLocationAttribute($value)
-    {
-        $this->attributes['options']['location'] = $value;
-    }
-
-    public function setTitleAttribute($value)
-    {
-        $this->attributes['options']['title'] = $value;
-    }
-
-    public function setDescriptionAttribute($value)
-    {
-        $this->attributes['options']['description'] = $value;
-    }
-
-    public function setThumbnailLocAttribute($value)
-    {
-        $this->attributes['options']['thumbnail_loc'] = $value;
-    }
-
-    public function setContentLocAttribute($value)
-    {
-        $this->attributes['options']['content_loc'] = $value;
-    }
-
-    public function setPlayerLocAttribute($value)
-    {
-        $this->attributes['options']['player_loc'] = $value;
-    }
-
-    public function setPublicationDateAttribute($value)
-    {
-        $this->attributes['options']['publication_date'] = $value;
-    }
-
-    public function setFamilyFriendlyAttribute($value)
-    {
-        $this->attributes['options']['family_friendly'] = $value;
-    }
-
-    public function setLiveAttribute($value)
-    {
-        $this->attributes['options']['live'] = $value;
-    }
 }

@@ -34,11 +34,10 @@ class SitemapRequest extends FormRequest
             'mappable' => 'array|nullable',
             'mappable.mappable_type' => 'string',
             'mappable.mappable_id' => 'integer|nullable',
-            'location' => 'required|min:5|url',
+            'location' => 'nullable|url',
             'changefreq' => ['required', Rule::in(array_keys(Sitemap::CHANGE_FREQ))],
             'priority' => 'numeric|min:0|max:1',
             'sitemapTags' => 'nullable|array',
-            'options' => 'nullable|array',
         ];
     }
 

@@ -43,6 +43,13 @@ class Sitemap extends Model implements Auditable
     |--------------------------------------------------------------------------
     */
 
+//    protected static function booted(): void
+//    {
+//        static::saving(function ($model) {
+//            dd(request()->all());
+//        });
+//    }
+
     /*
     |--------------------------------------------------------------------------
     | RELATIONS

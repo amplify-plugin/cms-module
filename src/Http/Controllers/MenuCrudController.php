@@ -31,6 +31,8 @@ class MenuCrudController extends BackpackCustomCrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\BulkDeleteOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\CloneOperation;
     use CrudCustomButtonTrait;
     use ReorderOperation;
     use ReorderTrait;

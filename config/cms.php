@@ -82,7 +82,7 @@ return [
             'code' => 'quick_order',
             'label' => 'Quick Order',
             'description' => 'Quick Order Page',
-            'middleware' => [],
+            'middleware' => ['customers'],
             'reserved' => true,
             'url' => [
                 'type' => 'slug',

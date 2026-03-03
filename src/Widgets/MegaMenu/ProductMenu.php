@@ -30,6 +30,12 @@ class ProductMenu extends BaseComponent
             return $products;
         });
 
+        $showPrice = (bool) (customer_check() ? true : config('amplify.basic.enable_guest_pricing', false));
+
+        $products->each(function ($item) use ($showPrice) {
+            $item->display_price = $showPrice && $item->price_attribute_enabled;
+        });
+
         return view('cms::mega-menu.product-menu', compact('products'));
     }
 
@@ -46,7 +52,7 @@ class ProductMenu extends BaseComponent
         $item->display_name = (bool) $product->attribute_access['name'];
         $item->name = $product->product_info?->isSkuProduct ? $product->product_info?->Sku_Name : $product->product_info?->Product_Name;
 
-        $item->display_price = (bool) (customer_check() ? $product->attribute_access['price'] : config('amplify.basic.enable_guest_pricing',false));
+        $item->price_attribute_enabled = (bool) $product->attribute_access['price'];
         $item->price = $product->product_info?->Msrp ?? product_out_stock_message();
 
         $item->display_description = (bool) $product->attribute_access['short_desc'];

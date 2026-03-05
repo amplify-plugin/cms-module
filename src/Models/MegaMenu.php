@@ -2,6 +2,7 @@
 
 namespace Amplify\System\Cms\Models;
 
+use Amplify\System\Backend\Models\Product;
 use Amplify\System\Marketing\Models\MerchandisingZone;
 use Amplify\System\Sayt\Facade\Sayt;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
@@ -145,7 +146,10 @@ class MegaMenu extends Model implements Auditable
 
     public function products()
     {
-        return $this->hasMany(MegaMenuProduct::class);
+        return $this->belongsToMany(Product::class, 'mega_menu_products')->using(MegaMenuProduct::class)->withPivot([
+            'attribute_access',
+            'product_column_size',
+        ])->withTimestamps();
     }
 
     public function merchandising_zone()

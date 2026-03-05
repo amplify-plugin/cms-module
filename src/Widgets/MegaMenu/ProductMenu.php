@@ -2,6 +2,8 @@
 
 namespace Amplify\System\Cms\Widgets\MegaMenu;
 
+use Amplify\System\Backend\Models\Product;
+use Amplify\System\Support\Money;
 use Amplify\Widget\Abstracts\BaseComponent;
 use Amplify\System\Cms\Traits\MegaMenuTrait;
 use Closure;
@@ -39,24 +41,25 @@ class ProductMenu extends BaseComponent
         return view('cms::mega-menu.product-menu', compact('products'));
     }
 
-    private function push(mixed $product, \Illuminate\Support\Collection &$products)
+    private function push(Product $product, \Illuminate\Support\Collection &$products)
     {
         $item = new \stdClass;
 
-        $item->column_size = $product->product_column;
-        $item->url = frontendSingleProductURL($product->product_info).'?has_sku='.($product->product_info?->isSkuProduct ?? null).'&seopath='.($product->product_info?->seopath ?? null);
+        $item->column_size = $product->pivot->product_column;
 
-        $item->display_image = (bool) $product->attribute_access['image'];
-        $item->image = assets_image($product->product_info?->isSkuProduct ? $product->product_info?->Sku_ProductImage ?? '' : $product->product_info?->Product_Image ?? '');
+        $item->url = frontendSingleProductURL($product);
 
-        $item->display_name = (bool) $product->attribute_access['name'];
-        $item->name = $product->product_info?->isSkuProduct ? $product->product_info?->Sku_Name : $product->product_info?->Product_Name;
+        $item->display_image = $product->pivot->attribute_access['image'] ?? false;
+        $item->image = assets_image($product->productImage->main);
 
-        $item->price_attribute_enabled = (bool) $product->attribute_access['price'];
-        $item->price = $product->product_info?->Msrp ?? product_out_stock_message();
+        $item->display_name = $product->pivot->attribute_access['name'] ?? false;
+        $item->name = $product->product_name;
 
-        $item->display_description = (bool) $product->attribute_access['short_desc'];
-        $item->description = strip_tags($product->product_info?->Sku_Name ?? '');
+        $item->price_attribute_enabled = $product->pivot->attribute_access['price'] ?? false;
+        $item->price = !empty($product->msrp) ? Money::parse($product->msrp) : product_out_stock_message();
+
+        $item->display_description = $product->pivot->attribute_access['short_desc'] ?? false;
+        $item->description = strip_tags($product->short_description ?? '');
 
         $products->push($item);
     }

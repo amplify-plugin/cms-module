@@ -25,6 +25,12 @@
                     @endif
                     @if ($product->display_price)
                         <h4 class="product-price">{{ $product->price }}</h4>
+{{--                            <x-product.price--}}
+{{--                                element="h4"--}}
+{{--                                class="product-price"--}}
+{{--                                :product="$product"--}}
+{{--                                :value="$product->price"--}}
+{{--                                :uom="$product->uom ?? 'EA'"/>--}}
                     @endif
                     @if ($product->display_description)
                         <p class="text-truncate">{{ $product->description }}</p>

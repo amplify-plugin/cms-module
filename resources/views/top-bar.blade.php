@@ -1,5 +1,5 @@
 <div {!! $htmlAttributes !!}>
-    <div class="topbar">
+    <div @class(["topbar container-collapse-p0", 'container-fluid' => theme_option('full_screen_header'), 'container' => !theme_option('full_screen_header')])>
         <div class="topbar-column">
             @if(config('amplify.cms.slogan') != null || strlen(config('amplify.cms.slogan')) > 0)
                 <div class="topbar-motto">

@@ -34,10 +34,8 @@ class TopBar extends BaseComponent
 
     public function htmlAttributes(): string
     {
-        $defaultClasses = ['topbar-section', 'container-collapse-p0'];
-        $defaultClasses[] = theme_option('full_screen_header') ? 'container-fluid' : 'container';
+        $this->attributes = $this->attributes->class('topbar-section');
 
-        $this->attributes = $this->attributes->class($defaultClasses);
         return parent::htmlAttributes();
     }
 }

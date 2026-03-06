@@ -25,6 +25,7 @@ class ProductMenu extends BaseComponent
 
             $products = collect();
 
+            $this->menu->load('products.productImage');
             foreach ($this->menu->products as $product) {
                 $this->push($product, $products);
             }
@@ -50,7 +51,7 @@ class ProductMenu extends BaseComponent
         $item->url = frontendSingleProductURL($product);
 
         $item->display_image = $product->pivot->attribute_access['image'] ?? false;
-        $item->image = assets_image($product->productImage->main);
+        $item->image = assets_image($product->productImage?->main);
 
         $item->display_name = $product->pivot->attribute_access['name'] ?? false;
         $item->name = $product->product_name;

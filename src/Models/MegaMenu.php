@@ -146,7 +146,9 @@ class MegaMenu extends Model implements Auditable
 
     public function products()
     {
-        return $this->belongsToMany(Product::class, 'mega_menu_products')->using(MegaMenuProduct::class)->withPivot([
+        return $this->belongsToMany(Product::class, 'mega_menu_products')
+            ->using(MegaMenuProduct::class)
+            ->withPivot([
             'attribute_access',
             'product_column_size',
         ])->withTimestamps();

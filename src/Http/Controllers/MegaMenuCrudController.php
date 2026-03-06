@@ -110,7 +110,8 @@ class MegaMenuCrudController extends BackpackCustomCrudController
         $this->data['categories'] = [];
 
         if (request()->id) {
-            $this->data['mega_menu'] = $this->crud->model->find(request()->id)->load('products');
+            $this->data['mega_menu'] = $this->crud->getCurrentEntry();
+            $this->data['mega_menu']->load('products');
         }
 
         $this->crud->setEditContentClass('col-md-12 bold-labels');
@@ -205,8 +206,14 @@ class MegaMenuCrudController extends BackpackCustomCrudController
 
         /* if type is Product */
         if ($request->type == 'product') {
-            $megaMenu->products()->delete();
-            $megaMenu->products()->createMany($request->products);
+            $products = [];
+            foreach ($request->products as $product) {
+                $products[$product['product_id']] = [
+                    'product_column_size' => $product['product_column_size'] ?? 12,
+                    'attribute_access' => $product['attribute_access'] ?? [],
+                ];
+            }
+            $megaMenu->products()->sync($products);
         }
     }
 

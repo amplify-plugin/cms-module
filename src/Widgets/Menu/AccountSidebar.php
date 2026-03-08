@@ -3,7 +3,7 @@
 namespace Amplify\System\Cms\Widgets\Menu;
 
 use Amplify\System\Cms\Models\Menu;
-use Amplify\Widget\Abstracts\BaseComponent;
+use Amplify\Frontend\Abstracts\BaseComponent;
 use Amplify\System\Cms\Traits\DefaultMenuTrait;
 use Closure;
 use Illuminate\Contracts\View\View;

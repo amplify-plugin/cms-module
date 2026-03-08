@@ -3,7 +3,7 @@
 namespace Amplify\System\Cms\Widgets\Content;
 
 use Amplify\System\Cms\Models\ContentCategory;
-use Amplify\Widget\Abstracts\BaseComponent;
+use Amplify\Frontend\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
 

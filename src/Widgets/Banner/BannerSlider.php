@@ -3,7 +3,7 @@
 namespace Amplify\System\Cms\Widgets\Banner;
 
 use Amplify\System\Cms\Models\BannerZone;
-use Amplify\Widget\Abstracts\BaseComponent;
+use Amplify\Frontend\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;

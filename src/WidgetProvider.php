@@ -2,7 +2,7 @@
 
 namespace Amplify\System\Cms;
 
-use Amplify\Widget\Abstracts\Widget;
+use Amplify\Frontend\Abstracts\Widget;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 

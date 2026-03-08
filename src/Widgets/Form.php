@@ -3,7 +3,7 @@
 namespace Amplify\System\Cms\Widgets;
 
 use Amplify\System\Cms\Models\Form as FormModel;
-use Amplify\Widget\Abstracts\BaseComponent;
+use Amplify\Frontend\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Config;

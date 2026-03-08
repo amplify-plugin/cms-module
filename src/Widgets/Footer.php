@@ -4,7 +4,7 @@ namespace Amplify\System\Cms\Widgets;
 
 use Amplify\System\Cms\Models\Footer as FooterModel;
 use Amplify\System\Cms\Models\Page;
-use Amplify\Widget\Abstracts\BaseComponent;
+use Amplify\Frontend\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Cache;

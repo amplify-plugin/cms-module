@@ -2,7 +2,7 @@
 
 namespace Amplify\System\Cms\Widgets\Menu\AccountMenu;
 
-use Amplify\Widget\Abstracts\BaseComponent;
+use Amplify\Frontend\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
 

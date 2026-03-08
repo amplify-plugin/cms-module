@@ -5,7 +5,7 @@ namespace Amplify\System\Cms\Widgets\Content;
 use Closure;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Contracts\View\View;
-use Amplify\Widget\Abstracts\BaseComponent;
+use Amplify\Frontend\Abstracts\BaseComponent;
 
 /**
  * @class ContentList

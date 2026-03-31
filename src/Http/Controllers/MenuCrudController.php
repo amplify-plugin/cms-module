@@ -3,6 +3,7 @@
 namespace Amplify\System\Cms\Http\Controllers;
 
 use Amplify\System\Abstracts\BackpackCustomCrudController;
+use Amplify\System\Backend\Models\Permission;
 use Amplify\System\Backend\Traits\CrudCustomButtonTrait;
 use Amplify\System\Backend\Traits\ReorderTrait;
 use Amplify\System\Cms\Http\Requests\MenuRequest;
@@ -50,7 +51,7 @@ class MenuCrudController extends BackpackCustomCrudController
      */
     public function setup()
     {
-        $this->permission_model = config('backpack.permissionmanager.models.permission');
+        $this->permission_model = Permission::class;
 
         CRUD::setModel(Menu::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/menu');
@@ -163,6 +164,7 @@ class MenuCrudController extends BackpackCustomCrudController
     {
         CRUD::setValidation(MenuRequest::class);
         Widget::add()->type('script')->content('vendor/backend/js/forms/menu-item.js');
+
         CRUD::addFields([
             [
                 'name' => 'name',
@@ -253,7 +255,7 @@ class MenuCrudController extends BackpackCustomCrudController
                 'hint' => 'If disabled then menu will not load any condition',
             ],
             [
-                'label' => mb_ucfirst(trans('backpack::permissionmanager.permission_plural')),
+                'label' => 'Permissions',
                 'type' => 'permission',
                 'name' => 'permissions',
                 'model' => $this->permission_model,

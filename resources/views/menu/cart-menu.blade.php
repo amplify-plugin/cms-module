@@ -19,13 +19,13 @@
             <div class="column">
                 <a class="btn btn-sm btn-block btn-secondary"
                    href="{{ route('frontend.carts.index') }}">
-                    View Cart
+                    {{ __('View Cart') }}
                 </a>
             </div>
             <div class="column">
                 <a class="btn btn-sm btn-block btn-success"
                    href="{{ route('frontend.checkout') }}">
-                    Checkout
+                    {{ __('Checkout') }}
                 </a>
             </div>
         </div>

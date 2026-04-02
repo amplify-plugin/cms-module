@@ -40,4 +40,14 @@ class CartMenu extends BaseComponent
     {
         return view('cms::menu.cart-menu');
     }
+
+    public function htmlAttributes(): string
+    {
+        if(config('amplify.frontend.guest_add_to_cart') || customer_check()) {
+
+            $this->attributes = $this->attributes->merge(['onclick' => 'Amplify.loadCartDropdown()']);
+        }
+
+        return parent::htmlAttributes();
+    }
 }

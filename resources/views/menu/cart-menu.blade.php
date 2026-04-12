@@ -1,18 +1,20 @@
 <div id="show-cart" class="cart position-relative flex-shrink-0" {!! $htmlAttributes !!}>
     <i class="pe-7s-cart font-weight-bolder"></i>
     @if($showBadge)
-        <span class="cart-badge badge badge-danger total_cart_items d-none">0</span>
+        <span @class(["cart-badge badge total_cart_items", 'd-none' => empty($itemCount)]) >{{$itemCount}}</span>
     @endif
-    <span class="count total_cart_items">0</span>
+    <span @class(["count total_cart_items", 'd-none' => empty($itemCount)]) >{{$itemCount}}</span>
     <div class="toolbar-dropdown">
         <span class="text-dark toolbar-close"><i class="icon-cross"></i></span>
-        <p class="cart-dropdown-title">Cart Items (<span class="total_cart_items">0</span>)</p>
+        <p class="cart-dropdown-title">{{ __('Cart Items') }} (<span class="total_cart_items">0</span>)</p>
         <div class="cart-dropdown">
         </div>
-        <div class="toolbar-dropdown-group text-dark text-black">
-            <div class="column"><span class="text-lg">Subtotal:</span></div>
+        <div class="toolbar-dropdown-group" id="cart-menu-subtotal" style="display: none;">
+            <div class="column">
+                <span class="text-lg">{{ __('Subtotal:') }}</span>
+            </div>
             <div class="column text-right">
-                <span class="text-lg text-medium total_cart_amount">$0.00</span>
+                <span class="text-lg text-medium total_cart_amount">{{ currency_format(value:'0.00', withSymbol: true) }}</span>
             </div>
         </div>
         <div class="toolbar-dropdown-group">
@@ -31,10 +33,4 @@
         </div>
     </div>
 </div>
-@if(config('amplify.frontend.guest_add_to_cart') || customer_check())
-    @pushonce('footer-script')
-        <script>
-            document.addEventListener('DOMContentLoaded', () => Amplify.loadCartDropdown());
-        </script>
-    @endpushonce
-@endif
+

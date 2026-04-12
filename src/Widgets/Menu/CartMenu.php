@@ -38,12 +38,24 @@ class CartMenu extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        return view('cms::menu.cart-menu');
+        $cart = getCart();
+
+        $itemCount = (config('amplify.frontend.cart_item_badge_style', 'items') == 'items')
+            ? $cart->cartItems->count()
+            : $cart->cartItems->sum('quantity');
+
+        $itemCount = match ($itemCount) {
+            0 => null,
+            $itemCount > 99 => '99+',
+            default => $itemCount,
+        };
+
+        return view('cms::menu.cart-menu', compact('itemCount'));
     }
 
     public function htmlAttributes(): string
     {
-        if(config('amplify.frontend.guest_add_to_cart') || customer_check()) {
+        if (config('amplify.frontend.guest_add_to_cart') || customer_check()) {
 
             $this->attributes = $this->attributes->merge(['onclick' => 'Amplify.loadCartDropdown()']);
         }

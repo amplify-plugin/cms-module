@@ -57,7 +57,11 @@ class CartMenu extends BaseComponent
     {
         if (config('amplify.frontend.guest_add_to_cart') || customer_check()) {
 
-            $this->attributes = $this->attributes->merge(['onclick' => 'Amplify.loadCartDropdown()']);
+            $this->attributes = $this->attributes->merge([
+                'onclick' => 'Amplify.loadCartDropdown()',
+                'id' => 'show-cart',
+                'class' => 'cart',
+            ]);
         }
 
         return parent::htmlAttributes();

@@ -1,13 +1,17 @@
-<div id="show-cart" class="cart position-relative flex-shrink-0" {!! $htmlAttributes !!}>
+<div {!! $htmlAttributes !!}>
     <i class="pe-7s-cart font-weight-bolder"></i>
     @if($showBadge)
         <span @class(["cart-badge badge total_cart_items", 'd-none' => empty($itemCount)]) >{{$itemCount}}</span>
     @endif
     <span @class(["count total_cart_items", 'd-none' => empty($itemCount)]) >{{$itemCount}}</span>
     <div class="toolbar-dropdown">
-        <span class="text-dark toolbar-close"><i class="icon-cross"></i></span>
-        <p class="cart-dropdown-title">{{ __('Cart Items') }} (<span class="total_cart_items">0</span>)</p>
-        <div class="cart-dropdown">
+        <span class="toolbar-close">
+            <i class="icon-cross"></i>
+        </span>
+        <p class="cart-dropdown-title">
+            {{ __('Cart Items') }} (<span class="total_cart_items">0</span>)
+        </p>
+        <div class="cart-dropdown img-fluid">
         </div>
         <div class="toolbar-dropdown-group" id="cart-menu-subtotal" style="display: none;">
             <div class="column">

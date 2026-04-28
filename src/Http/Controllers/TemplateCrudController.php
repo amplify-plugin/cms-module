@@ -47,7 +47,7 @@ class TemplateCrudController extends BackpackCustomCrudController
     {
         CRUD::setModel(Template::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/template');
-        CRUD::setEntityNameStrings('template', 'themes');
+        CRUD::setEntityNameStrings('template', 'templates');
     }
 
     protected function setupCustomRoutes($segment, $routeName, $controller)
@@ -99,12 +99,12 @@ class TemplateCrudController extends BackpackCustomCrudController
 
         CRUD::addColumn([
             'name' => 'name',
-            'label' => 'Template',
+            'label' => 'Name',
         ]);
 
         CRUD::addColumn([
             'name' => 'screenshot',
-            'label' => 'Thumbnail',
+            'label' => 'Preview',
             'type' => 'image',
             'height' => '234px',
             'width' => '192px',

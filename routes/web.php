@@ -24,7 +24,7 @@ Route::group([
     Route::crud('menu-group', 'MenuGroupCrudController');
     Route::crud('page', 'PageCrudController');
     Route::post('page/bulk-status', 'PageCrudController@bulkStatus')->name('bulk-status');
-    Route::crud('script-manager', 'ScriptManagerCrudController');
+    Route::crud('script', 'ScriptCrudController');
     Route::crud('sitemap', 'SitemapCrudController');
     Route::crud('template', 'TemplateCrudController');
     Route::crud('form', 'FormCrudController');

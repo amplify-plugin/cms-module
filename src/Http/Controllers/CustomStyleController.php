@@ -29,7 +29,7 @@ class CustomStyleController extends BackpackCustomCrudController
     public function setup()
     {
         CRUD::setRoute(config('backpack.base.route_prefix') . '/custom-style');
-        CRUD::setEntityNameStrings('custom style', 'custom styles');
+        CRUD::setEntityNameStrings('custom-style', 'custom styles');
         $this->customStylePath = public_path('assets/css/custom.css');
     }
 

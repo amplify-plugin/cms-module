@@ -12,7 +12,7 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
  *
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
-class ScriptManagerCrudController extends BackpackCustomCrudController
+class ScriptCrudController extends BackpackCustomCrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
@@ -28,8 +28,8 @@ class ScriptManagerCrudController extends BackpackCustomCrudController
     public function setup()
     {
         CRUD::setModel(ScriptManager::class);
-        CRUD::setRoute(config('backpack.base.route_prefix').'/script-manager');
-        CRUD::setEntityNameStrings('script-manager', 'scripts');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/script');
+        CRUD::setEntityNameStrings('script', 'scripts');
     }
 
     /**

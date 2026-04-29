@@ -31,7 +31,7 @@ class MenuGroupCrudController extends BackpackCustomCrudController
     {
         CRUD::setModel(MenuGroup::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/menu-group');
-        CRUD::setEntityNameStrings('menu-group', 'menus');
+        CRUD::setEntityNameStrings('menu', 'menus');
     }
 
     /**
@@ -52,7 +52,6 @@ class MenuGroupCrudController extends BackpackCustomCrudController
             }]);
         $this->crud->addColumn(['name' => 'name', 'type' => 'text']);
         $this->crud->addColumn(['name' => 'short_code', 'type' => 'text']);
-        $this->crud->addColumn(['name' => 'blade_location', 'label' => 'Location', 'type' => 'text']);
         $this->crud->addColumn(['name' => 'active', 'label' => 'Activated', 'type' => 'boolean']);
 
         /* Button Add */
@@ -83,7 +82,7 @@ class MenuGroupCrudController extends BackpackCustomCrudController
             ],
             [
                 'name' => 'name',
-                'label' => 'Group Name',
+                'label' => 'Name',
                 'type' => 'text',
                 'attributes' => [
                     'placeholder' => 'Enter Menu Group Name',
@@ -103,7 +102,7 @@ class MenuGroupCrudController extends BackpackCustomCrudController
             ],
             [
                 'name' => 'active',
-                'label' => 'Activated',
+                'label' => 'Activated?',
                 'type' => 'checkbox',
             ],
         ]);

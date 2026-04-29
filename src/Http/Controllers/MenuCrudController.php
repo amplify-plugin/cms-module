@@ -55,7 +55,7 @@ class MenuCrudController extends BackpackCustomCrudController
 
         CRUD::setModel(Menu::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/menu');
-        CRUD::setEntityNameStrings('menu', 'menus');
+        CRUD::setEntityNameStrings('menu-item', 'menu items');
     }
 
     protected function setupCustomRoutes($segment, $routeName, $controller)

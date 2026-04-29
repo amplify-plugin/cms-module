@@ -32,7 +32,7 @@ class BannerCrudController extends BackpackCustomCrudController
     {
         CRUD::setModel(Banner::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/banner');
-        CRUD::setEntityNameStrings('banner', 'banner items');
+        CRUD::setEntityNameStrings('banner-item', 'banner items');
     }
 
     /**

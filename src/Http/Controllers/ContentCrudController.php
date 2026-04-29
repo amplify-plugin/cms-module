@@ -35,7 +35,7 @@ class ContentCrudController extends BackpackCustomCrudController
     {
         CRUD::setModel(Content::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/content');
-        CRUD::setEntityNameStrings('content', 'Content Items');
+        CRUD::setEntityNameStrings('content', 'Content');
     }
 
     protected function setupCustomRoutes($segment, $routeName, $controller): void

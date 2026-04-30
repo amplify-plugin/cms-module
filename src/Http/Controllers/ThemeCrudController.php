@@ -23,11 +23,11 @@ use Illuminate\Support\Facades\Route;
 use Prologue\Alerts\Facades\Alert;
 
 /**
- * Class TemplateCrudController
+ * Class ThemeCrudController
  *
  * @property-read CrudPanel $crud
  */
-class TemplateCrudController extends BackpackCustomCrudController
+class ThemeCrudController extends BackpackCustomCrudController
 {
     use CreateOperation;
     use DeleteOperation;
@@ -46,8 +46,8 @@ class TemplateCrudController extends BackpackCustomCrudController
     public function setup()
     {
         CRUD::setModel(Template::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/template');
-        CRUD::setEntityNameStrings('template', 'templates');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/theme');
+        CRUD::setEntityNameStrings('theme', 'themes');
     }
 
     protected function setupCustomRoutes($segment, $routeName, $controller)
@@ -131,11 +131,6 @@ class TemplateCrudController extends BackpackCustomCrudController
         ]);
 
         $this->crud->addButtonFromModelFunction('line', 'set_active_template', 'setActiveTemplate', 'ending');
-        /**
-         * Columns can be defined using the fluent syntax or array syntax:
-         * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
-         */
     }
 
     /**
@@ -180,7 +175,7 @@ class TemplateCrudController extends BackpackCustomCrudController
             ],
             [
                 'name' => 'name',
-                'label' => 'Template Name',
+                'label' => 'Name',
             ],
             [
                 'name' => 'author',

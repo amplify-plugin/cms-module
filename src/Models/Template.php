@@ -36,8 +36,8 @@ class Template extends Model implements Auditable
     public function setActiveTemplate(): string
     {
         return ! $this->is_active
-            ? '<a class="btn btn-sm btn-link" href="/admin/template/set-template-active/'.$this->id
-               .'" data-toggle="tooltip" title="Set Active Template"><i class="la la-check"></i> Activate</a>' : '';
+            ? '<a class="btn btn-sm btn-link" href="/admin/theme/set-template-active/'.$this->id
+               .'" data-toggle="tooltip" title="Activate This Template?"><i class="la la-check"></i>Activate</a>' : '';
     }
 
     /*

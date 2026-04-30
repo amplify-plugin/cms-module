@@ -45,12 +45,6 @@ class ScriptCrudController extends BackpackCustomCrudController
         CRUD::column('name');
         CRUD::column('position');
         CRUD::column('priority');
-
-        /**
-         * Columns can be defined using the fluent syntax or array syntax:
-         * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
-         */
     }
 
     public function setupShowOperation()
@@ -59,6 +53,7 @@ class ScriptCrudController extends BackpackCustomCrudController
         CRUD::column('name');
         CRUD::column('position');
         CRUD::column('priority');
+        CRUD::column('scripts')->type('textarea');
     }
 
     /**
@@ -87,16 +82,9 @@ class ScriptCrudController extends BackpackCustomCrudController
         CRUD::addField([
             'name' => 'scripts',
             'label' => 'Script(s)',
-            'type' => 'textarea',
+            'type' => 'code',
+            'view_namespace' => 'backend::fields'
         ]);
-
-        /*        CRUD::field('scripts');*/
-
-        /**
-         * Fields can be defined using the fluent syntax or array syntax:
-         * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number']));
-         */
     }
 
     /**

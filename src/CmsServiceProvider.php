@@ -7,12 +7,15 @@ use Amplify\System\Cms\Models\Menu;
 use Amplify\System\Cms\Models\Template;
 use Amplify\System\Cms\Observers\MegaMenuObserver;
 use Amplify\System\Cms\Observers\MenuObserver;
+use Amplify\System\Cms\Traits\HasBackendMenu;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
 class CmsServiceProvider extends ServiceProvider
 {
+    use HasbackendMenu;
+
     /**
      * Register any package services.
      *
@@ -36,6 +39,7 @@ class CmsServiceProvider extends ServiceProvider
     public function boot()
     {
         Menu::observe(MenuObserver::class);
+
         MegaMenu::observe(MegaMenuObserver::class);
 
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'cms');
@@ -47,6 +51,8 @@ class CmsServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 
         $this->loadTemplateConfiguration();
+
+        $this->registerBackendMenu();
     }
 
     private function loadTemplateConfiguration(): void

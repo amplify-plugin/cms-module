@@ -26,12 +26,14 @@ Route::group([
     Route::post('page/bulk-status', 'PageCrudController@bulkStatus')->name('bulk-status');
     Route::crud('script', 'ScriptCrudController');
     Route::crud('sitemap', 'SitemapCrudController');
-    Route::crud('template', 'TemplateCrudController');
+    Route::crud('theme', 'ThemeCrudController');
     Route::crud('form', 'FormCrudController');
     Route::crud('form-response', 'FormResponseCrudController');
     Route::get('page-builder', [PageBuilderController::class, 'index']);
     Route::crud('custom-style', 'CustomStyleController');
     Route::crud('robots-text', 'RobotTextController');
+    Route::crud('faq', 'FaqCrudController');
+    Route::crud('faq-category', 'FaqCategoryCrudController');
 });
 
 Route::name('frontend.')->middleware(['web', 'frontend'])->group(function () {

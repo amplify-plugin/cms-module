@@ -271,25 +271,6 @@ class MenuCrudController extends BackpackCustomCrudController
                 'tab' => 'Additional',
             ],
             [
-                'name' => 'class',
-                'type' => 'text',
-                'label' => 'CSS Class',
-                'tab' => 'Additional',
-            ],
-            [
-                'name' => 'icon',
-                'type' => 'icon_picker',
-                'label' => 'Icon',
-                'iconset' => 'fontawesome',
-                'tab' => 'Additional',
-            ],
-            [
-                'name' => 'style',
-                'type' => 'textarea',
-                'label' => 'CSS Style',
-                'tab' => 'Additional',
-            ],
-            [
                 'name' => 'queries',
                 'type' => 'table',
                 'label' => 'URL Query String',
@@ -300,6 +281,27 @@ class MenuCrudController extends BackpackCustomCrudController
                     'value' => 'Value',
                 ],
             ],
+            [
+                'name' => 'icon',
+                'type' => 'icon_picker',
+                'label' => 'Icon',
+                'iconset' => 'fontawesome',
+                'tab' => 'Additional',
+            ],
+            [
+                'name' => 'class',
+                'type' => 'text',
+                'label' => 'CSS Class',
+                'tab' => 'Additional',
+            ],
+
+            [
+                'name' => 'style',
+                'type' => 'code',
+                'view_namespace' => 'backend::fields',
+                'label' => 'CSS Style',
+                'tab' => 'Additional',
+            ]
         ]);
     }
 

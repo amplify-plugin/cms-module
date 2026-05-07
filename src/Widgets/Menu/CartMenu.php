@@ -40,15 +40,7 @@ class CartMenu extends BaseComponent
     {
         $cart = getCart();
 
-        $itemCount = (config('amplify.frontend.cart_item_badge_style', 'items') == 'items')
-            ? $cart->cartItems->count()
-            : $cart->cartItems->sum('quantity');
-
-        $itemCount = match ($itemCount) {
-            0 => null,
-            $itemCount > 99 => '99+',
-            default => $itemCount,
-        };
+        $itemCount = cart_count_badge($cart);
 
         return view('cms::menu.cart-menu', compact('itemCount'));
     }

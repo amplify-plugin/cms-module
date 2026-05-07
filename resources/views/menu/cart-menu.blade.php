@@ -28,12 +28,14 @@
                     {{ __('View Cart') }}
                 </a>
             </div>
-            <div class="column">
-                <a class="btn btn-sm btn-block btn-success"
-                   href="{{ route('frontend.checkout') }}">
-                    {{ __('Checkout') }}
-                </a>
-            </div>
+            @if((customer_check() && customer(true)->can('cart.checkout')) || config('amplify.frontend.guest_checkout'))
+                <div class="column">
+                    <a class="btn btn-sm btn-block btn-success"
+                       href="{{ route('frontend.checkout') }}">
+                        {{ __('Checkout') }}
+                    </a>
+                </div>
+            @endif
         </div>
     </div>
 </div>

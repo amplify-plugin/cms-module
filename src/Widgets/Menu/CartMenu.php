@@ -26,7 +26,7 @@ class CartMenu extends BaseComponent
     public function shouldRender(): bool
     {
         if (customer_check()) {
-            return customer(true)->can('shop.add-to-cart');
+            return customer(true)->canAny('cart.add', 'cart.view');
         }
 
         return config('amplify.frontend.guest_add_to_cart', true);

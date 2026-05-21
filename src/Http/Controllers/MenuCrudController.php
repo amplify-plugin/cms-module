@@ -88,7 +88,7 @@ class MenuCrudController extends BackpackCustomCrudController
         $this->crud->addButtonFromModelFunction('top', 'reorder', 'reorderButton', 'beginning');
         $this->crud->addButtonFromModelFunction('line', 'addItem', 'addMegaMenuItemButton', 'end');
         $this->crud->addButtonFromModelFunction('line', 'listItem', 'listMegaMenuItems', 'end');
-        $this->crud->addButtonFromModelFunction('top', 'create', 'addNew', 'beginning');
+        $this->crud->addButtonFromModelFunction('top', 'add_item', 'addNew', 'beginning');
         $this->addCustomButton('edit', $this->crud->route.'/:id/edit?group_id='.request('group_id'),
             [
                 'stack' => 'line',

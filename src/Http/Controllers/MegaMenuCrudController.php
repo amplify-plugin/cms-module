@@ -81,7 +81,7 @@ class MegaMenuCrudController extends BackpackCustomCrudController
         ]);
 
         $this->crud->removeButton('create'); // remove previous create button
-        $this->crud->addButtonFromModelFunction('top', 'create', 'createMegaMenuButton');
+        $this->crud->addButtonFromModelFunction('top', 'add_item', 'createMegaMenuButton');
 
         $this->crud->setListView('backend::pages.mega-menus.list');
     }

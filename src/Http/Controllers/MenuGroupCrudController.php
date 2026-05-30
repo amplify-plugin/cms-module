@@ -43,19 +43,21 @@ class MenuGroupCrudController extends BackpackCustomCrudController
      */
     protected function setupListOperation()
     {
-        $this->crud->addColumn([
+        CRUD::removeButton('show');
+
+        /* Button Add */
+        CRUD::addButtonFromModelFunction('line', 'add_menus', 'buttonForMenus', 'beginning');
+
+        CRUD::addColumn([
             'name' => 'id',
             'label' => '#',
             'type' => 'custom_html',
             'value' => function (MenuGroup $menuGroup) {
-                return $menuGroup->id.(($menuGroup->is_reserved == true) ? '<sup class="text-warning font-weight-bold ml-1">Reserved</sup>' : '');
+                return $menuGroup->id . (($menuGroup->is_reserved == true) ? '<sup class="text-warning font-weight-bold ml-1">Reserved</sup>' : '');
             }]);
-        $this->crud->addColumn(['name' => 'name', 'type' => 'text']);
-        $this->crud->addColumn(['name' => 'short_code', 'type' => 'text']);
-        $this->crud->addColumn(['name' => 'active', 'label' => 'Activated', 'type' => 'boolean']);
-
-        /* Button Add */
-        $this->crud->addButtonFromModelFunction('line', 'add_menus', 'buttonForMenus', 'beginning');
+        CRUD::addColumn(['name' => 'name', 'type' => 'text']);
+        CRUD::addColumn(['name' => 'short_code', 'type' => 'text']);
+        CRUD::addColumn(['name' => 'active', 'label' => 'Activated', 'type' => 'boolean']);
     }
 
     /**

@@ -89,7 +89,7 @@ class MenuGroup extends Model implements Auditable
      *
      * @return string
      */
-    public function buttonForMenus()
+    public function buttonForMenus(...$args)
     {
         return '<a class="btn btn-sm btn-link" href="'.route('menu.index')
             .'?group_id='.$this->id.'" data-toggle="tooltip" title="Menu Manage"><i class="la la-list mr-2"></i> Menu Items</a>';

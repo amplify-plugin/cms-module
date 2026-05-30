@@ -146,7 +146,7 @@ class Menu extends Model implements Auditable
                 $queryBuilder[$query['name']] = $query['value'];
             }
 
-            return '?'.http_build_query($queryBuilder);
+            return '?' . http_build_query($queryBuilder);
         }
 
         return '';
@@ -169,58 +169,19 @@ class Menu extends Model implements Auditable
     //
     //    }
 
-    public function addNew()
+    public function reorderButton($crud)
     {
-        return '<a href="'.route('menu.create').'?group_id='.request('group_id').'" class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> Add Item </span></a>';
-    }
-
-    public function editButton()
-    {
-
-        $button = '';
-        $localizedLinks = '';
-
-        foreach ($this->getAvailableLocales() as $key => $locale) {
-            $localizedLinks .= '<a class="dropdown-item" href="'.route('menu.edit', $this->id).'?group_id='.$this->group_id.'&locale='.$key.'">'.$locale.'</a>';
-        }
-
-        if (! $this->translationEnabled()) {
-            $button = '<a href="'.route('menu.edit', $this->id).'?group_id='.$this->group_id.'" class="btn btn-sm btn-link"><i class="la la-edit"></i>'.trans('backpack::crud.edit').'</a>';
-        } else {
-            $button =
-                '<div class="btn-group">
-            <a href="'.route('menu.edit', $this->id).'?group_id='.$this->group_id.'" class="btn btn-sm btn-link pr-0"><i class="la la-edit"></i> '.trans('backpack::crud.edit').'</a>
-            <a class="btn btn-sm btn-link dropdown-toggle text-primary pl-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu dropdown-menu-right">
-                <li class="dropdown-header">'.trans('backpack::crud.edit_translations').':</li>'
-                .$localizedLinks.
-                '</ul>
-            </div>';
-        }
-
-        return $button;
-    }
-
-    public function reorderButton()
-    {
-        return '<a href="'.route('menu.reorder').'?group_id='.request()->group_id.'" class="btn btn-outline-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-arrows"></i> Items Reorder</span></a>';
-    }
-
-    public function addMegaMenuItemButton()
-    {
-        if ($this->type == 'mega-menu') {
-            return '<a href="'.route('mega-menu.create').'?group_id='.request('group_id', '').'&menuId='.$this->id.'" class="btn btn-sm btn-link" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> Add </span></a>';
+        if ($crud->hasAccess('reorder')) {
+            return '<a href="' . route('menu.reorder') . '?group_id=' . request('group_id') . '" class="btn btn-outline-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-arrows"></i> Items Reorder</span></a>';
         }
 
         return '';
     }
 
-    public function listMegaMenuItems()
+    public function listMegaMenuItems($crud)
     {
-        if ($this->type == 'mega-menu') {
-            return '<a href="'.route('mega-menu.index').'?group_id='.request('group_id', '').'&menuId='.$this->id.'" class="btn btn-sm btn-link" data-style="zoom-in"><span class="ladda-label"><i class="la la-list"></i> List </span></a>';
+        if ($this->type == 'mega-menu' && backpack_user()->can('mega-menu.list')) {
+            return '<a href="' . route('mega-menu.index') . '?group_id=' . request('group_id') . '&menuId=' . $this->id . '" class="btn btn-sm btn-link" data-style="zoom-in" title="Mega Menu Items"><span class="ladda-label"><i class="la la-list"></i> Items</span></a>';
         }
 
         return '';

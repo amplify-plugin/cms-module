@@ -48,8 +48,10 @@ class MegaMenuCrudController extends BackpackCustomCrudController
      */
     protected function setupListOperation()
     {
+        CRUD::modifyButton('create', ['params' => ['group_id' => \request('group_id'), 'menuId' => \request('menuId')]]);
+
         $menu = Menu::where('id', request()->menuId)->where('type', 'mega-menu')->firstOrFail();
-        $this->crud->addClause('where', 'menu_id', $menu->id);
+        $this->crud->addBaseClause('where', 'menu_id', request('menuId'));
         $this->crud->menu = $menu;
 
         CRUD::column('name')->type('text');
@@ -73,17 +75,13 @@ class MegaMenuCrudController extends BackpackCustomCrudController
             'name' => 'menu.name',
             'type' => 'relationship',
         ]);
-
         $this->crud->addColumn([
             'label' => 'Enabled',
             'name' => 'enabled',
             'type' => 'boolean',
         ]);
 
-        $this->crud->removeButton('create'); // remove previous create button
-        $this->crud->addButtonFromModelFunction('top', 'create', 'createMegaMenuButton');
-
-        $this->crud->setListView('backend::pages.mega-menus.list');
+//        $this->crud->setListView('backend::pages.mega-menus.list');
     }
 
     /**

@@ -56,6 +56,10 @@ class MenuCrudController extends BackpackCustomCrudController
         CRUD::setModel(Menu::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/menu');
         CRUD::setEntityNameStrings('menu-item', 'menu items');
+
+        if (request()->filled('group_id')) {
+            $this->crud->addBaseClause('where', 'group_id', \request('group_id'));
+        }
     }
 
     protected function setupCustomRoutes($segment, $routeName, $controller)
@@ -76,37 +80,11 @@ class MenuCrudController extends BackpackCustomCrudController
      */
     protected function setupListOperation()
     {
-        if (request()->has('group_id')) {
-            $this->crud->addClause('where', 'group_id', \request('group_id'));
-        }
+        CRUD::removeButton('show');
+        CRUD::modifyButton('create', ['params' => ['group_id' => \request('group_id')]]);
 
-        /* Remove Add New Button */
-        $this->crud->removeButton('create');
-        $this->crud->removeButton('show');
-        $this->crud->removeButton('update');
-
-        $this->crud->addButtonFromModelFunction('top', 'reorder', 'reorderButton', 'beginning');
-        $this->crud->addButtonFromModelFunction('line', 'addItem', 'addMegaMenuItemButton', 'end');
-        $this->crud->addButtonFromModelFunction('line', 'listItem', 'listMegaMenuItems', 'end');
-        $this->crud->addButtonFromModelFunction('top', 'create', 'addNew', 'beginning');
-        $this->addCustomButton('edit', $this->crud->route.'/:id/edit?group_id='.request('group_id'),
-            [
-                'stack' => 'line',
-                'view' => 'custom-button',
-                'position' => 'beginning',
-            ],
-            [
-                'icon' => 'la la-edit',
-                'classes' => 'btn btn-sm btn-link',
-            ]
-        );
-        $this->addCustomButton('show', $this->crud->route.'/:id/show?group_id='.request('group_id'), [
-            'position' => 'beginning',
-        ], [
-            'icon' => 'la la-eye',
-            'classes' => 'btn btn-sm btn-link',
-        ]);
-        //$this->crud->addButtonFromView('line', 'preview-page', 'preview-page', 'ending');
+        $this->crud->addButtonFromModelFunction('top', 'reorder', 'reorderButton' );
+        $this->crud->addButtonFromModelFunction('line', 'listItem', 'listMegaMenuItems', 'beginning');
         $this->crud->addButton('line', 'goto-page', 'view', 'cms::buttons.page.goto', 'ending');
 
         $this->crud->addColumns(
@@ -134,12 +112,9 @@ class MenuCrudController extends BackpackCustomCrudController
                 ],
                 [
                     'label' => 'URL',
-                    'type' => 'custom_html',
+                    'type' => 'model_function',
                     'name' => 'url',
-                    'value' => function ($model) {
-                        return $model->link();
-                    },
-
+                    'function_name' => 'link',
                 ],
                 [
                     'label' => 'Parent Item',

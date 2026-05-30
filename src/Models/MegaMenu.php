@@ -132,12 +132,6 @@ class MegaMenu extends Model implements Auditable
             })->sum('menu_column_size');
     }
 
-    /* Add create button */
-    public function createMegaMenuButton()
-    {
-        return '<a href="'.route('mega-menu.create').'?menuId='.request()->menuId.'" class="btn btn-primary"><span class="ladda-label"><i class="la la-plus"></i> create New</span></a>';
-    }
-
     /*
     |--------------------------------------------------------------------------
     | RELATIONS

@@ -113,6 +113,21 @@ class Content extends Model implements Auditable
         return $builder->where('status', '=', 1);
     }
 
+    /**
+     * Retrieve the model for a bound value.
+     * This handles route model binding using slug and only published content.
+     *
+     * @param  mixed  $value
+     * @param  string|null  $field
+     * @return \Illuminate\Database\Eloquent\Model|null
+     */
+    public function resolveRouteBinding($value, $field = null)
+    {
+        return $this->where('slug', $value)
+            ->where('status', 1)
+            ->firstOrFail();
+    }
+
     /*
     |--------------------------------------------------------------------------
     | ACCESSORS

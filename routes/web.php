@@ -37,8 +37,5 @@ Route::group([
 });
 
 Route::name('frontend.')->middleware(['web', 'frontend'])->group(function () {
-    Route::bind('content', function ($value) {
-        return Content::published()->whereSlug($value)->firstOrFail();
-    });
-    Route::get('articles/{content}', ContentDetailController::class)->name('contents.show');
+    Route::get('articles/{content:slug}', ContentDetailController::class)->name('contents.show');
 });

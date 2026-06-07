@@ -11,6 +11,7 @@
 return [
 
     'default' => env('DEFAULT_TEMPLATE', 'template-1'),
+    'brand_logo_url' => '',
     'logo_path' => '',
     'favicon_path' => '',
     'email' => null,

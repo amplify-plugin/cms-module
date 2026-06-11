@@ -113,9 +113,15 @@ class Content extends Model implements Auditable
         return $builder->where('status', '=', 1);
     }
 
+    public function scopeArchived(Builder $builder)
+    {
+        return $builder->where('status', '=', 2);
+    }
+
     /**
      * Retrieve the model for a bound value.
-     * This handles route model binding using slug and only published content.
+     * Slug binding is restricted to published content (frontend).
+     * ID binding is unrestricted (admin).
      *
      * @param  mixed  $value
      * @param  string|null  $field
@@ -123,9 +129,15 @@ class Content extends Model implements Auditable
      */
     public function resolveRouteBinding($value, $field = null)
     {
-        return $this->where('slug', $value)
-            ->where('status', 1)
-            ->firstOrFail();
+        $field = $field ?? $this->getRouteKeyName();
+
+        $query = $this->newQuery()->where($field, $value);
+
+        if ($field === 'slug') {
+            $query->where('status', 1);
+        }
+
+        return $query->firstOrFail();
     }
 
     /*

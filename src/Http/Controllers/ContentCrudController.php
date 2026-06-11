@@ -192,12 +192,14 @@ class ContentCrudController extends BackpackCustomCrudController
 
     public function changeStatus(Content $content, $status)
     {
-        if (in_array($status, ['0', '1', '2'])) {
-            $content->status = $status;
+        if (in_array($status, ['0', '1', '2'], true)) {
+            $content->status = (int) $status;
             $content->save();
-        }
 
-        Alert::add('success', 'Changed approval status.')->flash();
+            Alert::add('success', 'Changed content status.')->flash();
+        } else {
+            Alert::add('error', 'Invalid content status.')->flash();
+        }
 
         return back();
     }

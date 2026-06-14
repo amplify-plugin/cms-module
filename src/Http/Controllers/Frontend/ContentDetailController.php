@@ -18,8 +18,10 @@ class ContentDetailController extends Controller
      * @throws ErrorException
      * @throws BindingResolutionException
      */
-    public function __invoke(Content $content)
+    public function __invoke(string $content)
     {
+        $content = Content::published()->where('slug', $content)->firstOrFail();
+        
         $this->loadPageByType('content_detail');
 
         store()->contentModel = $content;

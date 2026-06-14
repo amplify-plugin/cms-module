@@ -2,7 +2,6 @@
 
 use Amplify\System\Cms\Http\Controllers\Frontend\ContentDetailController;
 use Amplify\System\Cms\Http\Controllers\PageBuilderController;
-use Amplify\System\Cms\Models\Content;
 use Illuminate\Support\Facades\Route;
 
 Route::group([

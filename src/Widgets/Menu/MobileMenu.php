@@ -67,11 +67,9 @@ class MobileMenu extends BaseComponent
                 ->orderBy('menus.lft')
                 ->with(['permissions', 'children'])
                 ->get()->each(function (Menu $menu) use ($menus) {
-                    if ($menu->type == 'default') {
-                        $this->push($menu, $menus);
-                    } else {
-                        $this->pushMegaMenu($menu, $menus);
-                    }
+                    (in_array($menu->type, ['default', 'categories']))
+                        ? $this->push($menu, $menus)
+                        : $this->pushMegaMenu($menu, $menus);
                 });
 
             return $menus;

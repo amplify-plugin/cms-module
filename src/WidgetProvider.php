@@ -63,6 +63,19 @@ class WidgetProvider extends ServiceProvider
                 '@nestedItems' => [],
                 'description' => 'Login widget',
             ],
+            \Amplify\System\Cms\Widgets\Menu\MobileMenuItem::class => [
+                'name' => 'menu.mobile-menu-item',
+                'reserved' => true,
+                'internal' => true,
+                '@inside' => null,
+                '@client' => null,
+                'model' => [],
+                '@attributes' => [
+                    ['name' => ':menu', 'value' => '$menu', 'type' => 'text'],
+                ],
+                '@nestedItems' => [],
+                'description' => 'Login widget',
+            ],
             \Amplify\System\Cms\Widgets\Menu\AccountSidebar::class => [
                 'name' => 'account-sidebar',
                 'reserved' => false,

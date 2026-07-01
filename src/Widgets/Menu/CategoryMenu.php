@@ -18,7 +18,11 @@ class CategoryMenu extends BaseComponent
 {
     public mixed $categories;
 
-    public function __construct(public ?\stdClass $menu = null, public ?NavigateCategory $category = null, public bool $showIcon = false, public bool $showProductCount = false)
+    public function __construct(public ?\stdClass        $menu = null,
+                                public ?NavigateCategory $category = null,
+                                public bool              $showIcon = false,
+                                public bool              $showProductCount = false,
+                                public string $subMenuClass = 'sub-menu')
     {
         parent::__construct();
 
@@ -57,8 +61,15 @@ class CategoryMenu extends BaseComponent
 
     public function htmlAttributes(): string
     {
-        $this->attributes = $this->attributes->class(['sub-menu']);
+        $this->attributes = $this->attributes->class([$this->subMenuClass]);
 
-        return parent::htmlAttributes();
+        return $this->subMenuClass == 'offcanvas-submenu'
+            ? $this->attributes->toHtml()
+            :parent::htmlAttributes();
+    }
+
+    public function onMobileMenu(): bool
+    {
+        return $this->subMenuClass == 'offcanvas-submenu';
     }
 }

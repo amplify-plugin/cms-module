@@ -36,14 +36,14 @@ trait DefaultMenuTrait
         $item->css_style = $menu->style;
         $item->css_class = $menu->class;
         $item->type = $menu->type;
-        $item->has_children = $menu->children->isNotEmpty();
+        $item->has_children = ($menu->children->isNotEmpty() || $menu->type == 'categories');
         $item->seo_path = $menu->seo_path;
         $item->sub_category_depth = $menu->sub_category_depth;
         $item->display_product_count = (bool)($menu->display_product_count ?? false);
 
         $menuPermissions = config('amplify.basic.is_permission_system_enabled') ? $menu->permissions?->pluck('name')->toArray() : [];
 
-        if ($item->has_children) {
+        if ($item->has_children && $menu->type != 'categories') {
             $menu->children->each(function (Menu $child) use (&$item) {
                 $this->push($child, $item->children);
             });

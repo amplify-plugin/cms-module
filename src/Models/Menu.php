@@ -77,7 +77,7 @@ class Menu extends Model implements Auditable
             config('permission.models.permission'),
             'menu_has_permissions',
             'menu_id',
-            PermissionRegistrar::$pivotPermission
+            app(PermissionRegistrar::class)->pivotPermission
         );
     }
 

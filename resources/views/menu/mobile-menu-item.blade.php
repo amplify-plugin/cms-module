@@ -1,6 +1,6 @@
 <li @class(['has-children' => $menu->has_children, 'active' => $menu->is_active])>
     <span>
-        <a @class([$menu->css_class])
+        <a @class([$menu->css_class]) target="{{ $menu->target ?? '_self' }}"
            href="{{ $menu->has_children ? 'javascript:void(0)' : $menu->url }}"
            style="{{ $menu->css_style }}">
             <span>
@@ -29,8 +29,10 @@
                                              :submenu="false"/>
                     </li>
                 @else
-                    <li class="@if ($child->is_active) active @endif">
-                        <a class="{{ $child->css_class }}" href="{{ $child->url }}"
+                    <li @class(['active' => $child->is_active])>
+                        <a @class([$child->css_class])
+                           target="{{ $child->target ?? '_self' }}"
+                           href="{{ $child->url }}"
                            style="{{ $child->css_style }}">
                             @if($showIcon && $child->icon != null)
                                 <i @class([$child->icon, "d-inline-block align-middle"])></i>

@@ -6,7 +6,7 @@ use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Amplify\System\Backend\Models\SystemConfiguration;
 use Amplify\System\Cms\Http\Requests\TemplateRequest;
 use Amplify\System\Cms\Models\Footer;
-use Amplify\System\Cms\Models\Template;
+use Amplify\System\Cms\Models\Theme;
 use Amplify\System\Support\ChunkUpload;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
@@ -45,7 +45,7 @@ class ThemeCrudController extends BackpackCustomCrudController
      */
     public function setup()
     {
-        CRUD::setModel(Template::class);
+        CRUD::setModel(Theme::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/theme');
         CRUD::setEntityNameStrings('theme', 'themes');
     }
@@ -233,13 +233,13 @@ class ThemeCrudController extends BackpackCustomCrudController
         $id = request()->id ?? null;
 
         return response()->json([
-            'slug' => getTemplateSlug($slug, $id),
+            'slug' => Theme::getTemplateSlug($slug, $id),
         ]);
     }
 
-    public function setActiveTemplate(Template $template): RedirectResponse
+    public function setActiveTemplate(Theme $template): RedirectResponse
     {
-        Template::query()->where('is_active', '=', true)->update(['is_active' => false]);
+        Theme::query()->where('is_active', '=', true)->update(['is_active' => false]);
 
         // Enable top bar and navigation for template
         // Navigation::where('template_id', $template->id)->update(['is_enabled' => true]);
@@ -333,7 +333,7 @@ class ThemeCrudController extends BackpackCustomCrudController
 
             rename(base_path('themes/tmp'), $destination);
 
-            Template::create([
+            Theme::create([
                 'name' => $config['name'] ?? $config['label'],
                 'author' => $config['author'],
                 'slug' => $config['slug'],

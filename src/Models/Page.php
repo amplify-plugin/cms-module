@@ -228,7 +228,7 @@ class Page extends Model implements Auditable
     */
     public function template()
     {
-        return $this->belongsTo(Template::class);
+        return $this->belongsTo(Theme::class);
     }
 
     public function parent(): BelongsTo

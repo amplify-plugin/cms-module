@@ -4,7 +4,7 @@ namespace Amplify\System\Cms;
 
 use Amplify\System\Cms\Models\MegaMenu;
 use Amplify\System\Cms\Models\Menu;
-use Amplify\System\Cms\Models\Template;
+use Amplify\System\Cms\Models\Theme;
 use Amplify\System\Cms\Observers\MegaMenuObserver;
 use Amplify\System\Cms\Observers\MenuObserver;
 use Amplify\System\Cms\Traits\HasBackendMenu;
@@ -60,7 +60,7 @@ class CmsServiceProvider extends ServiceProvider
 
         if (Schema::hasTable('templates')) {
             //Load All Configs to Config system from DB
-            Template::all()->each(function (Template $template) {
+            Theme::all()->each(function (Theme $template) {
                 if ($template->is_active == true) {
                     Config::set('amplify.cms.default', $template->slug);
                 }

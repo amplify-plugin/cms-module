@@ -6,7 +6,7 @@ use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 
-class Template extends Model implements Auditable
+class Theme extends Model implements Auditable
 {
     use CrudTrait;
     use \OwenIt\Auditing\Auditable;
@@ -32,6 +32,19 @@ class Template extends Model implements Auditable
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
+
+    public static function getTemplateSlug($slug, $id = null): string
+    {
+        $where = $id
+            ? [['slug', 'LIKE', '%'.$slug.'%'], ['id', '!=', $id]]
+            : ['slug' => $slug];
+
+        $count = Theme::query()->where($where)->count();
+
+        return $count
+            ? "$slug-$count"
+            : $slug;
+    }
 
     public function setActiveTemplate(): string
     {

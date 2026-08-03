@@ -3,7 +3,7 @@
 namespace Amplify\System\Cms\Models;
 
 use Amplify\System\Cms\Models\Menu;
-use Amplify\System\Cms\Models\Template;
+use Amplify\System\Cms\Models\Theme;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -114,7 +114,7 @@ class MenuGroup extends Model implements Auditable
      */
     public function template(): BelongsTo
     {
-        return $this->belongsTo(Template::class, 'template_id');
+        return $this->belongsTo(Theme::class, 'template_id');
     }
 
     /*

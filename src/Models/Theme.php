@@ -25,8 +25,6 @@ class Theme extends Model implements Auditable
 
     protected $casts = ['options' => 'json', 'is_new' => 'boolean', 'is_updated' => 'boolean', 'is_active' => 'boolean'];
 
-    protected $appends = ['label'];
-
     /*
     |--------------------------------------------------------------------------
     | FUNCTIONS
@@ -68,16 +66,6 @@ class Theme extends Model implements Auditable
     public function scopeIsActive($query)
     {
         return $query->where('is_active', 1);
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | ACCESSORS
-    |--------------------------------------------------------------------------
-    */
-    public function getLabelAttribute()
-    {
-        return $this->attributes['label'] = $this->attributes['name'];
     }
 
     /*

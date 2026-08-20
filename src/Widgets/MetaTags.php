@@ -105,22 +105,34 @@ class MetaTags extends BaseComponent
         $og_list = [];
         $twitter_list = [];
         if ($page->page_type === 'single_product') {
-            $product = Product::find(store()->productModel->id);
-            $meta_description = $product->meta_description ?? $product->description;
-            $meta_keywords = $product->meta_keywords;
+            $storedProduct = store()->productModel ?? null;
+            $product = null;
 
-            $og_list[] = ['property' => 'og:title', 'content' => "{$product->product_name} | " . config('app.name')];
-            $og_list[] = ['property' => 'og:description', 'content' => $product->og_description ?? $meta_description];
-            $og_list[] = ['property' => 'og:type', 'content' => 'product'];
-            $og_list[] = ['property' => 'og:url', 'content' => frontendSingleProductURL($product)];
-            $og_list[] = ['property' => 'og:image', 'content' => asset($product->thumbnail)];
+            if ($storedProduct instanceof Product) {
+                // EasyAsk-only products are not persisted ($exists = false), so find() can return null.
+                $product = $storedProduct->exists
+                    ? (Product::find($storedProduct->getKey()) ?? $storedProduct)
+                    : $storedProduct;
+            } elseif (is_object($storedProduct)) {
+                $productId = $storedProduct->id ?? $storedProduct->Amplify_Id ?? null;
+                $product = $productId ? Product::find($productId) : null;
+            }
 
-            $twitter_list[] = ['name' => 'twitter:card', 'content' => 'summary_large_image'];
-            $twitter_list[] = ['name' => 'twitter:title', 'content' => $product->product_name];
-            $twitter_list[] = ['name' => 'twitter:description', 'content' => $product->og_description ?? $meta_description];
-            $twitter_list[] = ['name' => 'twitter:image', 'content' => asset($product->thumbnail)];
-            $twitter_list[] = ['name' => 'twitter:card', 'content' => 'summary_large_image'];
+            if ($product) {
+                $meta_description = $product->meta_description ?? $product->description ?? $meta_description;
+                $meta_keywords = $product->meta_keywords ?? $meta_keywords;
 
+                $og_list[] = ['property' => 'og:title', 'content' => "{$product->product_name} | " . config('app.name')];
+                $og_list[] = ['property' => 'og:description', 'content' => $product->og_description ?? $meta_description];
+                $og_list[] = ['property' => 'og:type', 'content' => 'product'];
+                $og_list[] = ['property' => 'og:url', 'content' => frontendSingleProductURL($product)];
+                $og_list[] = ['property' => 'og:image', 'content' => asset($product->thumbnail)];
+
+                $twitter_list[] = ['name' => 'twitter:card', 'content' => 'summary_large_image'];
+                $twitter_list[] = ['name' => 'twitter:title', 'content' => $product->product_name];
+                $twitter_list[] = ['name' => 'twitter:description', 'content' => $product->og_description ?? $meta_description];
+                $twitter_list[] = ['name' => 'twitter:image', 'content' => asset($product->thumbnail)];
+            }
         }
 
         $meta_list = [

@@ -5,8 +5,8 @@ namespace Amplify\System\Cms\Http\Controllers;
 use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Amplify\System\Cms\Http\Requests\ContentCategoryRequest;
 use Amplify\System\Cms\Models\ContentCategory;
+use Backpack\CRUD\app\Http\Controllers\Operations\InlineCreateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use Backpack\Pro\Http\Controllers\Operations\InlineCreateOperation;
 
 /**
  * Class ContentCategoryCrudController

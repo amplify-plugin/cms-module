@@ -420,39 +420,28 @@ class PageCrudController extends BackpackCustomCrudController
         /* Generate starting 'start tag' */
         $finalCode .= $addTabSpaceIfNested.'<'.$tag->name;
         /* Generate attributes */
-        if (is_array($tag->{'@attributes'}) && count($tag->{'@attributes'}) > 0) {
+        if (!empty($tag->{'@attributes'})) {
+
             foreach ($tag->{'@attributes'} as $attribute) {
-                if (in_array($attribute->type, ['dropdown', 'content-dropdown', 'merchandises-dropdown'])) {
-                    $attribute->value = $attribute->value->id ?? '';
-                }
 
-                if ($attribute->type == 'menugroup-dropdown') {
-                    $attribute->value = $attribute->value->short_code;
-                }
+                $attribute->value = match ($attribute->type) {
+                    'dropdown',
+                    'content-dropdown',
+                    'page-dropdown',
+                    'merchandises-dropdown' => $attribute->value->id ?? '',
 
-                if ($attribute->type == 'page-dropdown') {
-                    $attribute->value = $attribute->value->id;
-                }
+                    'menugroup-dropdown' => $attribute->value->short_code ?? '',
 
-                if ($attribute->type == 'category-dropdown') {
-                    $attribute->value = collect($attribute->value)->pluck('id')->implode(',');
-                }
+                    'category-dropdown' => collect($attribute->value)->pluck('id')->implode(','),
 
-                if ($attribute->type == 'banner-zone') {
-                    $attribute->value = $attribute->value->code;
-                }
+                    'banner-zone',
+                    'banner-code',
+                    'form-dropdown' =>  $attribute->value->code ?? '',
 
-                if ($attribute->type == 'form-dropdown') {
-                    $attribute->value = $attribute->value->code;
-                }
+                    'permission-dropdown' => optional($attribute->value)->name,
 
-                if ($attribute->type == 'banner-code') {
-                    $attribute->value = optional($attribute->value)->code;
-                }
-
-                if ($attribute->type == 'permission-dropdown') {
-                    $attribute->value = optional($attribute->value)->name;
-                }
+                    default => $attribute->value ?? '',
+                };
 
                 if ($attribute->name !== 'repeatable') {
                     $finalCode .= "\n\t".$addTabSpaceIfNested.$attribute->name."='"
@@ -471,6 +460,7 @@ class PageCrudController extends BackpackCustomCrudController
 
         /* Generate nested tags */
         if (! empty($tag->{'@nestedItems'})) {
+
             foreach ($tag->{'@nestedItems'} as $child) {
                 $finalCode .= $this->makeConversionFromObjectToCode($child, true);
             }

@@ -44,7 +44,6 @@ class MenuRequest extends FormRequest
     {
         $this->merge(
             [
-                'name' => json_encode($this->input('name')),
                 'display_product_count' => $this->input('display_product_count') ? 1 : 0
             ]
         );

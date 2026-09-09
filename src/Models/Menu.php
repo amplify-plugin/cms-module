@@ -38,17 +38,11 @@ class Menu extends Model implements Auditable
 
     protected $table = 'menus';
 
-    // protected $primaryKey = 'id';
-    // public $timestamps = false;
     protected $guarded = ['id'];
 
     protected $casts = ['for_authenticated' => 'bool', 'for_guest' => 'bool', 'open_new_tab' => 'bool'];
 
     protected $translatable = ['name'];
-
-    //    protected $appends = ['local_name'];
-    // protected $fillable = [];
-    // protected $hidden = [];
 
     /*
     |--------------------------------------------------------------------------

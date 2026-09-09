@@ -87,6 +87,13 @@ class MenuCrudController extends BackpackCustomCrudController
         $this->crud->addButtonFromModelFunction('line', 'listItem', 'listMegaMenuItems', 'beginning');
         $this->crud->addButton('line', 'goto-page', 'view', 'cms::buttons.page.goto', 'ending');
 
+        $this->data['breadcrumbs'] = [
+            trans('backpack::crud.admin') => url(config('backpack.base.route_prefix'), 'dashboard'),
+            'Menus' => backpack_url('menu-group'),
+            'Menu Items' => url($this->crud->route, ['group_id' => request('group_id')]),
+            trans('backpack::crud.list') => false,
+        ];
+
         $this->crud->addColumns(
             [
                 [
@@ -124,8 +131,6 @@ class MenuCrudController extends BackpackCustomCrudController
                 ],
             ]
         );
-
-        $this->crud->setListView('backend::pages.menus.list');
     }
 
     /**

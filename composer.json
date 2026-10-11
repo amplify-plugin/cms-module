@@ -12,6 +12,7 @@
     ],
     "minimum-stability": "dev",
     "require": {
+        "backpack/ckeditor-field": "^1.0",
         "ext-gd": "*"
     },
     "autoload": {

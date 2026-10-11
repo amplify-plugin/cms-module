@@ -42,6 +42,10 @@ class CustomStyleController extends BackpackCustomCrudController
      */
     protected function setupListOperation()
     {
+        if (!is_dir(dirname($this->customStylePath))) {
+            mkdir(dirname($this->customStylePath), 0775, true);
+        }
+
         if (!file_exists($this->customStylePath)) {
             touch($this->customStylePath);
         }
@@ -71,7 +75,11 @@ HTML;
     {
         $code = $request->input('content', '');
 
-        if (!file_put_contents($this->customStylePath, $code . PHP_EOL)) {
+        if (!is_dir(dirname($this->customStylePath))) {
+            mkdir(dirname($this->customStylePath), 0775, true);
+        }
+
+        if (file_put_contents($this->customStylePath, $code . PHP_EOL) === false) {
             \Alert::error('Unable to modify customer style file.')->flash();
         } else {
             \Alert::success(__('backpack::crud.update_success'))->flash();

@@ -81,8 +81,6 @@ class FormCrudController extends BackpackCustomCrudController
     {
         CRUD::setValidation(FormRequest::class);
 
-        Widget::add()->type('script')->content('vendor/backend/js/forms/form-builder.js');
-
         CRUD::addFields([
             [
                 'name' => 'name',
@@ -140,8 +138,9 @@ class FormCrudController extends BackpackCustomCrudController
                 'subfields' => [
                     [
                         'name' => 'type',
-                        'label' => 'Input Type',
+                        'label' => 'Type',
                         'type' => 'select_from_array',
+                        'value' => 'rText',
                         'options' => [
                             'rText' => 'Plain Text',
                             'rNumber' => 'Number',
@@ -159,15 +158,13 @@ class FormCrudController extends BackpackCustomCrudController
                             'rSelectRange' => 'Range Dropdown',
                             'rSelectMonth' => 'Month',
                             'rSelectYear' => 'Year',
-                        ],
-                        'wrapper' => [
-                            'class' => 'form-group col-md-4',
+                            'rHtml' => 'Raw HTML',
                         ],
                         'allows_null' => false,
                     ],
                     [
                         'name' => 'name',
-                        'label' => 'Field Name',
+                        'label' => 'Name',
                         'type' => 'text',
                         'allows_null' => false,
                         'wrapper' => [
@@ -176,8 +173,26 @@ class FormCrudController extends BackpackCustomCrudController
                     ],
                     [
                         'name' => 'label',
-                        'label' => 'Display Label',
+                        'label' => 'Label',
                         'type' => 'text',
+                        'allows_null' => false,
+                        'wrapper' => [
+                            'class' => 'form-group col-md-4',
+                        ],
+                    ],
+                    [
+                        'name' => 'width',
+                        'label' => 'Size',
+                        'type' => 'select_from_array',
+                        'options' => [
+                            'col-md-12 col-12' => 'Full width',
+                            'col-md-6 col-12' => 'Half width',
+                            'col-md-4 col-12' => 'One-third',
+                            'col-md-3 col-12' => 'One quarter',
+                            'col-md-8 col-12' => 'Two thirds',
+                            'col-md-9 col-12' => 'Three quarters',
+                        ],
+                        'default' => '12',
                         'allows_null' => false,
                         'wrapper' => [
                             'class' => 'form-group col-md-4',
@@ -208,13 +223,8 @@ class FormCrudController extends BackpackCustomCrudController
                         ],
                     ],
                     [
-                        'name' => 'value',
-                        'label' => 'Default Value',
-                        'type' => 'textarea',
-                    ],
-                    [
                         'name' => 'is_required',
-                        'label' => 'Field value is required?',
+                        'label' => 'Value is required?',
                         'type' => 'boolean',
                     ],
                     [
@@ -223,13 +233,43 @@ class FormCrudController extends BackpackCustomCrudController
                         'type' => 'boolean',
                     ],
                     [
+                        'name' => 'value',
+                        'label' => 'Default Value',
+                        'type' => 'textarea',
+                        'attributes' => [
+                            'rows' => 5,
+                        ]
+                    ],
+                    [
                         'name' => 'validation',
                         'label' => 'Additional Validation',
-                        'type' => 'textarea',
+                        'type' => 'text',
                         'hint' => 'Rules Docs (<a href="https://laravel.com/docs/10.x/validation#available-validation-rules" target="_blank">Available Validation Rules</a>).',
                     ],
                 ],
             ],
+        ]);
+
+        Widget::add([
+            'type' => 'inline_script',
+            'stack' => 'after_scripts',
+            'content' => <<<JS
+crud.field('formFields').subfield('type').onChange(function (field) {
+    let value = field.value;
+    let rowNumber = field.rowNumber;
+    crud.field('formFields').subfield('options', rowNumber).show((['rSelect', 'rCheckbox', 'rRadio']).includes(value));
+    crud.field('formFields').subfield('minimum', rowNumber).show((['rRange', 'rSelectRange', 'rSelectYear']).includes(value));
+    crud.field('formFields').subfield('maximum', rowNumber).show((['rRange', 'rSelectRange', 'rSelectYear']).includes(value));
+
+    crud.field('formFields').subfield('name', rowNumber).hide(value === 'rHtml');
+    crud.field('formFields').subfield('label', rowNumber).hide(value === 'rHtml');
+    crud.field('formFields').subfield('is_required', rowNumber).hide(value === 'rHtml');
+    crud.field('formFields').subfield('is_inline', rowNumber).hide(value === 'rHtml');
+    crud.field('formFields').subfield('validation', rowNumber).hide(value === 'rHtml');
+    crud.field('formFields').subfield('width', rowNumber).hide(value === 'rHtml');
+}).change();
+
+JS
         ]);
 
     }

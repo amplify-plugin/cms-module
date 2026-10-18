@@ -50,7 +50,7 @@ if (! function_exists('menu')) {
                 ->first();
             if (! empty($menuGroup)) {
                 if ($isReturnHtml) {
-                    return menuContent($menuGroup);
+                    return menu_content($menuGroup);
                 } else {
                     return $menuGroup;
                 }
@@ -60,6 +60,23 @@ if (! function_exists('menu')) {
         }
 
         return 'Please enter short code of this menu group';
+    }
+}
+
+if (! function_exists('menu_content')) {
+    function menu_content($menu_group)
+    {
+        if (! empty($menu_group)) {
+            if ($menu_group->blade_location) {
+                return view(component_view($menu_group->blade_location), compact('menu_group'))->render();
+            }
+
+            return view('components.menu')
+                ->with('menu_group', $menu_group)
+                ->render();
+        } else {
+            return '';
+        }
     }
 }
 
@@ -219,5 +236,41 @@ if (! function_exists('get_uri_parameter')) {
         preg_match_all('/(\{[a-z0-9_\-\?]+})/iu', $uri, $output_array);
 
         return (count($output_array) > 1) ? $output_array[1] : [];
+    }
+}
+
+if (! function_exists('mega_menu_columns')) {
+    /**
+     * Dynamically calculate the mega menu column length
+     *
+     * @return int
+     */
+    function mega_menu_columns($parentColumn)
+    {
+        $parentColumn = (int) (strpos($parentColumn, 'col-md-') !== false)
+            ? str_replace('col-md-', '', $parentColumn)
+            : $parentColumn;
+
+        if ($parentColumn != null && is_numeric($parentColumn)) {
+            if ($parentColumn > 6) {
+                return 4;
+            } elseif ($parentColumn > 3) {
+                return 2;
+            }
+        }
+
+        return 1;
+    }
+}
+
+if (! function_exists('mega_menu_max_height')) {
+    function mega_menu_max_height()
+    {
+        $height = config('amplify.frontend.mega_menu_max_height', '310px');
+        if (is_numeric($height)) {
+            return intval($height).'px';
+        }
+
+        return $height;
     }
 }

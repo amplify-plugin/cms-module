@@ -233,7 +233,7 @@ class ThemeCrudController extends BackpackCustomCrudController
         $id = request()->id ?? null;
 
         return response()->json([
-            'slug' => getTemplateSlug($slug, $id),
+            'slug' => Template::validateSlug($slug, $id),
         ]);
     }
 

@@ -32,6 +32,18 @@ class Template extends Model implements Auditable
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
+    public static function validateSlug($slug, $id = null)
+    {
+        $where = $id
+            ? [['slug', 'LIKE', '%'.$slug.'%'], ['id', '!=', $id]]
+            : ['slug' => $slug];
+
+        $count = static::query()->where($where)->count();
+
+        return $count
+            ? "$slug-$count"
+            : $slug;
+    }
 
     public function setActiveTemplate(): string
     {

@@ -48,6 +48,8 @@ class FooterCrudController extends BackpackCustomCrudController
      */
     protected function setupListOperation()
     {
+        $themes = array_map(fn ($theme) => $theme['name'], config('amplify.cms.themes'));
+
         CRUD::addFilter(
             [
                 'name' => 'is_enabled',
@@ -71,18 +73,10 @@ class FooterCrudController extends BackpackCustomCrudController
         CRUD::column('name');
 
         CRUD::addColumn([
-            'name' => 'templat',
-            'label' => 'Template',
-            'type' => 'custom_html',
-            'value' => function ($footer) {
-                foreach (config('amplify.cms.themes') as $template) {
-                    if ($footer->template_id == $template['id']) {
-                        return $template['label'];
-                    }
-                }
-
-                return 'N/A';
-            },
+            'name' => 'template',
+            'label' => 'Theme',
+            'type' => 'select_from_array',
+            'options' => $themes
         ]);
 
         CRUD::addColumn([
@@ -98,6 +92,7 @@ class FooterCrudController extends BackpackCustomCrudController
      * @see https://backpackforlaravel.com/docs/crud-operation-create
      *
      * @return void
+     * @throws \Throwable
      */
     protected function setupCreateOperation()
     {
@@ -106,9 +101,10 @@ class FooterCrudController extends BackpackCustomCrudController
         $activeTemplate = theme();
         $this->data['active_template'] = $activeTemplate;
         $this->data['footer'] = $this->crud->model->find(request()->id);
-        $this->data['footer_layouts'] = getFooterLayoutList();
+        $this->data['footer_layouts'] = [];
         $this->data['active_widgets'] = '[]';
         $this->data['footer_items'] = [];
+        $this->data['footer_templates'] = array_map(fn ($theme) => $theme['name'], config('amplify.cms.themes'));
         $this->data['merchandising_zones'] = MerchandisingZone::get(['id', 'name'])->toArray();
         $this->data['banner_item_codes'] = Banner::get(['id', 'name', 'code'])->toArray();
         $this->data['banner_zones'] = BannerZone::get(['id', 'code', 'name', 'fetch_data_from_easyask'])->toArray();
@@ -127,7 +123,7 @@ class FooterCrudController extends BackpackCustomCrudController
             'label' => 'layout',
         ]);
         CRUD::addField([
-            'name' => 'template_id',
+            'name' => 'template',
             'label' => 'layout',
         ]);
 
@@ -158,32 +154,12 @@ class FooterCrudController extends BackpackCustomCrudController
      * @see https://backpackforlaravel.com/docs/crud-operation-update
      *
      * @return void
+     * @throws \Throwable
      */
     protected function setupUpdateOperation()
     {
         $this->data['footer'] = $this->crud->model->find(request()->id);
         $this->crud->setUpdateView('backend::pages.footer.create');
         $this->setupCreateOperation();
-    }
-
-    protected function setupShowOperation()
-    {
-        $this->data['footer'] = $this->crud->model->find(request()->id);
-        $this->data['footer_layouts'] = getFooterLayoutList();
-        $this->data['footer_items'] = [];
-        $saveAction = [
-            'active' => [
-                'value' => 'save_and_preview',
-                'label' => 'Save and preview',
-            ],
-            'options' => [
-                'save_and_back' => 'Save and back',
-                'save_and_edit' => 'Save and edit this item',
-                'save_and_new' => 'Save and new item',
-            ],
-        ];
-        $this->data['saveAction'] = $saveAction;
-
-        $this->crud->setShowView('backend::pages.footer.create');
     }
 }

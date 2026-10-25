@@ -8,6 +8,8 @@ use Amplify\System\Cms\Models\Template;
 use Amplify\System\Cms\Observers\MegaMenuObserver;
 use Amplify\System\Cms\Observers\MenuObserver;
 use Amplify\System\Cms\Traits\HasBackendMenu;
+use Backpack\CRUD\ViewNamespaces;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
@@ -44,6 +46,8 @@ class CmsServiceProvider extends ServiceProvider
 
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'cms');
 
+        ViewNamespaces::addFor('buttons', 'cms::buttons');
+
         $this->loadViewsFrom(base_path('themes'), 'theme');
 
         $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
@@ -64,7 +68,11 @@ class CmsServiceProvider extends ServiceProvider
                 if ($template->is_active == true) {
                     Config::set('amplify.cms.default', $template->slug);
                 }
-                Config::set("amplify.cms.themes.{$template->slug}", $template->toArray());
+                Config::set("amplify.cms.themes.{$template->slug}",
+                    Arr::only($template->toArray(),
+                        ['name', 'slug', 'version', 'layout', 'asset', 'description', 'readme', 'changelog', 'options']
+                    )
+                );
             });
         }
     }

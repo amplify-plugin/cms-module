@@ -3,6 +3,7 @@
 use Amplify\Frontend\Store\StoreDataBus;
 use Amplify\System\Cms\Models\MenuGroup;
 use Amplify\System\Utility\Helpers\CurrencyHelper;
+use Symfony\Component\Yaml\Yaml;
 
 if (! function_exists('currency')) {
 
@@ -110,39 +111,34 @@ if (! function_exists('store')) {
     }
 }
 
-if (! function_exists('theme')) {
+if (!function_exists('theme')) {
     /** Return a template from configuration
-     * if a index of cms config file themes array provided
+     * if an index of cms config file themes array provided
      * it will return else it will return current active one (default)
      * passing words 'fallback' will return fallback template
      *
-     * @param  string|int|null  $index
+     * @param string|int|null $key
      *
      * @throw \InvalidArgumentException
      *
+     * @throws Throwable
      * @see config/amplify/cms.php
      */
-    function theme($index = null): object
+    function theme($key = null): object
     {
-        $index = ($index == null) ? config('amplify.cms.default') : $index;
+        $key = !empty($key) ? $key : config('amplify.cms.default', config('amplify.cms.fallback'));
 
-        $fallback = config('amplify.cms.fallback');
-
-        if (is_numeric($index)) {
-            foreach (config('amplify.cms.themes') as $key => $template) {
-                if ($template['id'] == $index) {
-                    return (object) config("amplify.cms.themes.{$key}", config("amplify.cms.themes.{$fallback}"));
-                }
-            }
-
-            throw new InvalidArgumentException("Invalid Template ID=`{$index}` provided.");
+        if ($key == 'fallback') {
+            $key = config('amplify.cms.fallback');
         }
 
-        if ($index == 'fallback') {
-            return (object) config("amplify.cms.themes.{$fallback}");
-        }
+        $configuration = config("amplify.cms.themes.{$key}");
 
-        return (object) config("amplify.cms.themes.{$index}", config("amplify.cms.themes.{$fallback}"));
+        logger("Theme: {$key}");
+
+        throw_if(empty($configuration), "No Theme has been registered with given keyword ($key).");
+
+        return (object)config("amplify.cms.themes.{$key}");
     }
 }
 
@@ -154,22 +150,30 @@ if (! function_exists('component_view')) {
     }
 }
 
-if (! function_exists('theme_view')) {
+if (!function_exists('theme_view')) {
 
+    /**
+     * @throws Throwable
+     */
     function theme_view($view, ?string $directory = null): string
     {
         $directory = ($directory != null) ? ".{$directory}" : '';
 
-        $target_view = trim('theme::'.theme()->component_folder."{$directory}.{$view}", '.');
-        $fallback_view = trim('theme::'.theme('fallback')->component_folder."{$directory}.{$view}", '.');
+        $theme = theme();
 
-        if (view()->exists($target_view)) {
-            return $target_view;
-        } elseif (view()->exists($fallback_view)) {
-            return $fallback_view;
-        } else {
-            throw new InvalidArgumentException("View ({$view}) doesn't exists in ( ".str_replace('.', '/', $target_view).' ) or ( '.str_replace('.', '/', $fallback_view).' ) directory.');
+        $paths = implode(".",
+            array_filter(
+                [$theme->slug, $theme->layout, $directory, $view],
+                fn($f) => !empty($f))
+        );
+
+        $fullPath = trim("theme::{$paths}");
+
+        if (!view()->exists($fullPath)) {
+            throw new InvalidArgumentException("View ({$view}) doesn't exists in ( " . str_replace(['.', '::'], DIRECTORY_SEPARATOR, $fullPath) . ' ) directory.');
         }
+
+        return $fullPath;
     }
 }
 
@@ -179,52 +183,66 @@ if (! function_exists('theme_asset')) {
      * this function return asset full url
      * of assets in active template
      *
-     * @param  null  $template_id
+     * @param null $template_id
+     * @throws Throwable
      */
     function theme_asset($path, $template_id = null): string
     {
-        $template_root_path = theme($template_id)->slug;
+        $template = theme($template_id);
 
-        return asset("themes/{$template_root_path}/assets/{$path}");
+        return asset("themes/{$template->slug}/{$template->asset}/{$path}");
     }
 }
 
-if (! function_exists('theme_option')) {
-
-    function theme_option($key, ?string $template = null, $default = null): string
+if (!function_exists('theme_option')) {
+    /**
+     * Get a theme option using dot notation.
+     *
+     * @param string $key
+     * @param mixed $default
+     * @return mixed
+     * @throws Throwable
+     */
+    function theme_option(string $key, mixed $default = null): mixed
     {
-        $template = theme($template);
+        static $options = null;
 
-        $templateOptions = collect($template->options);
+        if ($options === null) {
+            $active = theme();
 
-        $config = @json_decode(
-            @file_get_contents(
-                @base_path("themes/{$template->slug}/config.json")
-            ),
-            true
-        );
-
-        if ($config == null) {
-            $config = [];
-        }
-
-        $configOptions = $config['options'] ?? [];
-
-        foreach ($configOptions as $configOptionKey => $configOption) {
-            if (!empty($templateOptions->firstWhere('name', '=', $configOption['name']))) {
-                unset($configOptions[$configOptionKey]);
+            if (!$active) {
+                return $default;
             }
+
+            $dbOptions = collect($active->options ?? [])
+                ->filter(fn($option) => is_array($option) && isset($option['name']))
+                ->mapWithKeys(fn($option) => [
+                    $option['name'] => $option['value'] ?? null,
+                ])
+                ->all();
+
+            $yamlOptions = [];
+
+            $yamlPath = base_path('themes' . DIRECTORY_SEPARATOR .
+                $active->slug . DIRECTORY_SEPARATOR
+                . 'theme.yaml');
+
+            if (is_file($yamlPath)) {
+                $yaml = Yaml::parseFile($yamlPath);
+
+                $yamlOptions = is_array($yaml)
+                    ? ($yaml['options'] ?? [])
+                    : [];
+            }
+
+            // Database values override YAML defaults.
+            $options = array_replace_recursive(
+                $yamlOptions,
+                $dbOptions
+            );
         }
 
-        $option = $templateOptions
-            ->merge($configOptions)
-            ->firstWhere('name', '=', $key);
-
-        if ($option == null && $default == null) {
-            throw new InvalidArgumentException("Invalid key [{$key}] or doesn't exists for template {$template->name}");
-        }
-
-        return $option['value'] ?? $default;
+        return data_get($options, $key) ?? $default;
     }
 }
 

@@ -26,7 +26,7 @@ class FooterRequest extends FormRequest
     {
         return [
             'name' => 'required|min:5|max:255',
-            'template_id' => 'required|numeric',
+            'template' => 'required|string|exists:templates,slug',
             'content' => 'required|string',
         ];
     }

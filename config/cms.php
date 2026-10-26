@@ -10,7 +10,7 @@
 
 return [
 
-    'default' => env('DEFAULT_TEMPLATE', 'template-1'),
+    'default' => env('AMPLIFY_DEFAULT_TEMPLATE', 'steven'),
     'brand_logo_url' => '',
     'logo_path' => '',
     'favicon_path' => '',
@@ -884,12 +884,15 @@ return [
     ],
     'themes' => [
         'demo' => [
-            'id' => 1,
-            'label' => 'Amplify Demo',
+            'name' => 'Amplify Demo',
             'slug' => 'demo',
-            'component_folder' => 'demo',
-            'asset_folder' => 'demo',
+            'layout' => '',
+            'asset' => 'assets',
             'description' => 'Amplify Demo',
+            'homepage' => 'https://easyask.com',
+            'readme' => null,
+            'changelog' => null,
+            'options' => []
         ],
     ],
     'middleware' => [

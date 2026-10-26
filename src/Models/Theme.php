@@ -4,11 +4,14 @@ namespace Amplify\System\Cms\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\File;
 use OwenIt\Auditing\Contracts\Auditable;
 
 class Theme extends Model implements Auditable
 {
     use CrudTrait;
+    use SoftDeletes;
     use \OwenIt\Auditing\Auditable;
 
     /*
@@ -23,7 +26,7 @@ class Theme extends Model implements Auditable
     // public $timestamps = false;
     protected $guarded = ['id'];
 
-    protected $casts = ['options' => 'json', 'is_new' => 'boolean', 'is_updated' => 'boolean', 'is_active' => 'boolean'];
+    protected $casts = ['options' => 'json', 'is_new' => 'boolean', 'is_updated' => 'boolean', 'is_active' => 'boolean', 'author' => 'json'];
 
     /*
     |--------------------------------------------------------------------------
@@ -31,17 +34,14 @@ class Theme extends Model implements Auditable
     |--------------------------------------------------------------------------
     */
 
-    public static function getTemplateSlug($slug, $id = null): string
+    /**
+     * The "booted" method of the model.
+     */
+    protected static function booted(): void
     {
-        $where = $id
-            ? [['slug', 'LIKE', '%'.$slug.'%'], ['id', '!=', $id]]
-            : ['slug' => $slug];
-
-        $count = Theme::query()->where($where)->count();
-
-        return $count
-            ? "$slug-$count"
-            : $slug;
+        static::deleted(function (self $template) {
+            File::deleteDirectory(base_path("themes/{$template->slug}"));
+        });
     }
 
     public function setActiveTemplate(): string
@@ -67,6 +67,12 @@ class Theme extends Model implements Auditable
     {
         return $query->where('is_active', 1);
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | ACCESSORS
+    |--------------------------------------------------------------------------
+    */
 
     /*
     |--------------------------------------------------------------------------

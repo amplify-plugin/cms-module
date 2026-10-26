@@ -18,7 +18,6 @@ use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -356,7 +355,7 @@ class ThemeCrudController extends BackpackCustomCrudController
         foreach ($configurations as $slug => $config) {
             try {
                 DB::transaction(function () use ($slug, $config, &$report) {
-                    $template = Template::withTrashed()->where('slug', $slug)->first();
+                    $template = Theme::withTrashed()->where('slug', $slug)->first();
 
                     if ($template === null) {
                         $config['is_new'] = true;
@@ -381,7 +380,7 @@ class ThemeCrudController extends BackpackCustomCrudController
         }
 
         // delete not available themes
-        Template::whereNotIn('slug', $folders)
+        Theme::whereNotIn('slug', $folders)
             ->get()->each(function ($template) use (&$report) {
                 DB::transaction(function () use ($template, &$report) {
                     $template->delete();
@@ -544,7 +543,7 @@ class ThemeCrudController extends BackpackCustomCrudController
 
     private function createTheme(array $config)
     {
-        return Template::create([
+        return Theme::create([
             'name' => $config['name'],
             'slug' => $config['slug'],
             'author' => $config['author'] ?? null,
@@ -557,7 +556,7 @@ class ThemeCrudController extends BackpackCustomCrudController
                     : "themes/{$config['slug']}/" . ($config['asset'] ? $config['asset'] . '/' : '') . $config['screenshot']
                 : null,
             'options' => $config['options'] ?? [],
-            'layout' => $config['layout'] ?? null,
+            'layout' => $config['layout'] ?? '',
             'asset' => $config['asset'] ?? null,
             'changelog' => $config['changelog'] ?? null,
             'is_new' => true

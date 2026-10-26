@@ -140,10 +140,6 @@ class PageCrudController extends BackpackCustomCrudController
             }
         );
 
-        $this->crud
-            ->addClause('pageList')
-            ->orderBy('id', 'desc');
-
         $this->crud->addButton('line', 'goto-page', 'view', 'cms::buttons.page.goto', 'ending');
 
         $this->crud->addButton('line', 'publish', 'view', 'cms::buttons.page.publish', 'beginning');
@@ -190,6 +186,7 @@ class PageCrudController extends BackpackCustomCrudController
      * @see https://backpackforlaravel.com/docs/crud-operation-create
      *
      * @return void
+     * @throws \Throwable
      */
     protected function setupCreateOperation()
     {

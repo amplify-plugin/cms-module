@@ -10,7 +10,10 @@
                 <a href="{{ $menu->has_children? 'javascript:void(0)' : $menu->url }}"
                    class="{{ $menu->css_class }}"
                    style="{{ $menu->css_style }}"
-                   target="{{ $menu->target }}">
+                   target="{{ $menu->target }}"
+                   @if($menu->target == '_blank') rel="noopener noreferrer nofollow"
+                   aria-describedby="External {{ $menu->title }} Link" @endif
+                >
                     <span>
                         @if($showIcon && $menu->icon != null)
                             <i @class([$menu->icon, "d-inline-block align-middle"])></i>

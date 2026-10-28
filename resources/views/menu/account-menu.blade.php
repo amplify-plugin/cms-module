@@ -19,11 +19,15 @@
                 <a href="{{ $menu->has_children ? 'javascript:void(0)' : $menu->url }}"
                    class="{{ $menu->css_class }}"
                    style="{{ $menu->css_style }}"
-                   target="{{ $menu->target }}">
+                   target="{{ $menu->target }}"
+                   @if($menu->target == '_blank') rel="noopener noreferrer nofollow"
+                   aria-describedby="External {{ $menu->title }} Link" @endif
+                >
                     @if($showIcon && $menu->icon != null)
                         <i @class([$menu->icon, "d-inline-block align-middle"])></i>
                     @endif
                     {{ $menu->title }}
+                    @includeWhen($menu->url_type == 'external' && !$menu->has_children, "cms::menu.redirect-icon")
                 </a>
                 @if($menu->has_children)
                     <ul class="sub-menu">
@@ -32,11 +36,15 @@
                                 <a href="{{ $child->url }}"
                                    class="{{ $child->css_class }}"
                                    style="{{ $child->css_style }}"
-                                   target="{{ $child->target }}">
+                                   target="{{ $child->target }}"
+                                   @if($child->target == '_blank') rel="noopener noreferrer nofollow"
+                                   aria-describedby="External {{ $child->title }} Link" @endif
+                                >
                                     @if($showIcon && $child->icon != null)
                                         <i @class([$child->icon, "d-inline-block align-middle"])></i>
                                     @endif
                                     {{ $child->title }}
+                                    @includeWhen($child->url_type == 'external', "cms::menu.redirect-icon")
                                 </a>
                             </li>
                         @endforeach

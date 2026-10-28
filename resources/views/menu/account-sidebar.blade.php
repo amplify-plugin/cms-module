@@ -21,22 +21,32 @@
                     class="@if ($menu->has_children) cs-hover @endif user-sidebar">
                     <a style="{{ $menu->css_style }}"
                        class="@if ($menu->is_active) active @endif list-group-item {{ $menu->css_class }}"
-                       href="{{ $menu->has_children? 'javascript:void(0)' : $menu->url }}" target="{{ $menu->target }}">
+                       href="{{ $menu->has_children? 'javascript:void(0)' : $menu->url }}"
+                       target="{{ $menu->target }}"
+                       @if($menu->target == '_blank') rel="noopener noreferrer nofollow"
+                       aria-describedby="External {{ $menu->title }} Link" @endif
+                    >
                         @if($showIcon && $menu->icon != null)
                             <i @class([$menu->icon, "d-inline-block align-middle"])></i>
                         @endif
                         {{ $menu->title }}
+                        @includeWhen($menu->url_type == 'external' && !$menu->has_children, "cms::menu.redirect-icon")
                     </a>
                     @if (count($menu->children) > 0)
                         <nav class="list-group list-group-sub">
                             @foreach ($menu->children as $child)
                                 <a style="{{ $child->css_style }}"
                                    class="@if ($child->is_active) active @endif list-group-item list-group-sub-item {{ $child->css_class }}"
-                                   href="{{ $child->url }}" target="{{ $child->target }}">
+                                   href="{{ $child->url }}"
+                                   target="{{ $child->target }}"
+                                   @if($child->target == '_blank') rel="noopener noreferrer nofollow"
+                                   aria-describedby="External {{ $child->title }} Link" @endif
+                                >
                                     @if($showIcon && $child->icon != null)
                                         <i @class([$child->icon, "d-inline-block align-middle"])></i>
                                     @endif
                                     {{ $child->title }}
+                                    @includeWhen($child->url_type == 'external', "cms::menu.redirect-icon")
                                 </a>
                             @endforeach
                         </nav>

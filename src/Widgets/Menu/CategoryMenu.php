@@ -22,7 +22,9 @@ class CategoryMenu extends BaseComponent
                                 public ?NavigateCategory $category = null,
                                 public bool              $showIcon = false,
                                 public bool              $showProductCount = false,
-                                public string $subMenuClass = 'sub-menu')
+                                public string            $subMenuClass = 'sub-menu',
+                                public ?int              $maxItems = null
+    )
     {
         parent::__construct();
 
@@ -41,6 +43,8 @@ class CategoryMenu extends BaseComponent
      */
     public function render(): View|Closure|string
     {
+        $menuHeader = ['label' => 'Categories', 'link' => route('frontend.categories')];
+
         if ($this->menu !== null) {
             $this->categories = Cache::remember("menu-category-menu", DAY, function () {
                 $options = [
@@ -51,12 +55,14 @@ class CategoryMenu extends BaseComponent
 
                 return Sayt::storeCategories($this->menu->seo_path ?? null, $options);
             });
-
         } else {
+
+            $menuHeader = ['label' => $this->category->getName(), 'link' => route('frontend.categories', $this->category->getSEOPath())];
+
             $this->categories = $this->category->getSubCategories();
         }
 
-        return view('cms::menu.category-menu');
+        return view('cms::menu.category-menu', compact('menuHeader'));
     }
 
     public function htmlAttributes(): string

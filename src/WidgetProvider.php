@@ -115,19 +115,6 @@ class WidgetProvider extends ServiceProvider
                 '@nestedItems' => [],
                 'description' => 'Login widget',
             ],
-            \Amplify\System\Cms\Widgets\Menu\SecondaryMenu::class => [
-                'name' => 'menu.secondary-menu',
-                'reserved' => true,
-                'internal' => true,
-                '@inside' => null,
-                '@client' => null,
-                'model' => ['static_page'],
-                '@attributes' => [
-                    ['name' => ':show-icon', 'value' => true, 'type' => 'boolean'],
-                ],
-                '@nestedItems' => [],
-                'description' => 'Login widget',
-            ],
             \Amplify\System\Cms\Widgets\Menu\CustomMenu::class => [
                 'name' => 'custom-menu',
                 'reserved' => true,
@@ -155,19 +142,6 @@ class WidgetProvider extends ServiceProvider
                 ],
                 '@nestedItems' => [],
                 'description' => 'Display custom menus of any group given',
-            ],
-            \Amplify\System\Cms\Widgets\Menu\FooterMenu::class => [
-                'name' => 'menu.footer-menu',
-                'reserved' => true,
-                'internal' => true,
-                '@inside' => null,
-                '@client' => null,
-                'model' => ['static_page'],
-                '@attributes' => [
-                    ['name' => ':show-icon', 'value' => true, 'type' => 'boolean'],
-                ],
-                '@nestedItems' => [],
-                'description' => 'Login widget',
             ],
             \Amplify\System\Cms\Widgets\Menu\CartMenu::class => [
                 'name' => 'menu.cart-menu',

@@ -17,6 +17,7 @@
     @if($menu->type == 'categories')
         <x-menu.category-menu
                 :menu="$menu"
+                :max-items="$menu->category_limit"
                 :show-product-count="$menu->display_product_count ?: false"
                 sub-menu-class="offcanvas-submenu"/>
 

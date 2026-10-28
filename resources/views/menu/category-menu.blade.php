@@ -1,5 +1,21 @@
 <ul {!! $htmlAttributes !!}>
-    @foreach($categories as $category)
+    @foreach($categories as $index => $category)
+        @if(!$maxItems!= null && $index == $maxItems)
+            <li class="browse">
+                @if($onMobileMenu())
+                    <span>
+            @endif
+            <a href="{{ $menuHeader['link'] }}">
+                See All {{ $menuHeader['label'] }}
+            </a>
+
+            @if($onMobileMenu())
+                </span>
+                @endif
+            </li>
+            @break
+        @endif
+
         <li @class(['has-children' => $category->hasSubCategories()])>
             @if($onMobileMenu())
                 <span>
@@ -25,6 +41,7 @@
 
             @if($category->hasSubCategories())
                 <x-menu.category-menu :menu="null" :category="$category"
+                                      :max-items="$maxItems"
                                       :show-product-count="$showProductCount"
                                       :sub-menu-class="$onMobileMenu() ? 'offcanvas-submenu' : 'sub-menu'"/>
             @endif

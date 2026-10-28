@@ -19,7 +19,9 @@
                     </span>
                 </a>
                 @if($menu->type == 'categories')
-                    <x-menu.category-menu :menu="$menu" :show-product-count="$menu->display_product_count ?: false"/>
+                    <x-menu.category-menu :menu="$menu"
+                                          :max-items="$menu->category_limit"
+                                          :show-product-count="$menu->display_product_count ?: false"/>
                 @elseif ($menu->has_children)
                     <ul class="@if($menu->type == 'mega-menu') mega-menu @else sub-menu @endif">
                         @foreach ($menu->children as $child)

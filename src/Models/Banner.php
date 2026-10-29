@@ -4,6 +4,7 @@ namespace Amplify\System\Cms\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
 use OwenIt\Auditing\Contracts\Auditable;
 
@@ -50,7 +51,7 @@ class Banner extends Model implements Auditable
     | RELATIONS
     |--------------------------------------------------------------------------
     */
-    public function bannerZone(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function bannerZone(): BelongsTo
     {
         return $this->belongsTo(BannerZone::class);
     }

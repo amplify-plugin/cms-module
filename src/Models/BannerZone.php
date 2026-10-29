@@ -2,9 +2,9 @@
 
 namespace Amplify\System\Cms\Models;
 
-use Amplify\System\Cms\Models\Banner;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use OwenIt\Auditing\Contracts\Auditable;
 
 class BannerZone extends Model implements Auditable
@@ -38,7 +38,7 @@ class BannerZone extends Model implements Auditable
     |--------------------------------------------------------------------------
     */
 
-    public function banners()
+    public function banners(): HasMany
     {
         return $this->hasMany(Banner::class);
     }

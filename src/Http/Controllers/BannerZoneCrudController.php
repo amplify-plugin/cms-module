@@ -62,20 +62,11 @@ class BannerZoneCrudController extends BackpackCustomCrudController
      * @see https://backpackforlaravel.com/docs/crud-operation-create
      *
      * @return void
+     * @throws \Exception
      */
     protected function setupCreateOperation()
     {
         CRUD::setValidation(BannerZoneRequest::class);
-
-        Widget::add([
-            'type' => 'inline_script',
-            'stack' => 'after_scripts',
-            'content' => <<<JS
-crud.field('fetch_data_from_easyask').onChange(function (field) {
-    crud.field('banners').hide(field.value == 1);
-}).change();
-JS
-        ]);
 
         CRUD::addFields([
             [
@@ -108,7 +99,6 @@ JS
                 'reorder' => true,
                 'new_item_label' => 'Add Banner Item',
                 'subfields' => [
-                    //Name
                     [
                         'name' => 'name',
                         'label' => 'Heading',
@@ -119,53 +109,52 @@ JS
                         'label' => 'Show heading text on slider item',
                         'type' => 'boolean',
                     ],
-                    //Background Type
                     [
                         'name' => 'background_type',
                         'type' => 'select_from_array',
                         'label' => 'Slider Media Type',
                         'default' => 'image',
+                        'wrapper' => ['class' => 'form-group col-md-2'],
                         'options' => [
                             'image' => 'Image',
                             'video' => 'Video',
                         ]
                     ],
-                    //Background Image
                     [
                         'label' => 'Slider Media',
                         'name' => 'background_image',
                         'type' => 'browse',
-                        'readonly' => false,
-                        'attributes' => [
-                            'id' => 'background_image',
-                        ],
+                        'wrapper' => ['class' => 'form-group col-md-10'],
+                        'readonly' => false
                     ],
                     [
                         'name' => 'button_link',
                         'label' => 'Link',
-                        'type' => 'url',
+                        'type' => 'text',
+                        'wrapper' => ['class' => 'form-group col-md-10'],
                     ],
                     [
                         'name' => 'open_new_tab',
                         'label' => 'Open link in new tab',
-                        'type' => 'boolean',
+                        'type' => 'radio',
+                        'wrapper' => ['class' => 'form-group col-md-2'],
+                        'options' => [
+                            '1' => 'Yes',
+                            '0' => 'No',
+                        ],
                     ],
                     [
                         'name' => 'has_advance_option',
                         'label' => 'Use Advance Option',
                         'type' => 'boolean',
                         'default' => false,
-                        'fake' => true,
                     ],
                     //Foreground Image
                     [
                         'label' => 'Foreground',
                         'name' => 'image',
                         'type' => 'browse',
-                        'readonly' => false,
-                        'attributes' => [
-                            'id' => 'image',
-                        ],
+                        'readonly' => false
                     ],
                     [
                         'name' => 'has_content',
@@ -202,7 +191,6 @@ JS
                             'dark' => 'Dark',
                         ]
                     ],
-
                     [
                         'label' => 'Foreground Text Alignment',
                         'name' => 'text_alignment',
@@ -263,24 +251,29 @@ JS
             ]
         ]);
 
-
         Widget::add([
             'type' => 'inline_script',
             'stack' => 'after_scripts',
             'content' => <<<JS
+crud.field('fetch_data_from_easyask').onChange(function (field) {
+    crud.field('banners').hide(field.value == 1);
+}).change();
+
 crud.field('banners').subfield('has_advance_option').onChange(function (field) {
-    let value = field.value;
+    let value = parseInt(field.value);
     let rowNumber = field.rowNumber;
-    crud.field('banners').subfield('image', rowNumber).show(value == 1);
-    crud.field('banners').subfield('has_content', rowNumber).show(value == 1);
-    crud.field('banners').subfield('content', rowNumber).show(value == 1);
-    crud.field('banners').subfield('has_button', rowNumber).show(value == 1);
-    crud.field('banners').subfield('button_title', rowNumber).show(value == 1);
-    crud.field('banners').subfield('button_style', rowNumber).show(value == 1);
-    crud.field('banners').subfield('text_alignment', rowNumber).show(value == 1);
-    crud.field('banners').subfield('image_alignment', rowNumber).show(value == 1);
-    crud.field('banners').subfield('alignment', rowNumber).show(value == 1);
-    crud.field('banners').subfield('slider_ratio', rowNumber).show(value == 1);
+    crud.field('banners').subfield('image', rowNumber).show(value === 1);
+    crud.field('banners').subfield('has_content', rowNumber).show(value === 1);
+    crud.field('banners').subfield('content', rowNumber).show(value === 1);
+    crud.field('banners').subfield('has_button', rowNumber).show(value === 1);
+    crud.field('banners').subfield('button_title', rowNumber).show(value === 1);
+    crud.field('banners').subfield('button_style', rowNumber).show(value === 1);
+    crud.field('banners').subfield('text_alignment', rowNumber).show(value === 1);
+    crud.field('banners').subfield('image_alignment', rowNumber).show(value === 1);
+    crud.field('banners').subfield('alignment', rowNumber).show(value === 1);
+    crud.field('banners').subfield('slider_ratio', rowNumber).show(value === 1);
+    // Slider Media (background_image) must stay visible regardless of the toggle
+    crud.field('banners').subfield('background_image', rowNumber).show();
 }).change();
 JS
         ]);
@@ -292,6 +285,7 @@ JS
      * @see https://backpackforlaravel.com/docs/crud-operation-update
      *
      * @return void
+     * @throws \Exception
      */
     protected function setupUpdateOperation()
     {

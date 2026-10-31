@@ -10,7 +10,10 @@
                 <a href="{{ $menu->has_children? 'javascript:void(0)' : $menu->url }}"
                    class="{{ $menu->css_class }}"
                    style="{{ $menu->css_style }}"
-                   target="{{ $menu->target }}">
+                   target="{{ $menu->target }}"
+                   @if($menu->target == '_blank') rel="noopener noreferrer nofollow"
+                   aria-describedby="External {{ $menu->title }} Link" @endif
+                >
                     <span>
                         @if($showIcon && $menu->icon != null)
                             <i @class([$menu->icon, "d-inline-block align-middle"])></i>
@@ -19,7 +22,9 @@
                     </span>
                 </a>
                 @if($menu->type == 'categories')
-                    <x-menu.category-menu :menu="$menu" :show-product-count="$menu->display_product_count ?: false"/>
+                    <x-menu.category-menu :menu="$menu"
+                                          :max-items="$menu->category_limit"
+                                          :show-product-count="$menu->display_product_count ?: false"/>
                 @elseif ($menu->has_children)
                     <ul class="@if($menu->type == 'mega-menu') mega-menu @else sub-menu @endif">
                         @foreach ($menu->children as $child)

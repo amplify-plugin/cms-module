@@ -1,6 +1,6 @@
 <ul {!! $htmlAttributes !!}>
     @foreach($categories as $index => $category)
-        @if(!$maxItems!= null && $index == $maxItems)
+        @if($maxItems!= null && $index == $maxItems)
             <li class="browse">
                 @if($onMobileMenu())
                     <span>

@@ -134,8 +134,6 @@ if (!function_exists('theme')) {
 
         $configuration = config("amplify.cms.themes.{$key}");
 
-        logger("Theme: {$key}");
-
         throw_if(empty($configuration), "No Theme has been registered with given keyword ($key).");
 
         return (object)config("amplify.cms.themes.{$key}");

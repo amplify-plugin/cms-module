@@ -56,6 +56,63 @@ class BannerZoneCrudController extends BackpackCustomCrudController
         CRUD::column('fetch_data_from_easyask')->label('Fetch From EasyAsk')->type('boolean');
     }
 
+    private function scripts()
+    {
+        Widget::add([
+            'type' => 'inline_script',
+            'stack' => 'after_scripts',
+            'content' => <<<JS
+crud.field('fetch_data_from_easyask').onChange(function (field) {
+    crud.field('banners').hide(field.value == 1);
+}).change();
+
+crud.field('banners').subfield('has_advance_option').onChange(function (field) {
+    let value = parseInt(field.value);
+    let rowNumber = field.rowNumber;
+    crud.field('banners').subfield('image', rowNumber).show(value === 1);
+    crud.field('banners').subfield('has_content', rowNumber).show(value === 1);
+    crud.field('banners').subfield('content', rowNumber).show(value === 1);
+    crud.field('banners').subfield('has_button', rowNumber).show(value === 1);
+    crud.field('banners').subfield('button_title', rowNumber).show(value === 1);
+    crud.field('banners').subfield('button_style', rowNumber).show(value === 1);
+    crud.field('banners').subfield('text_alignment', rowNumber).show(value === 1);
+    crud.field('banners').subfield('image_alignment', rowNumber).show(value === 1);
+    crud.field('banners').subfield('alignment', rowNumber).show(value === 1);
+    crud.field('banners').subfield('slider_ratio', rowNumber).show(value === 1);
+    // Slider Media (background_image) must stay visible regardless of the toggle
+    crud.field('banners').subfield('background_image', rowNumber).show();
+    // Content field is only visible when advance option is ON and has_content is checked
+    let hasContent = parseInt(crud.field('banners').subfield('has_content', rowNumber).value) === 1;
+    crud.field('banners').subfield('content', rowNumber).show(value === 1 && hasContent);
+    // Button fields are only visible when advance option is ON and has_button is checked
+    let hasButton = parseInt(crud.field('banners').subfield('has_button', rowNumber).value) === 1;
+    crud.field('banners').subfield('button_title', rowNumber).show(value === 1 && hasButton);
+    crud.field('banners').subfield('button_style', rowNumber).show(value === 1 && hasButton);
+}).change();
+
+crud.field('banners').subfield('has_content').onChange(function (field) {
+    let rowNumber = field.rowNumber;
+    let advanceOn = parseInt(crud.field('banners').subfield('has_advance_option', rowNumber).value) === 1;
+    let value = parseInt(field.value) === 1;
+    // the toggle itself must always stay visible while advance option is ON
+    crud.field('banners').subfield('has_content', rowNumber).show(advanceOn);
+    crud.field('banners').subfield('content', rowNumber).show(advanceOn && value);
+}).change();
+
+crud.field('banners').subfield('has_button').onChange(function (field) {
+    let rowNumber = field.rowNumber;
+    let advanceOn = parseInt(crud.field('banners').subfield('has_advance_option', rowNumber).value) === 1;
+    let value = parseInt(field.value) === 1;
+    // the toggle itself must always stay visible while advance option is ON
+    crud.field('banners').subfield('has_button', rowNumber).show(advanceOn);
+    crud.field('banners').subfield('button_title', rowNumber).show(advanceOn && value);
+    crud.field('banners').subfield('button_style', rowNumber).show(advanceOn && value);
+}).change();
+
+JS
+        ]);
+    }
+
     /**
      * Define what happens when the Create operation is loaded.
      *
@@ -67,6 +124,8 @@ class BannerZoneCrudController extends BackpackCustomCrudController
     protected function setupCreateOperation()
     {
         CRUD::setValidation(BannerZoneRequest::class);
+
+        $this->scripts();
 
         CRUD::addFields([
             [
@@ -137,6 +196,7 @@ class BannerZoneCrudController extends BackpackCustomCrudController
                         'name' => 'open_new_tab',
                         'label' => 'Open link in new tab',
                         'type' => 'radio',
+                        'inline' => true,
                         'wrapper' => ['class' => 'form-group col-md-2'],
                         'options' => [
                             '1' => 'Yes',
@@ -251,32 +311,6 @@ class BannerZoneCrudController extends BackpackCustomCrudController
             ]
         ]);
 
-        Widget::add([
-            'type' => 'inline_script',
-            'stack' => 'after_scripts',
-            'content' => <<<JS
-crud.field('fetch_data_from_easyask').onChange(function (field) {
-    crud.field('banners').hide(field.value == 1);
-}).change();
-
-crud.field('banners').subfield('has_advance_option').onChange(function (field) {
-    let value = parseInt(field.value);
-    let rowNumber = field.rowNumber;
-    crud.field('banners').subfield('image', rowNumber).show(value === 1);
-    crud.field('banners').subfield('has_content', rowNumber).show(value === 1);
-    crud.field('banners').subfield('content', rowNumber).show(value === 1);
-    crud.field('banners').subfield('has_button', rowNumber).show(value === 1);
-    crud.field('banners').subfield('button_title', rowNumber).show(value === 1);
-    crud.field('banners').subfield('button_style', rowNumber).show(value === 1);
-    crud.field('banners').subfield('text_alignment', rowNumber).show(value === 1);
-    crud.field('banners').subfield('image_alignment', rowNumber).show(value === 1);
-    crud.field('banners').subfield('alignment', rowNumber).show(value === 1);
-    crud.field('banners').subfield('slider_ratio', rowNumber).show(value === 1);
-    // Slider Media (background_image) must stay visible regardless of the toggle
-    crud.field('banners').subfield('background_image', rowNumber).show();
-}).change();
-JS
-        ]);
     }
 
     /**

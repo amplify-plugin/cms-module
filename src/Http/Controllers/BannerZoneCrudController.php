@@ -72,8 +72,6 @@ crud.field('banners').subfield('has_advance_option').onChange(function (field) {
     let hasButton = parseInt(crud.field('banners').subfield('has_button', row).value) === 1;
     let hasContent = parseInt(crud.field('banners').subfield('has_content', row).value) === 1;
     
-    console.log({row, isAdvance, hasButton, hasContent});
-    
     crud.field('banners').subfield('background_image', row).show();
     crud.field('banners').subfield('image', row).show(isAdvance);
     crud.field('banners').subfield('has_content', row).show(isAdvance);
@@ -92,6 +90,7 @@ crud.field('banners').subfield('has_content').onChange(function (field) {
     let row = field.rowNumber;
     let advanceOn = parseInt(crud.field('banners').subfield('has_advance_option', row).value) === 1;
     let value = parseInt(field.value) === 1;
+    console.log('has_content triggered', row);
     crud.field('banners').subfield('has_content', row).show(advanceOn);
     crud.field('banners').subfield('content', row).show(advanceOn && value);
 }).change();
@@ -100,6 +99,7 @@ crud.field('banners').subfield('has_button').onChange(function (field) {
     let row = field.rowNumber;
     let advanceOn = parseInt(crud.field('banners').subfield('has_advance_option', row).value) === 1;
     let value = parseInt(field.value) === 1;
+        console.log('has_button triggered', row);
     crud.field('banners').subfield('has_button', row).show(advanceOn);
     crud.field('banners').subfield('button_title', row).show(advanceOn && value);
     crud.field('banners').subfield('button_style', row).show(advanceOn && value);

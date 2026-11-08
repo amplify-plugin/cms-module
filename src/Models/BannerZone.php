@@ -32,6 +32,20 @@ class BannerZone extends Model implements Auditable
     |--------------------------------------------------------------------------
     */
 
+    /**
+     * The "booted" method of the model.
+     */
+    protected static function booted(): void
+    {
+        static::deleting(function (self $bannerZone) {
+            $bannerZone->banners()->delete();
+        });
+        
+        static::updating(function (self $bannerZone) {
+            @cache()->forget("site-banner-slider-{$bannerZone->code}");
+        });
+    }
+
     /*
     |--------------------------------------------------------------------------
     | RELATIONS

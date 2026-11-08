@@ -30,6 +30,23 @@ class Banner extends Model implements Auditable
         'has_content' => 'bool',
     ];
 
+    protected $attributes = [
+        'content' => null,
+        'has_button' => false,
+        'has_advance_option' => false,
+        'button_title' => null,
+        'button_link' => null,
+        'button_style' => 'primary',
+        'alignment' => 'left',
+        'open_new_tab' => false,
+        'slider_ratio' => '6',
+        'text_alignment' => 'center',
+        'image_alignment' => 'right',
+        'has_content' => false,
+        'background_type' => 'image',
+        'foreground_type' => 'image',
+    ];
+
     /*
     |--------------------------------------------------------------------------
     | FUNCTIONS
@@ -41,6 +58,7 @@ class Banner extends Model implements Auditable
     protected static function booted(): void
     {
         static::saving(function (self $model) {
+            @cache()->forget("site-banner-slider-{$model->bannerZone->code}");
             $model->code = Str::slug($model->code ?? $model->name);
             $model->getDirty();
         });

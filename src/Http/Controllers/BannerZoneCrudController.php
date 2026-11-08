@@ -67,46 +67,42 @@ crud.field('fetch_data_from_easyask').onChange(function (field) {
 }).change();
 
 crud.field('banners').subfield('has_advance_option').onChange(function (field) {
-    let value = parseInt(field.value);
-    let rowNumber = field.rowNumber;
-    crud.field('banners').subfield('image', rowNumber).show(value === 1);
-    crud.field('banners').subfield('has_content', rowNumber).show(value === 1);
-    crud.field('banners').subfield('content', rowNumber).show(value === 1);
-    crud.field('banners').subfield('has_button', rowNumber).show(value === 1);
-    crud.field('banners').subfield('button_title', rowNumber).show(value === 1);
-    crud.field('banners').subfield('button_style', rowNumber).show(value === 1);
-    crud.field('banners').subfield('text_alignment', rowNumber).show(value === 1);
-    crud.field('banners').subfield('image_alignment', rowNumber).show(value === 1);
-    crud.field('banners').subfield('alignment', rowNumber).show(value === 1);
-    crud.field('banners').subfield('slider_ratio', rowNumber).show(value === 1);
-    // Slider Media (background_image) must stay visible regardless of the toggle
-    crud.field('banners').subfield('background_image', rowNumber).show();
-    // Content field is only visible when advance option is ON and has_content is checked
-    let hasContent = parseInt(crud.field('banners').subfield('has_content', rowNumber).value) === 1;
-    crud.field('banners').subfield('content', rowNumber).show(value === 1 && hasContent);
-    // Button fields are only visible when advance option is ON and has_button is checked
-    let hasButton = parseInt(crud.field('banners').subfield('has_button', rowNumber).value) === 1;
-    crud.field('banners').subfield('button_title', rowNumber).show(value === 1 && hasButton);
-    crud.field('banners').subfield('button_style', rowNumber).show(value === 1 && hasButton);
+    let isAdvance = parseInt(field.value) === 1;
+    let row = field.rowNumber;
+    let hasButton = parseInt(crud.field('banners').subfield('has_button', row).value) === 1;
+    let hasContent = parseInt(crud.field('banners').subfield('has_content', row).value) === 1;
+    
+    console.log({row, isAdvance, hasButton, hasContent});
+    
+    crud.field('banners').subfield('background_image', row).show();
+    crud.field('banners').subfield('image', row).show(isAdvance);
+    crud.field('banners').subfield('has_content', row).show(isAdvance);
+    crud.field('banners').subfield('content', row).show(isAdvance && hasContent);
+    crud.field('banners').subfield('has_button', row).show(isAdvance);
+    crud.field('banners').subfield('button_title', row).show(isAdvance && hasButton);
+    crud.field('banners').subfield('button_style', row).show(isAdvance && hasButton);
+    crud.field('banners').subfield('text_alignment', row).show(isAdvance);
+    crud.field('banners').subfield('image_alignment', row).show(isAdvance);
+    crud.field('banners').subfield('alignment', row).show(isAdvance);
+    crud.field('banners').subfield('slider_ratio', row).show(isAdvance); 
+    crud.field('banners').subfield('background_image', row).show();
 }).change();
 
 crud.field('banners').subfield('has_content').onChange(function (field) {
-    let rowNumber = field.rowNumber;
-    let advanceOn = parseInt(crud.field('banners').subfield('has_advance_option', rowNumber).value) === 1;
+    let row = field.rowNumber;
+    let advanceOn = parseInt(crud.field('banners').subfield('has_advance_option', row).value) === 1;
     let value = parseInt(field.value) === 1;
-    // the toggle itself must always stay visible while advance option is ON
-    crud.field('banners').subfield('has_content', rowNumber).show(advanceOn);
-    crud.field('banners').subfield('content', rowNumber).show(advanceOn && value);
+    crud.field('banners').subfield('has_content', row).show(advanceOn);
+    crud.field('banners').subfield('content', row).show(advanceOn && value);
 }).change();
 
 crud.field('banners').subfield('has_button').onChange(function (field) {
-    let rowNumber = field.rowNumber;
-    let advanceOn = parseInt(crud.field('banners').subfield('has_advance_option', rowNumber).value) === 1;
+    let row = field.rowNumber;
+    let advanceOn = parseInt(crud.field('banners').subfield('has_advance_option', row).value) === 1;
     let value = parseInt(field.value) === 1;
-    // the toggle itself must always stay visible while advance option is ON
-    crud.field('banners').subfield('has_button', rowNumber).show(advanceOn);
-    crud.field('banners').subfield('button_title', rowNumber).show(advanceOn && value);
-    crud.field('banners').subfield('button_style', rowNumber).show(advanceOn && value);
+    crud.field('banners').subfield('has_button', row).show(advanceOn);
+    crud.field('banners').subfield('button_title', row).show(advanceOn && value);
+    crud.field('banners').subfield('button_style', row).show(advanceOn && value);
 }).change();
 
 JS
@@ -167,6 +163,7 @@ JS
                         'name' => 'has_heading',
                         'label' => 'Show heading text on slider item',
                         'type' => 'boolean',
+                        'default' => false,
                     ],
                     [
                         'name' => 'background_type',
@@ -184,19 +181,21 @@ JS
                         'name' => 'background_image',
                         'type' => 'browse',
                         'wrapper' => ['class' => 'form-group col-md-10'],
-                        'readonly' => false
+                        'readonly' => false,
                     ],
                     [
                         'name' => 'button_link',
                         'label' => 'Link',
                         'type' => 'text',
                         'wrapper' => ['class' => 'form-group col-md-10'],
+                        'default' => null,
                     ],
                     [
                         'name' => 'open_new_tab',
                         'label' => 'Open link in new tab',
                         'type' => 'radio',
                         'inline' => true,
+                        'default' => '0',
                         'wrapper' => ['class' => 'form-group col-md-2'],
                         'options' => [
                             '1' => 'Yes',
@@ -206,41 +205,46 @@ JS
                     [
                         'name' => 'has_advance_option',
                         'label' => 'Use Advance Option',
-                        'type' => 'boolean',
-                        'default' => false,
+                        'type' => 'radio',
+                        'default' => 0,
+                        'inline' => true,
+                        'options' => [
+                            '1' => 'Yes',
+                            '0' => 'No',
+                        ],
                     ],
                     //Foreground Image
                     [
                         'label' => 'Foreground',
                         'name' => 'image',
                         'type' => 'browse',
-                        'readonly' => false
+                        'readonly' => false,
+                        'default' => null,
                     ],
                     [
                         'name' => 'has_content',
                         'label' => 'Display Content',
                         'type' => 'boolean',
+                        'default' => false,
                     ],
                     [
                         'name' => 'content',
                         'label' => 'Content',
                         'type' => 'ckeditor',
+                        'default' => '',
                     ],
                     [
                         'name' => 'has_button',
                         'label' => 'Display Button',
                         'type' => 'boolean',
-                    ],
-                    [
-                        'name' => 'button_title',
-                        'label' => 'Button Label',
-                        'type' => 'text',
+                        'default' => false,
                     ],
                     [
                         'name' => 'button_style',
                         'label' => 'Button Style',
                         'type' => 'select_from_array',
                         'default' => 'primary',
+                        'wrapper' => ['class' => 'form-group col-md-6'],
                         'options' => [
                             'primary' => 'Primary',
                             'success' => 'Success',
@@ -252,9 +256,17 @@ JS
                         ]
                     ],
                     [
+                        'name' => 'button_title',
+                        'label' => 'Button Label',
+                        'type' => 'text',
+                        'default' => '',
+                        'wrapper' => ['class' => 'form-group col-md-6'],
+                    ],
+                    [
                         'label' => 'Foreground Text Alignment',
                         'name' => 'text_alignment',
                         'type' => 'radio',
+                        'default' => 'center',
                         'wrapper' => ['class' => 'form-group col-md-3'],
                         'options' => [
                             'left' => 'Left',
@@ -266,6 +278,7 @@ JS
                         'label' => 'Foreground Image Alignment',
                         'name' => 'image_alignment',
                         'type' => 'radio',
+                        'default' => 'center',
                         'wrapper' => ['class' => 'form-group col-md-3'],
                         'options' => [
                             'left' => 'Left',
@@ -277,6 +290,7 @@ JS
                         'label' => 'Foreground Text/Image Position',
                         'name' => 'alignment',
                         'type' => 'radio',
+                        'default' => 'left',
                         'wrapper' => ['class' => 'form-group col-md-3'],
                         'options' => [
                             'left' => '<img src="'
@@ -293,6 +307,7 @@ JS
                         'label' => 'Foreground Section Ratio',
                         'type' => 'radio',
                         'wrapper' => ['class' => 'form-group col-md-3'],
+                        'default' => '6',
                         'options' => [
                             '3' => '30% - 70%',
                             '4' => '40% - 60%',
@@ -305,7 +320,8 @@ JS
                         'name' => 'enabled',
                         'label' => 'Enabled',
                         'type' => 'boolean',
-                        'hint' => 'If enabled slider items will appear on site.'
+                        'hint' => 'If enabled slider items will appear on site.',
+                        'default' => true,
                     ],
                 ]
             ]

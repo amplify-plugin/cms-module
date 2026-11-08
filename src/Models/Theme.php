@@ -46,9 +46,19 @@ class Theme extends Model implements Auditable
 
     public function setActiveTemplate(): string
     {
-        return ! $this->is_active
-            ? '<a class="btn btn-sm btn-link" href="/admin/theme/set-template-active/'.$this->id
-               .'" data-toggle="tooltip" title="Activate This Template?"><i class="la la-check"></i>Activate</a>' : '';
+        return !$this->is_active
+            ? '<a class="btn btn-sm btn-link" href="/admin/theme/set-template-active/' . $this->id
+            . '" data-toggle="tooltip" title="Activate This Template?"><i class="la la-check"></i>Activate</a>' : '';
+    }
+
+    public function checkUpdateButton($crud)
+    {
+        if (!backpack_user()->isAdmin()) {
+            return '';
+        }
+
+        return '<a href="' . backpack_url("theme/{$this->id}/check-update") . '" bp-button="check-update" class="btn btn-sm btn-link">' .
+            '<i class="la la-cloud-download"></i> <span>Check Update</span></a>';
     }
 
     /*

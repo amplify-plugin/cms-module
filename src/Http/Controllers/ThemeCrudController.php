@@ -81,6 +81,12 @@ class ThemeCrudController extends BackpackCustomCrudController
             'uses' => $controller . '@sync',
             'operation' => 'sync',
         ]);
+        
+        Route::get($segment . '/{theme}/check-update', [
+            'as' => $routeName . '.check-update',
+            'uses' => $controller . '@checkUpdate',
+            'operation' => 'checkUpdate',
+        ]);
     }
 
     /**
@@ -93,6 +99,7 @@ class ThemeCrudController extends BackpackCustomCrudController
     protected function setupListOperation()
     {
         CRUD::addButtonFromView('top', 'sync_themes', 'sync_themes');
+        $this->crud->addButtonFromModelFunction('line', 'check_update','checkUpdateButton');
 
         CRUD::addColumns([
             [
@@ -561,5 +568,15 @@ class ThemeCrudController extends BackpackCustomCrudController
             'changelog' => $config['changelog'] ?? null,
             'is_new' => true
         ]);
+    }
+
+    /**
+     * @throws \Throwable
+     */
+    public function checkUpdate(Theme $theme)
+    {
+        $options = theme($theme->slug);
+
+        dd($options);
     }
 }

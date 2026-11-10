@@ -25,6 +25,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
+use Backpack\CRUD\app\Library\Widget;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -145,6 +146,12 @@ class PageCrudController extends BackpackCustomCrudController
         $this->crud->addButton('line', 'publish', 'view', 'cms::buttons.page.publish', 'beginning');
 
         $this->crud->removeButton('show');
+
+        Widget::add([
+            'type' => 'view',
+            'view' => 'cms::inc.url_required_param_modal',
+            'section' => 'after_scripts'
+        ]);
 
         CRUD::addColumn([
             'name' => 'id',

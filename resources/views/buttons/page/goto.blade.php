@@ -1,7 +1,7 @@
 <button type="button"
         role="button"
         onclick="checkPageParams(event, this);"
-        data-route="{{ backpack_url($crud->entity_name .'/'.$entry->getKey().'/check-url-param')  }}"
+        data-route="{{ url($crud->route .'/'.$entry->getKey().'/check-url-param')  }}"
         class="btn btn-sm btn-link text-decoration-none"
         data-button-type="Preview Page">
     <i class="las la-external-link-square-alt"></i> Preview

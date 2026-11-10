@@ -94,6 +94,12 @@ class MenuCrudController extends BackpackCustomCrudController
             trans('backpack::crud.list') => false,
         ];
 
+        Widget::add([
+            'type' => 'view',
+            'view' => 'cms::inc.url_required_param_modal',
+            'section' => 'after_scripts'
+        ]);
+
         $this->crud->addColumns(
             [
                 [

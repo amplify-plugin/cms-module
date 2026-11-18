@@ -2,9 +2,9 @@
 
 namespace Amplify\System\Cms\Models;
 
-use Amplify\System\Cms\Models\Banner;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use OwenIt\Auditing\Contracts\Auditable;
 
 class BannerZone extends Model implements Auditable
@@ -32,13 +32,27 @@ class BannerZone extends Model implements Auditable
     |--------------------------------------------------------------------------
     */
 
+    /**
+     * The "booted" method of the model.
+     */
+    protected static function booted(): void
+    {
+        static::deleting(function (self $bannerZone) {
+            $bannerZone->banners()->delete();
+        });
+        
+        static::updating(function (self $bannerZone) {
+            @cache()->forget("site-banner-slider-{$bannerZone->code}");
+        });
+    }
+
     /*
     |--------------------------------------------------------------------------
     | RELATIONS
     |--------------------------------------------------------------------------
     */
 
-    public function banners()
+    public function banners(): HasMany
     {
         return $this->hasMany(Banner::class);
     }

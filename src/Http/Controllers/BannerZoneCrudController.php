@@ -6,6 +6,7 @@ use Amplify\System\Cms\Http\Requests\BannerZoneRequest;
 use Amplify\System\Cms\Models\BannerZone;
 use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Backpack\CRUD\app\Library\Widget;
 
 /**
  * Class BannerZoneCrudController
@@ -28,7 +29,7 @@ class BannerZoneCrudController extends BackpackCustomCrudController
     public function setup()
     {
         CRUD::setModel(BannerZone::class);
-        CRUD::setRoute(config('backpack.base.route_prefix').'/banner-zone');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/banner-zone');
         CRUD::setEntityNameStrings('banner-zone', 'banner zones');
     }
 
@@ -55,26 +56,277 @@ class BannerZoneCrudController extends BackpackCustomCrudController
         CRUD::column('fetch_data_from_easyask')->label('Fetch From EasyAsk')->type('boolean');
     }
 
+    private function scripts()
+    {
+        Widget::add([
+            'type' => 'inline_script',
+            'stack' => 'after_scripts',
+            'content' => <<<JS
+crud.field('fetch_data_from_easyask').onChange(function (field) {
+    crud.field('banners').hide(field.value == 1);
+}).change();
+
+crud.field('banners').subfield('has_advance_option').onChange(function (field) {
+    let isAdvance = parseInt(field.value) === 1;
+    let row = field.rowNumber;
+    let hasButton = parseInt(crud.field('banners').subfield('has_button', row).value) === 1;
+    let hasContent = parseInt(crud.field('banners').subfield('has_content', row).value) === 1;
+    
+    crud.field('banners').subfield('background_image', row).show();
+    crud.field('banners').subfield('image', row).show(isAdvance);
+    crud.field('banners').subfield('has_content', row).show(isAdvance);
+    crud.field('banners').subfield('content', row).show(isAdvance && hasContent);
+    crud.field('banners').subfield('has_button', row).show(isAdvance);
+    crud.field('banners').subfield('button_title', row).show(isAdvance && hasButton);
+    crud.field('banners').subfield('button_style', row).show(isAdvance && hasButton);
+    crud.field('banners').subfield('text_alignment', row).show(isAdvance);
+    crud.field('banners').subfield('image_alignment', row).show(isAdvance);
+    crud.field('banners').subfield('alignment', row).show(isAdvance);
+    crud.field('banners').subfield('slider_ratio', row).show(isAdvance); 
+    crud.field('banners').subfield('background_image', row).show();
+}).change();
+
+crud.field('banners').subfield('has_content').onChange(function (field) {
+    let row = field.rowNumber;
+    let advanceOn = parseInt(crud.field('banners').subfield('has_advance_option', row).value) === 1;
+    let value = parseInt(field.value) === 1;
+    console.log('has_content triggered', row);
+    crud.field('banners').subfield('has_content', row).show(advanceOn);
+    crud.field('banners').subfield('content', row).show(advanceOn && value);
+}).change();
+
+crud.field('banners').subfield('has_button').onChange(function (field) {
+    let row = field.rowNumber;
+    let advanceOn = parseInt(crud.field('banners').subfield('has_advance_option', row).value) === 1;
+    let value = parseInt(field.value) === 1;
+        console.log('has_button triggered', row);
+    crud.field('banners').subfield('has_button', row).show(advanceOn);
+    crud.field('banners').subfield('button_title', row).show(advanceOn && value);
+    crud.field('banners').subfield('button_style', row).show(advanceOn && value);
+}).change();
+
+JS
+        ]);
+    }
+
     /**
      * Define what happens when the Create operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
      *
      * @return void
+     * @throws \Exception
      */
     protected function setupCreateOperation()
     {
         CRUD::setValidation(BannerZoneRequest::class);
 
-        CRUD::field('name');
-        CRUD::field('code');
-        CRUD::field('fetch_data_from_easyask')->type('boolean');
+        $this->scripts();
 
-        /**
-         * Fields can be defined using the fluent syntax or array syntax:
-         * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number']));
-         */
+        CRUD::addFields([
+            [
+                'type' => 'text',
+                'name' => 'name',
+                'label' => 'Name',
+                'required' => true
+            ],
+
+            [
+                'type' => 'text',
+                'name' => 'code',
+                'label' => 'Code',
+                'required' => true
+            ],
+
+            [
+                'type' => 'boolean',
+                'name' => 'fetch_data_from_easyask',
+                'label' => 'Managed By EasyAsk',
+                'hint' => 'If enabled contents will be pull from EasyAsk.'
+            ],
+
+            [
+                'name' => 'banners',
+                'label' => 'Banner Items',
+                'type' => 'relationship',
+                'entity' => 'banners',
+                'attribute' => 'name',
+                'reorder' => true,
+                'new_item_label' => 'Add Banner Item',
+                'subfields' => [
+                    [
+                        'name' => 'name',
+                        'label' => 'Heading',
+                        'type' => 'text',
+                    ],
+                    [
+                        'name' => 'has_heading',
+                        'label' => 'Show heading text on slider item',
+                        'type' => 'boolean',
+                        'default' => false,
+                    ],
+                    [
+                        'name' => 'background_type',
+                        'type' => 'select_from_array',
+                        'label' => 'Slider Media Type',
+                        'default' => 'image',
+                        'wrapper' => ['class' => 'form-group col-md-2'],
+                        'options' => [
+                            'image' => 'Image',
+                            'video' => 'Video',
+                        ]
+                    ],
+                    [
+                        'label' => 'Slider Media',
+                        'name' => 'background_image',
+                        'type' => 'browse',
+                        'wrapper' => ['class' => 'form-group col-md-10'],
+                        'readonly' => false,
+                    ],
+                    [
+                        'name' => 'button_link',
+                        'label' => 'Link',
+                        'type' => 'text',
+                        'wrapper' => ['class' => 'form-group col-md-10'],
+                        'default' => null,
+                    ],
+                    [
+                        'name' => 'open_new_tab',
+                        'label' => 'Open link in new tab',
+                        'type' => 'radio',
+                        'inline' => true,
+                        'default' => '0',
+                        'wrapper' => ['class' => 'form-group col-md-2'],
+                        'options' => [
+                            '1' => 'Yes',
+                            '0' => 'No',
+                        ],
+                    ],
+                    [
+                        'name' => 'has_advance_option',
+                        'label' => 'Use Advance Option',
+                        'type' => 'radio',
+                        'default' => 0,
+                        'inline' => true,
+                        'options' => [
+                            '1' => 'Yes',
+                            '0' => 'No',
+                        ],
+                    ],
+                    //Foreground Image
+                    [
+                        'label' => 'Foreground',
+                        'name' => 'image',
+                        'type' => 'browse',
+                        'readonly' => false,
+                        'default' => null,
+                    ],
+                    [
+                        'name' => 'has_content',
+                        'label' => 'Display Content',
+                        'type' => 'boolean',
+                        'default' => false,
+                    ],
+                    [
+                        'name' => 'content',
+                        'label' => 'Content',
+                        'type' => 'ckeditor',
+                        'default' => '',
+                    ],
+                    [
+                        'name' => 'has_button',
+                        'label' => 'Display Button',
+                        'type' => 'boolean',
+                        'default' => false,
+                    ],
+                    [
+                        'name' => 'button_style',
+                        'label' => 'Button Style',
+                        'type' => 'select_from_array',
+                        'default' => 'primary',
+                        'wrapper' => ['class' => 'form-group col-md-6'],
+                        'options' => [
+                            'primary' => 'Primary',
+                            'success' => 'Success',
+                            'warning' => 'Warning',
+                            'danger' => 'Danger',
+                            'info' => 'Info',
+                            'light' => 'Light',
+                            'dark' => 'Dark',
+                        ]
+                    ],
+                    [
+                        'name' => 'button_title',
+                        'label' => 'Button Label',
+                        'type' => 'text',
+                        'default' => '',
+                        'wrapper' => ['class' => 'form-group col-md-6'],
+                    ],
+                    [
+                        'label' => 'Foreground Text Alignment',
+                        'name' => 'text_alignment',
+                        'type' => 'radio',
+                        'default' => 'center',
+                        'wrapper' => ['class' => 'form-group col-md-3'],
+                        'options' => [
+                            'left' => 'Left',
+                            'center' => 'Center',
+                            'right' => 'Right',
+                        ]
+                    ],
+                    [
+                        'label' => 'Foreground Image Alignment',
+                        'name' => 'image_alignment',
+                        'type' => 'radio',
+                        'default' => 'center',
+                        'wrapper' => ['class' => 'form-group col-md-3'],
+                        'options' => [
+                            'left' => 'Left',
+                            'center' => 'Center',
+                            'right' => 'Right',
+                        ]
+                    ],
+                    [
+                        'label' => 'Foreground Text/Image Position',
+                        'name' => 'alignment',
+                        'type' => 'radio',
+                        'default' => 'left',
+                        'wrapper' => ['class' => 'form-group col-md-3'],
+                        'options' => [
+                            'left' => '<img src="'
+                                . mix('img/img-right.png', 'vendor/backend')
+                                . '" alt="Text Left & Image Right" width="80"> Left',
+                            'right' => '<img src="'
+                                . mix('img/img-left.png', 'vendor/backend')
+                                . '" alt="Text Left & Image Right" width="80"> Right'
+                        ],
+                        'escape' => true,
+                    ],
+                    [
+                        'name' => 'slider_ratio',
+                        'label' => 'Foreground Section Ratio',
+                        'type' => 'radio',
+                        'wrapper' => ['class' => 'form-group col-md-3'],
+                        'default' => '6',
+                        'options' => [
+                            '3' => '30% - 70%',
+                            '4' => '40% - 60%',
+                            '6' => '50% - 50%',
+                            '8' => '60% - 40%',
+                            '9' => '70% - 30%',
+                        ]
+                    ],
+                    [
+                        'name' => 'enabled',
+                        'label' => 'Enabled',
+                        'type' => 'boolean',
+                        'hint' => 'If enabled slider items will appear on site.',
+                        'default' => true,
+                    ],
+                ]
+            ]
+        ]);
+
     }
 
     /**
@@ -83,6 +335,7 @@ class BannerZoneCrudController extends BackpackCustomCrudController
      * @see https://backpackforlaravel.com/docs/crud-operation-update
      *
      * @return void
+     * @throws \Exception
      */
     protected function setupUpdateOperation()
     {

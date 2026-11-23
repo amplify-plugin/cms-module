@@ -10,6 +10,7 @@ use Amplify\System\Cms\Models\Theme;
 use Amplify\System\Cms\Rules\ThemeFile;
 use Amplify\System\Cms\Rules\ThemeVersion;
 use Amplify\System\Support\ChunkUpload;
+use Amplify\System\Support\EnvFile;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
@@ -18,6 +19,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
+use http\Exception\RuntimeException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -58,10 +60,10 @@ class ThemeCrudController extends BackpackCustomCrudController
 
     protected function setupCustomRoutes($segment, $routeName, $controller)
     {
-        Route::get($segment . '/set-template-active/{template}', [
-            'as' => $routeName . '.set.activeTemplate',
-            'uses' => $controller . '@setActiveTemplate',
-            'operation' => 'setActiveTemplate',
+        Route::get($segment . '/{theme}/activate', [
+            'as' => $routeName . '.activate',
+            'uses' => $controller . '@activate',
+            'operation' => 'activate',
         ]);
 
         Route::get($segment . '/install', [
@@ -81,7 +83,7 @@ class ThemeCrudController extends BackpackCustomCrudController
             'uses' => $controller . '@sync',
             'operation' => 'sync',
         ]);
-        
+
         Route::get($segment . '/{theme}/check-update', [
             'as' => $routeName . '.check-update',
             'uses' => $controller . '@checkUpdate',
@@ -99,7 +101,8 @@ class ThemeCrudController extends BackpackCustomCrudController
     protected function setupListOperation()
     {
         CRUD::addButtonFromView('top', 'sync_themes', 'sync_themes');
-        $this->crud->addButtonFromModelFunction('line', 'check_update','checkUpdateButton');
+        CRUD::addButtonFromModelFunction('line', 'check_update', 'checkUpdateButton', 'ending');
+        CRUD::addButtonFromModelFunction('line', 'activate', 'activateButton', 'ending');
 
         CRUD::addColumns([
             [
@@ -161,7 +164,7 @@ class ThemeCrudController extends BackpackCustomCrudController
             ]
         ]);
 
-        $this->crud->addButtonFromModelFunction('line', 'set_active_template', 'setActiveTemplate', 'ending');
+
     }
 
     /**
@@ -186,10 +189,13 @@ class ThemeCrudController extends BackpackCustomCrudController
 
     protected function setupShowOperation()
     {
-        $this->data['template'] = $this->crud->model->find(request('id'));
-        if ($this->data['template']->is_new) {
-            $this->data['template']->is_new = false;
-            $this->data['template']->save();
+        CRUD::addButtonFromModelFunction('line', 'check_update', 'checkUpdateButton', 'ending');
+        CRUD::addButtonFromModelFunction('line', 'activate', 'activateButton', 'ending');
+
+        $entry = $this->crud->getCurrentEntry();
+
+        if ($entry->is_new) {
+            $entry->update(['is_new' => false]);
         }
 
         CRUD::addColumns([
@@ -245,19 +251,12 @@ class ThemeCrudController extends BackpackCustomCrudController
                 'type' => 'boolean',
             ],
             [
-                'tab' => 'Preview',
+                'tab' => 'Basic',
                 'name' => 'screenshot',
                 'label' => 'Thumbnail',
-                'type' => 'image',
-                'height' => '234px',
-                'width' => '192px',
-                'wrapper' => [
-                    'class' => 'text-center',
-                    'element' => 'div',
-                    'style' => 'display: block; width: 192px; object-fit: contain',
-                ],
+                'type' => 'image'
             ],
-            ...$this->data['template']->options,
+            ...$entry->options,
             [
                 'tab' => 'Resources',
                 'name' => 'readme',
@@ -436,19 +435,25 @@ class ThemeCrudController extends BackpackCustomCrudController
         return $this->crud->performSaveAction($this->crud->getCurrentEntry()->getKey());
     }
 
-    public function setActiveTemplate(Theme $template): RedirectResponse
+    public function activate(Theme $theme): RedirectResponse
     {
-        Theme::query()->where('is_active', '=', true)->update(['is_active' => false]);
+        try {
+            Theme::query()->where('is_active', '=', true)->update(['is_active' => false]);
 
-        // Enable footer for template
-        Footer::where('template', $template->slug)->update(['is_enabled' => true]);
+            // Enable footer for template
+            Footer::where('template', $theme->slug)->update(['is_enabled' => true]);
 
-        // Activating template
-        if ($template->update(['is_active' => true])) {
-            SystemConfiguration::setValue('cms', 'default', $template->slug);
-            Alert::add('success', "The {$template->name} is activated")->flash();
-        } else {
-            Alert::add('error', 'Something went wrong please try again!')->flash();
+            // Activating template
+            if (!$theme->update(['is_active' => true])) {
+                throw new RuntimeException('There\'s been an error. Your theme might not have been activated.');
+            }
+
+            (new EnvFile)->set('AMPLIFY_DEFAULT_TEMPLATE', $theme->slug)->save();
+
+            Alert::add('success', "The {$theme->name} theme is activated successfully.")->flash();
+
+        } catch (\Exception $e) {
+            Alert::add('error', $e->getMessage())->flash();
         }
 
         return redirect()->back();

@@ -23,64 +23,6 @@ if (! function_exists('currency_format')) {
     }
 }
 
-if (! function_exists('menu')) {
-    /**
-     * @return MenuGroup|string
-     */
-    function menu(?string $shortCode = null, bool $isReturnHtml = true)
-    {
-        if ($shortCode != null) {
-            $menuGroup = MenuGroup::where('short_code', $shortCode)
-                ->isActive()
-                ->with([
-                    'menus' => function ($menu) {
-                        return $menu
-                            ->select('menus.*', 'pages.slug as page_slug')
-                            ->whereNull('menus.parent_id')
-                            ->leftJoin('pages', 'pages.id', 'menus.page_id')
-                            ->orderBy('menus.lft')
-                            ->with([
-                                'children' => function ($child) {
-                                    return $child->select('menus.*', 'pages.slug as page_slug')
-                                        ->join('pages', 'pages.id', 'menus.page_id');
-                                },
-                                'megaMenus',
-                            ]);
-                    },
-                ])
-                ->first();
-            if (! empty($menuGroup)) {
-                if ($isReturnHtml) {
-                    return menu_content($menuGroup);
-                } else {
-                    return $menuGroup;
-                }
-            }
-
-            return 'Menu group is not active or not found.';
-        }
-
-        return 'Please enter short code of this menu group';
-    }
-}
-
-if (! function_exists('menu_content')) {
-    function menu_content($menu_group)
-    {
-        if (! empty($menu_group)) {
-            if ($menu_group->blade_location) {
-                return view(component_view($menu_group->blade_location), compact('menu_group'))->render();
-            }
-
-            return view('components.menu')
-                ->with('menu_group', $menu_group)
-                ->render();
-        } else {
-            return '';
-        }
-    }
-}
-
 if (! function_exists('store')) {
     /**
      * @param  null  $default
@@ -140,16 +82,7 @@ if (!function_exists('theme')) {
     }
 }
 
-if (! function_exists('component_view')) {
-
-    function component_view($view): string
-    {
-        return theme_view($view, 'components');
-    }
-}
-
 if (!function_exists('theme_view')) {
-
     /**
      * @throws Throwable
      */

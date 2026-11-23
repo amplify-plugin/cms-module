@@ -74,16 +74,6 @@ class MenuGroup extends Model implements Auditable
         });
     }
 
-    public function content()
-    {
-        $menu_group = $this;
-        if ($this->blade_location) {
-            return view(component_view($this->blade_location), compact('menu_group'))->render();
-        }
-
-        return view('components.menu', compact('menu_group'))->render();
-    }
-
     /**
      * Backpack List view button
      *

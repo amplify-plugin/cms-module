@@ -13,6 +13,8 @@
   "minimum-stability": "dev",
   "require": {
     "ext-gd": "*",
+    "ext-zip": "*",
+    "amplify/system": "*",
     "symfony/yaml": "*"
   },
   "autoload": {

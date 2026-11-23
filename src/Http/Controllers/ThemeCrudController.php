@@ -3,8 +3,8 @@
 namespace Amplify\System\Cms\Http\Controllers;
 
 use Amplify\System\Abstracts\BackpackCustomCrudController;
-use Amplify\System\Backend\Models\SystemConfiguration;
 use Amplify\System\Cms\Http\Requests\TemplateRequest;
+use Amplify\System\Cms\Jobs\ThemeCheckUpdateJob;
 use Amplify\System\Cms\Models\Footer;
 use Amplify\System\Cms\Models\Theme;
 use Amplify\System\Cms\Rules\ThemeFile;
@@ -19,7 +19,6 @@ use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
-use http\Exception\RuntimeException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -445,7 +444,7 @@ class ThemeCrudController extends BackpackCustomCrudController
 
             // Activating template
             if (!$theme->update(['is_active' => true])) {
-                throw new RuntimeException('There\'s been an error. Your theme might not have been activated.');
+                throw new \RuntimeException('There\'s been an error. Your theme might not have been activated.');
             }
 
             (new EnvFile)->set('AMPLIFY_DEFAULT_TEMPLATE', $theme->slug)->save();
@@ -580,8 +579,12 @@ class ThemeCrudController extends BackpackCustomCrudController
      */
     public function checkUpdate(Theme $theme)
     {
-        $options = theme($theme->slug);
+        if (!$theme->upgradable) {
+            return redirect()->back()->with('error', "{$theme->name} theme doesn't support remote upgrade.");
+        }
 
-        dd($options);
+        ThemeCheckUpdateJob::dispatch($theme->id);
+
+        return redirect()->back()->with('success', "The {$theme->name} theme checking for update is in queue.");
     }
 }

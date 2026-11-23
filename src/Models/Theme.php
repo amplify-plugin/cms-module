@@ -7,7 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\File;
 use OwenIt\Auditing\Contracts\Auditable;
+use Symfony\Component\Yaml\Yaml;
 
+/**
+ * @property-read bool $upgradable
+ */
 class Theme extends Model implements Auditable
 {
     use CrudTrait;
@@ -71,6 +75,10 @@ HTML;
             return '';
         }
 
+        if (!$this->upgradable) {
+            return '';
+        }
+
         $url = backpack_url("theme/{$this->id}/check-update");
 
         return <<<HTML
@@ -79,6 +87,16 @@ HTML;
 </a>
 HTML;
 
+    }
+
+    public function configPath(): string
+    {
+        return base_path("themes/{$this->slug}/theme.yaml");
+    }
+
+    public function config(): mixed
+    {
+        return Yaml::parseFile($this->configPath());
     }
 
     /*
@@ -93,16 +111,21 @@ HTML;
     |--------------------------------------------------------------------------
     */
 
-    public function scopeIsActive($query)
-    {
-        return $query->where('is_active', 1);
-    }
-
     /*
     |--------------------------------------------------------------------------
     | ACCESSORS
     |--------------------------------------------------------------------------
     */
+    public function getUpgradableAttribute(): bool
+    {
+        $config = $this->config();
+
+        if (empty($config['updates']) || !$config['updates']['enabled']) {
+            return false;
+        }
+
+        return true;
+    }
 
     /*
     |--------------------------------------------------------------------------
